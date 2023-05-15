@@ -36,7 +36,7 @@ public class Acteur {
         this.y.set(y);
     }
 
-    public void avance(){
+    public void agir(){
 
 
         for (int i = 0; i <10 ; i++) {

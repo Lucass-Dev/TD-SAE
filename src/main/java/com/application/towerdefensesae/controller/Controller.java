@@ -65,7 +65,7 @@ public class Controller implements Initializable {
                     }
                     else if (temps%10==0){
                         System.out.println("un tour");
-                        acteur.avance();
+                        acteur.agir();
 
                     }
                     temps++;
