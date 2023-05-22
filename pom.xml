@@ -48,6 +48,11 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>18.0.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -71,7 +76,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.application.towerdefensesae/com.application.towerdefensesae.HelloApplication
+                                fr.montreuil.iut.Lucas_Adrien_Imman/fr.montreuil.iut.Lucas_Adrien_Imman.Main
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

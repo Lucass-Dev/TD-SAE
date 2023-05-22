@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.TilePane?>
 
 
-<BorderPane prefHeight="327.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.towerdefensesae.controller.Controller">
+<BorderPane prefHeight="327.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.montreuil.iut.Lucas_Adrien_Imman.controller.Controller">
     <center>
         <Pane fx:id="paneTerrain">
             <children>
