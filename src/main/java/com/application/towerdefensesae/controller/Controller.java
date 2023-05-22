@@ -23,32 +23,52 @@ public class Controller implements Initializable {
     @FXML
     Pane paneTerrain;
 
-    private Timeline gameLoop ;
-    private int temps ;
     private  Acteur acteur;
+    private  Terrain terrain ;
+    private Timeline gameLoop ;
+
+    private int temps ;
+    private boolean estFini;
+
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Circle cActeur = new Circle(6);
-        acteur = new Acteur();
-        Terrain terrain = new Terrain();
-        TerrainVue terrainVue = new TerrainVue(terrain,paneTuiles);
-        ActeurVue acteurVue = new ActeurVue(paneTerrain,cActeur);
+        this.estFini = false;
 
+        terrain = new Terrain();
+        acteur = new Acteur(terrain);
+        TerrainVue terrainVue = new TerrainVue(terrain, paneTuiles);
+        ActeurVue acteurVue = new ActeurVue(paneTerrain);
+
+
+        Circle cActeur = acteurVue.creationSpriteActeur() ;
 
         cActeur.translateXProperty().bind(acteur.xProperty());
         cActeur.translateYProperty().bind(acteur.yProperty());
 
-        initAnimation();
-        gameLoop.play();
 
+
+        initAnimation();
+        gameLoop.play();//appel gameLoop
+
+
+
+
+        paneTerrain.setOnMousePressed(mouseEvent -> {
+
+            System.out.println(((int) mouseEvent.getX()));
+            System.out.println(((int) mouseEvent.getY())); //Pour avoir les x , y .
+
+
+        });
 
 
     }
     public void initAnimation() {
+
 
         this.gameLoop = new Timeline();
         temps = 0 ;
@@ -59,20 +79,22 @@ public class Controller implements Initializable {
                 // on définit ce qui se passe à chaque frame
                 // c'est un eventHandler d'ou le lambda
                 (ev ->{
-                    if(temps==100){
+                    if(estFini){
                         System.out.println("fini");
                         gameLoop.stop();
                     }
                     else if (temps%10==0){
+                        acteur.seDeplace();
+                        estFini = acteur.verifObjectif();
                         System.out.println("un tour");
-                        acteur.agir();
-
                     }
                     temps++;
                 })
         );
         gameLoop.getKeyFrames().add(kf);
     }
+
+
 
 
 

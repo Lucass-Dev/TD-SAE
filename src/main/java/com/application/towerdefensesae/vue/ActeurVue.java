@@ -1,8 +1,5 @@
 package com.application.towerdefensesae.vue;
 
-
-import com.application.towerdefensesae.modele.Terrain;
-import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -10,20 +7,20 @@ import javafx.scene.shape.Circle;
 
 public class ActeurVue {
 
-
-    private Terrain terrain;
     private Pane paneTerrain;
 
-    public ActeurVue(Pane paneTerrain, Circle acteur1) {
+    public ActeurVue(Pane paneTerrain) {
         super();
         this.paneTerrain = paneTerrain;
-        this.afficherActeur(acteur1);
+        this.creationSpriteActeur();
     }
 
 
-    public void afficherActeur(Circle acteur1) {
-        acteur1.setFill(Color.BLACK);
-        paneTerrain.getChildren().add(acteur1);
+    public Circle creationSpriteActeur() {
+        Circle cActeur = new Circle(6);
+        cActeur.setFill(Color.BLACK);
+        paneTerrain.getChildren().add(cActeur);
+        return cActeur;
     }
 
 
