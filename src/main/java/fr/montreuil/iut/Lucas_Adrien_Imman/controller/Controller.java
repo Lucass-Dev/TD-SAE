@@ -1,9 +1,9 @@
-package com.application.towerdefensesae.controller;
+package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
-import com.application.towerdefensesae.modele.Acteur;
-import com.application.towerdefensesae.modele.Terrain;
-import com.application.towerdefensesae.vue.ActeurVue;
-import com.application.towerdefensesae.vue.TerrainVue;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Acteur;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Terrain;
+import fr.montreuil.iut.Lucas_Adrien_Imman.vue.ActeurVue;
+import fr.montreuil.iut.Lucas_Adrien_Imman.vue.TerrainVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;

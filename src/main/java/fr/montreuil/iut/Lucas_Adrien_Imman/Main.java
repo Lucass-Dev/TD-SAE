@@ -1,4 +1,4 @@
-package com.application.towerdefensesae;
+package fr.montreuil.iut.Lucas_Adrien_Imman;
 
 import javafx.application.Application;
 import javafx.fxml.FXML;

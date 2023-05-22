@@ -1,6 +1,6 @@
-package com.application.towerdefensesae.controller;
+package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
-import com.application.towerdefensesae.Main;
+import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -103,9 +103,9 @@ public class MenuController implements Initializable {
         String[] fullPath = previewMapImage.getImage().getUrl().split("/");
         String[] image = fullPath[fullPath.length-1].split("\\.");
         String newFullPath = "", mapName;
-        int totalMap = Objects.requireNonNull(new File("src/main/resources/com/application/towerdefensesae/graphics/map_preview").list()).length, newValue;
+        int totalMap = Objects.requireNonNull(new File("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/graphics/map_preview").list()).length, newValue;
         int actualMap = Integer.parseInt(image[0]);
-        String[] listMap = new File("src/main/resources/com/application/towerdefensesae/graphics/map_preview").list();
+        String[] listMap = new File("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/graphics/map_preview").list();
 
         //Ce code permet de baisser le compteur de fichier des preview de map si un fichier n'est pas au format '*.jpeg'
         //Je l'ai mis à cause du .DS_STORE
@@ -150,7 +150,7 @@ public class MenuController implements Initializable {
         timesVbox.getChildren().clear();
         wavesVbox.getChildren().clear();
         String[] line;
-        File f = new File("src/main/resources/com/application/towerdefensesae/scores/map"+mapIndex+"/"+difficulty);
+        File f = new File("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/scores/map"+mapIndex+"/"+difficulty);
         System.out.println(f.getPath());
         Scanner sc = new Scanner(f);
         while (sc.hasNextLine()){

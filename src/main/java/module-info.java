@@ -4,10 +4,10 @@ module com.application.towerdefensesae {
 
     requires com.dlsc.formsfx;
 
-    opens com.application.towerdefensesae to javafx.fxml;
-    exports com.application.towerdefensesae;
-    opens com.application.towerdefensesae.controller to javafx.fxml;
-    exports  com.application.towerdefensesae.controller;
+    opens fr.montreuil.iut.Lucas_Adrien_Imman to javafx.fxml;
+    exports fr.montreuil.iut.Lucas_Adrien_Imman;
+    exports fr.montreuil.iut.Lucas_Adrien_Imman.controller;
+    opens fr.montreuil.iut.Lucas_Adrien_Imman.controller to javafx.fxml;
 
 
 }
