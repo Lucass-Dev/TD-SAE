@@ -1,8 +1,8 @@
-package com.application.towerdefensesae.vue;
+package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 
 
-import com.application.towerdefensesae.modele.Terrain;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Terrain;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;

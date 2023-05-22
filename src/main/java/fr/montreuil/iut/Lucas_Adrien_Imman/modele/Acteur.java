@@ -1,4 +1,4 @@
-package com.application.towerdefensesae.modele;
+package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
