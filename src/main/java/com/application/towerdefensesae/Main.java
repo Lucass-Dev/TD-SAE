@@ -1,17 +1,22 @@
 package com.application.towerdefensesae;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class Main extends Application {
+
+    public static Stage stg;
+
     @Override
     public void start(Stage stage) throws IOException {
-
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
+        this.stg = stage;
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 640, 640);
         stage.setTitle("Hello!");
         stage.setScene(scene);
