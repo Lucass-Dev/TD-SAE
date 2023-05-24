@@ -4,8 +4,12 @@ import java.util.ArrayList;
 
 public class Level {
     private String levelName;
+    private String difficulty;
+    private int actualWaveNumber;
+    //private Wave actualWave;
     private ArrayList<ArrayList<Integer>> tileMap;
     private ArrayList<ArrayList<Integer>> travelingMap;
+    private ArrayList<Tower> placedTower;
 
     public Level(String name, ArrayList<ArrayList<Integer>> tileMap){
         this.levelName = name;
