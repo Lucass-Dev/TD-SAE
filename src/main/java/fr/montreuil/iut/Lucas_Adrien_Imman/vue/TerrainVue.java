@@ -2,8 +2,10 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Terrain;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

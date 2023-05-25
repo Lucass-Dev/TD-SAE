@@ -1,16 +1,16 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Acteur;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environnement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Terrain;
-import fr.montreuil.iut.Lucas_Adrien_Imman.vue.ActeurVue;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.TerrainVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -23,12 +23,14 @@ public class Controller implements Initializable {
     @FXML
     Pane paneTerrain;
 
-    private  Acteur acteur;
     private  Terrain terrain ;
     private Timeline gameLoop ;
+    private Environnement environnement;
 
     private int temps ;
     private boolean estFini;
+    private int nbTours ;
+
 
 
 
@@ -36,19 +38,16 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        this.estFini = false;
 
         terrain = new Terrain();
-        acteur = new Acteur(terrain);
+        environnement = new Environnement(terrain);
+
+
         TerrainVue terrainVue = new TerrainVue(terrain, paneTuiles);
-        ActeurVue acteurVue = new ActeurVue(paneTerrain);
 
 
-        Circle cActeur = acteurVue.creationSpriteActeur() ;
-
-        cActeur.translateXProperty().bind(acteur.xProperty());
-        cActeur.translateYProperty().bind(acteur.yProperty());
-
+        ListChangeListener<Acteur> listenActeurs = new ListeObsActeurs(paneTerrain);
+        environnement.getActeurs().addListener(listenActeurs); // lisent sur liste acteurs
 
 
         initAnimation();
@@ -56,22 +55,21 @@ public class Controller implements Initializable {
 
 
 
-
         paneTerrain.setOnMousePressed(mouseEvent -> {
-
-            System.out.println(((int) mouseEvent.getX()));
-            System.out.println(((int) mouseEvent.getY())); //Pour avoir les x , y .
-
-
+            System.out.println("x"+((int) mouseEvent.getX()));
+            System.out.println("y"+((int) mouseEvent.getY())); // Pour avoir le x et y
         });
 
-
     }
+
+
+
     public void initAnimation() {
 
-
+        this.estFini = false;
         this.gameLoop = new Timeline();
         temps = 0 ;
+        nbTours = 1 ;
         this.gameLoop.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(
                 // on définit le FPS (nbre de frame par seconde)
@@ -83,19 +81,19 @@ public class Controller implements Initializable {
                         System.out.println("fini");
                         gameLoop.stop();
                     }
-                    else if (temps%10==0){
-                        acteur.seDeplace();
-                        estFini = acteur.verifObjectif();
+                    else{ //
+
+                        environnement.creeationEnnemi(temps,nbTours);
+                        environnement.agir();
+                        estFini = environnement.verifObjectif();
                         System.out.println("un tour");
+                        nbTours++ ;
+                        System.out.println(nbTours);
                     }
                     temps++;
                 })
         );
         gameLoop.getKeyFrames().add(kf);
     }
-
-
-
-
 
 }

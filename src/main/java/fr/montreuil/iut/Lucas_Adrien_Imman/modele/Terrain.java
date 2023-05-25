@@ -42,13 +42,13 @@ public class Terrain {
     }
 
 
-    public Integer codesTuiles(int i) {
+    public int codesTuiles(int i) {
         return codesTuiles.get(i);
     }
 
 
-    public Integer tuile(int x, int y) {
-        return codesTuiles.get(x / 32 + y / 32 * 20);
+    public int tuile(int x, int y) {
+        return codesTuiles.get(x / 32 + y / 32 *20);
     }
 
     public boolean tuileSol(int x, int y) {
