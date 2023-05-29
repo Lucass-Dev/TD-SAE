@@ -3,22 +3,18 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
 public class Acteur {
     private Terrain terrain ;
     private IntegerProperty x , y ;
     private int vitesse ;
+
     public static int compteur=0;
     private String id;
     private int pv ;
 
 
     // private int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-   // private int direction ;
+    // private int direction ;
 
     public Acteur (Terrain terrain) {
         this.id="A"+compteur;
@@ -26,7 +22,7 @@ public class Acteur {
         this.x = new SimpleIntegerProperty((int)Math.random()*32);
         this.y = new SimpleIntegerProperty(64+(int)(Math.random()*(96-64)));
         this.terrain = terrain ;
-        this.vitesse = 3 ;
+        this.vitesse = 5 ;
         this.pv = 30 ;
     }
 
@@ -71,7 +67,6 @@ public class Acteur {
 
     }
 
-
     public void setPos(int x , int y){
         setX(x);
         setY(y);
@@ -93,15 +88,12 @@ public class Acteur {
         setX(getX() + vitesse);
     }
 
-
     public void seDeplace() {
-
         deplacmentDroite();
         while (!terrain.tuileSol(getX(), getY())) {
             deplacmentBas();
             deplacmentGauche();
         }
-
     }
 
 

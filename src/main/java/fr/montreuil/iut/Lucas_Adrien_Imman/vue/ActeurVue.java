@@ -1,16 +1,17 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Acteur;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tour;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-
+import  javafx.scene.shape.Rectangle;
+import  javafx.scene.shape.Circle;
 
 public class ActeurVue {
 
     private Pane paneTerrain;
     private Circle aCercle;
-    private Circle tour ;
+    private Rectangle tour ;
 
     public ActeurVue(Pane paneTerrain) {
         this.paneTerrain = paneTerrain;
@@ -28,5 +29,15 @@ public class ActeurVue {
         return aCercle;
     }
 
+
+    public Circle getaCercleTour(Tour acteur) {
+        tour = new Rectangle(16,16);
+        tour.setFill(Color.DARKGOLDENROD);
+        tour.translateXProperty().bind(acteur.xProperty());
+        tour.translateYProperty().bind(acteur.yProperty());
+        paneTerrain.getChildren().add(tour);
+
+        return aCercle;
+    }
 
 }

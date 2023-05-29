@@ -3,6 +3,8 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Acteur;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environnement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Terrain;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tour;
+import fr.montreuil.iut.Lucas_Adrien_Imman.vue.ActeurVue;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.TerrainVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -30,7 +32,7 @@ public class Controller implements Initializable {
     private int temps ;
     private boolean estFini;
     private int nbTours ;
-
+    private Tour tour ;
 
 
 
@@ -44,11 +46,13 @@ public class Controller implements Initializable {
 
 
         TerrainVue terrainVue = new TerrainVue(terrain, paneTuiles);
-
+        ActeurVue acteurVue = new ActeurVue(paneTerrain);
 
         ListChangeListener<Acteur> listenActeurs = new ListeObsActeurs(paneTerrain);
         environnement.getActeurs().addListener(listenActeurs); // lisent sur liste acteurs
 
+        ListChangeListener<Tour> listenTours = new ListeObsTours(paneTerrain);
+        environnement.getTours().addListener(listenTours); // lisent sur liste acteurs
 
         initAnimation();
         gameLoop.play();//appel gameLoop
@@ -56,9 +60,21 @@ public class Controller implements Initializable {
 
 
         paneTerrain.setOnMousePressed(mouseEvent -> {
-            System.out.println("x"+((int) mouseEvent.getX()));
-            System.out.println("y"+((int) mouseEvent.getY())); // Pour avoir le x et y
+            int x = (int) mouseEvent.getX() ;
+            int y = (int) mouseEvent.getY() ;
+            System.out.println("x"+ x);
+            System.out.println("y"+ y); // Pour avoir le x et y
+
+            environnement.creationTour(x,y);
+
+
         });
+
+    /*    paneTerrain.setOnMousePressed(mouseEvent -> {
+            Tour t1 = new Tour();
+           t1.getX().
+
+        }*/
 
     }
 
@@ -81,12 +97,14 @@ public class Controller implements Initializable {
                         System.out.println("fini");
                         gameLoop.stop();
                     }
-                    else{ //
-
+                    else{
                         environnement.creeationEnnemi(temps,nbTours);
-                        environnement.agir();
+                        environnement.acteurAgir();
+                        environnement.tourAgir();
+
                         estFini = environnement.verifObjectif();
                         System.out.println("un tour");
+
                         nbTours++ ;
                         System.out.println(nbTours);
                     }
