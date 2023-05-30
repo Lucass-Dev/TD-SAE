@@ -1,11 +1,10 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.LevelDataTransit;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.TaskKiller;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.LevelVue;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.TowerVue;
+import javafx.collections.ListChangeListener;
 import javafx.event.Event;
 import javafx.event.EventTarget;
 import javafx.fxml.FXML;
@@ -43,6 +42,10 @@ public class LevelController implements Initializable {
 
     private Scene mainScene;
 
+    private Environnement environnement;
+
+    private Terrain terrain;
+
     @FXML
     Label mousePos;
 
@@ -50,7 +53,7 @@ public class LevelController implements Initializable {
     TilePane tilePane;
 
     @FXML
-    Pane travelingPane;
+    Pane levelPane;
 
     @FXML
     Button playButton;
@@ -60,8 +63,9 @@ public class LevelController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.levelVue = new LevelVue();
-        this.towerVue = new TowerVue();
+        this.terrain = new Terrain();
+        this.environnement = new Environnement(tilePane);
+        this.towerVue = new TowerVue(tilePane);
         Main.stg.getScene().setCursor(Cursor.DEFAULT);
 
 
@@ -81,10 +85,16 @@ public class LevelController implements Initializable {
             Main.stg.getScene().setCursor(Cursor.DEFAULT);
         });
         this.tilePane.setOnMouseClicked(mouseEvent -> {
+
+            int x = (int) mouseEvent.getX();
+            int y = (int) mouseEvent.getY();
+
             if (Main.stg.getScene().getCursor() != Cursor.DEFAULT && Main.stg.getScene().getCursor() != null){
-                System.out.println(Main.stg.getScene().getCursor());
-                this.levelVue.placeTower(this.tilePane, mouseEvent.getX(), mouseEvent.getY());
+                if (this.level.validTile(x, y)){
+                    this.levelVue.placeTower(x, y);
+                }
             }
+            System.out.println(this.level.getTile(x, y));
         });
         this.tilePane.setOnMouseMoved(e -> {
             this.mousePos.setText("x : "+ e.getX() + " / y : "+e.getY());
@@ -94,8 +104,13 @@ public class LevelController implements Initializable {
     public void createLevel(){
         int mapIndex = this.LDT.getMapIndex();
         try {
-            ArrayList<ArrayList<Integer>> map = this.levelVue.createMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map"+mapIndex+".csv", tilePane);
-            this.level = new Level("test", map);
+            this.level = new Level("test");
+            ArrayList<ArrayList<Integer>> map = this.level.createMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map"+mapIndex+".csv", tilePane);
+            this.level.setTileMap(map);
+            this.level.setTravelingMap(this.level.getTileMap());
+            ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane);
+            this.level.getPlacedTower().addListener(towerListChangeListener);
+            this.levelVue = new LevelVue(this.level, this.tilePane, this.levelPane);
             playButton.setVisible(false);
             this.levelVue.createShopMenu(towerShopVbox);
         } catch (FileNotFoundException e) {

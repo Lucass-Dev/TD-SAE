@@ -3,12 +3,20 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
 public class Tour {
     private IntegerProperty x, y;
     private Terrain terrain;
+    private Pane tilePane;
+
+    public Tour(Pane tilePane){
+        this.tilePane = tilePane;
+        this.x = new SimpleIntegerProperty();
+        this.y = new SimpleIntegerProperty();
+    }
 
     public Tour(Terrain terrain) {
         this.terrain = terrain;

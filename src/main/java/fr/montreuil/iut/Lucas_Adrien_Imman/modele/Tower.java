@@ -2,6 +2,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.layout.Pane;
 
 abstract public class Tower{
     private SimpleIntegerProperty x, y;
@@ -11,9 +12,17 @@ abstract public class Tower{
     private String name;
     private int level;
     private int upgradeCost;
+    private Pane tilePane;
 
     abstract public void attack(/*cible*/);
     abstract public void detect();
+
+    public Tower(){};
+
+    public Tower(Pane tilePane, int x, int y){
+        this.x = new SimpleIntegerProperty(x);
+        this.y = new SimpleIntegerProperty(y);
+    };
 
     public Tower(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, SimpleIntegerProperty x, SimpleIntegerProperty y) {
         this.range = range;

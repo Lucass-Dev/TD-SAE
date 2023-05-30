@@ -1,6 +1,8 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.TaskKiller;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tower;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,45 +18,24 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class LevelVue {
-    private TowerVue towerVue = new TowerVue();
-    public ArrayList<ArrayList<Integer>> createMap(String path, Pane pane) throws FileNotFoundException {
-        File f = new File(path);
-
-        Scanner sc = new Scanner(f);
-
-        ArrayList<ArrayList<Integer>> map = new ArrayList<>();
-
-        int i = 0;
-
-        while (sc.hasNextLine()){
-            String l = sc.nextLine();
-            String[] ls = l.split(",");
-            map.add(new ArrayList<>());
-            for (int j = 0; j < ls.length; j++) {
-                map.get(i).add(Integer.valueOf(ls[j]));
-            }
-            i++;
-        }
+    private Pane tilePane;
+    private Pane levelPane;
+    private TowerVue towerVue;
+    private Level level;
 
 
-        for (int j = 0; j < map.size(); j++) {
-            for (int k = 0; k < map.get(j).size(); k++) {
-                ImageView newImageView = new ImageView();
-                String s = "graphics/tiles/"+map.get(j).get(k)+".png";
-                String newImagePath = Main.class.getResource(s).toString();
-                newImageView.setImage(new Image(newImagePath));
-                pane.getChildren().add(newImageView);
-            }
-        }
-        return map;
+    public LevelVue(Level level, Pane tilePane, Pane levelPane){
+        this.level = level;
+        this.tilePane = tilePane;
+        this.levelPane = levelPane;
     }
 
-    public void placeTower(Pane pane, double x, double y){
-        System.out.println(x+"/"+y);
-        Circle c = towerVue.createTowerSprite();
-        pane.getChildren().add(c);
-        c.setCenterX(x);
-        c.setCenterY(y);
+    public void placeTower(int x, int y){
+        System.out.println("la tour est placée en "+ x +" : "+ y);
+        TaskKiller tk = new TaskKiller(this.levelPane, x, y);
+        this.level.addTower(tk);
+
+
     }
 
     public void createShopMenu(VBox towerShopVbox){

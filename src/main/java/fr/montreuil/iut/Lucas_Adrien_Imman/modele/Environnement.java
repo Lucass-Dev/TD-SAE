@@ -2,6 +2,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
@@ -10,7 +11,15 @@ public class Environnement {
     private ObservableList<Acteur> acteurs;
     private ObservableList<Tour> tours ;
     private Terrain terrain ;
+    private Pane tilePane ;
     private int  nbActeurs ;
+
+    public Environnement(Pane tilePane){
+        this.acteurs = FXCollections.observableArrayList();
+        this.tours = FXCollections.observableArrayList();
+        this.tilePane = tilePane ;
+        this.nbActeurs = 3 ;
+    }
 
     public Environnement(Terrain terrain) {
         this.acteurs = FXCollections.observableArrayList();
@@ -62,13 +71,22 @@ public class Environnement {
     }
 
     public void creationTour(int x , int y){
+        Tour t1 = new Tour(tilePane);
+        if(!t1.estPlaceable(x,y)) {
+            tours.add(t1);
+            t1.setX(x);
+            t1.setY(y);
+        }
 
+        /*
         Tour t1 = new Tour(terrain);
         if(!t1.estPlaceable(x,y)) {
             tours.add(t1);
             t1.setX(x);
             t1.setY(y);
         }
+
+         */
     }
 
     public void creeationEnnemi(int  i ,int t) {
