@@ -89,10 +89,12 @@ public class LevelController implements Initializable {
             int x = (int) mouseEvent.getX();
             int y = (int) mouseEvent.getY();
 
+            int[] mousePos = getTilePos(x, y);
+
             if (Main.stg.getScene().getCursor() != Cursor.DEFAULT && Main.stg.getScene().getCursor() != null){
-                if (this.level.validTile(getTilePos(x, y))){
+                if (this.level.validTile(mousePos)){
                     try {
-                        this.level.addTower(this.levelVue.placeTower(x, y, new Image(Main.class.getResource("graphics/tower/0.png").openStream())));
+                        this.level.addTower(this.levelVue.placeTower(mousePos, new Image(Main.class.getResource("graphics/tower/0.png").openStream())));
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

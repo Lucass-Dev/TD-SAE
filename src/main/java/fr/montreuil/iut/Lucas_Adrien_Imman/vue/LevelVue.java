@@ -28,8 +28,8 @@ public class LevelVue {
         this.levelPane = levelPane;
     }
 
-    public Tower placeTower(int x, int y, Image image){
-        TaskKiller tk = new TaskKiller(this.levelPane, x, y, image);
+    public Tower placeTower(int[] pos, Image image){
+        TaskKiller tk = new TaskKiller(this.levelPane, pos[0]*32, pos[1]*32, image);
 
 
         return tk;
