@@ -1,4 +1,4 @@
-module com.application.towerdefensesae {
+module fr.montreuil.iut.Lucas_Adrien_Imman {
     requires javafx.controls;
     requires javafx.fxml;
 

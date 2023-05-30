@@ -1,6 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.LevelDataTransit;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -62,13 +62,21 @@ public class MenuController implements Initializable {
     }
 
     public void loadLevel() throws IOException {
-        System.out.println("test");
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
+
+        String[] level = mapNameLabel.getText().split(" ");
+        int mapIndex = Integer.parseInt(level[level.length-1])-1;
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("map.fxml"));
+
+
         Parent root = fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.show();
-        Main.stg.close();
+        Scene nS= new Scene(root, 940, 900);
+
+        Main.stg.setScene(nS);
+        //Main.stg.setFullScreen(true);
+
+        LevelController levelController = fxmlLoader.getController();
+        sendData(levelController, mapIndex, "mapName");
     }
 
     public void changeDifficulty(Event e) throws FileNotFoundException {
@@ -96,7 +104,7 @@ public class MenuController implements Initializable {
         setScores(difficultyLabel.getText(), Integer.parseInt(mapNameSplitted[mapNameSplitted.length-1])-1);
     }
 
-    public void changeMap(Event e) throws FileNotFoundException {
+    public void changeMapPreview(Event e) throws FileNotFoundException {
 
         Button sourceButton = (Button) e.getSource();
         String sourceID = sourceButton.getId();
@@ -159,5 +167,10 @@ public class MenuController implements Initializable {
             timesVbox.getChildren().add(new Label(line[1]));
             wavesVbox.getChildren().add(new Label(line[2]));
         }
+    }
+
+    public void sendData(LevelController levelController, int mapIndex, String mapName){
+        LevelDataTransit LDT = new LevelDataTransit(mapIndex, mapName);
+        levelController.setLDT(LDT);
     }
 }
