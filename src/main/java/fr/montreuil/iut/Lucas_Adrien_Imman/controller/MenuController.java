@@ -70,9 +70,10 @@ public class MenuController implements Initializable {
 
 
         Parent root = fxmlLoader.load();
-        Scene nS= new Scene(root, 640, 640);
+        Scene nS= new Scene(root, 940, 900);
 
         Main.stg.setScene(nS);
+        //Main.stg.setFullScreen(true);
 
         LevelController levelController = fxmlLoader.getController();
         sendData(levelController, mapIndex, "mapName");

@@ -1,11 +1,11 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
-import javafx.scene.image.Image;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class TaskKiller extends Tower {
 
-    public TaskKiller(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, Image sprite){
-        super(range, flopPrice, ramPrice, name, level, upgradeCost, sprite);
+    public TaskKiller(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, int x, int y){
+        super(range, flopPrice, ramPrice, name, level, upgradeCost, new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
     }
 
     @Override
@@ -18,5 +18,10 @@ public class TaskKiller extends Tower {
 
         System.out.println("test");
 
+    }
+
+    @Override
+    public String toString() {
+        return this.getName() + this.getLevel() +this.getRange();
     }
 }
