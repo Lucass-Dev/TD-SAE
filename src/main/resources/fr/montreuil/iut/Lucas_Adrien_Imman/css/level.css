@@ -30,3 +30,7 @@
     -fx-pref-height:128;
     -fx-alignment: center-left;
 }
+
+#tilePane .image-view:hover{
+    -fx-opacity : 0.5;
+}

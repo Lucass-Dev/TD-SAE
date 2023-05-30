@@ -1,9 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.TaskKiller;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tower;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -30,12 +28,18 @@ public class LevelVue {
         this.levelPane = levelPane;
     }
 
-    public void placeTower(int x, int y){
-        System.out.println("la tour est placée en "+ x +" : "+ y);
-        TaskKiller tk = new TaskKiller(this.levelPane, x, y);
-        this.level.addTower(tk);
+    public Tower placeTower(int x, int y, Image image){
+        TaskKiller tk = new TaskKiller(this.levelPane, x, y, image);
 
 
+        return tk;
+    }
+
+    public Ennemy placeEnnemy(int x, int y){
+         DotSH dsh = new DotSH(x, y);
+
+
+        return dsh;
     }
 
     public void createShopMenu(VBox towerShopVbox){

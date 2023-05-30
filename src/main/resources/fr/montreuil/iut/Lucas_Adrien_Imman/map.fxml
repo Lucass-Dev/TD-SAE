@@ -27,9 +27,9 @@
          </children></Pane>
    </right>
    <center>
-      <Pane fx:id="levelPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <Pane id="levelPane" fx:id="levelPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-              <TilePane id="levelPane" fx:id="tilePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="640.0" />
+              <TilePane id="tilePane" fx:id="tilePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="640.0" />
          </children>
       </Pane>
    </center>

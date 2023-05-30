@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Level {
@@ -20,13 +21,14 @@ public class Level {
     private ArrayList<ArrayList<Integer>> tileMap;
     private ArrayList<ArrayList<Integer>> travelingMap;
     private ObservableList<Tower> placedTower;
-    private ObservableList<Acteur> acteurs;
+    private ObservableList<Ennemy> ennemies;
 
     public Level(String name){
         this.levelName = name;
         this.tileMap = new ArrayList<>();
         this.travelingMap = new ArrayList<>();
         this.placedTower = FXCollections.observableArrayList();
+        this.ennemies = FXCollections.observableArrayList();
     }
 
     public Level(String name, ArrayList<ArrayList<Integer>> tileMap){
@@ -65,12 +67,12 @@ public class Level {
         return travelingMap;
     }
 
-    public int getTile(int x, int y){
-        return this.travelingMap.get(x/32).get(y/32);
+    public int getTile(int[] pos){
+        return this.travelingMap.get(pos[1]).get(pos[0]);
     }
 
-    public boolean validTile(int x, int y){
-        return getTile(x, y) == 0;
+    public boolean validTile(int[] pos){
+        return getTile(pos) == 0;
     }
 
     public void setTileMap(ArrayList<ArrayList<Integer>> tileMap) {
@@ -123,5 +125,19 @@ public class Level {
 
     public ObservableList<Tower> getPlacedTower() {
         return placedTower;
+    }
+
+    public ObservableList<Ennemy> getEnnemies() {
+        return ennemies;
+    }
+
+    public void addEnnemy(Ennemy ennemy){
+        this.ennemies.add(ennemy);
+    }
+
+    public void doTurn(int nbTours){
+        for (Ennemy e: getEnnemies()) {
+            e.move();
+        }
     }
 }

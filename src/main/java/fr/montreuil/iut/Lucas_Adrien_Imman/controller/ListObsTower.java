@@ -24,7 +24,7 @@ public class ListObsTower implements ListChangeListener<Tower> {
         while (c.next()){
             for (Tower newTower :c.getAddedSubList()) {
                 TowerVue towerVue = new TowerVue(levelpane);
-                towerVue.createTowerSprite(newTower) ;
+                towerVue.createTowerSprite(newTower, newTower.getSprite()) ;
             }
 
         }
