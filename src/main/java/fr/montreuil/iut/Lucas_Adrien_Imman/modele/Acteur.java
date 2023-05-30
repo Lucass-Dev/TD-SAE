@@ -94,6 +94,10 @@ public class Acteur {
             deplacmentBas();
             deplacmentGauche();
         }
+        if (terrain.tuile(getX(),getY())==2) {
+            setPos(593, 625);
+            setPv(getPv() - 1);
+        }
     }
 
 

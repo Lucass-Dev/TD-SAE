@@ -32,7 +32,7 @@ public class Controller implements Initializable {
     private int temps ;
     private boolean estFini;
     private int nbTours ;
-    private Tour tour ;
+
 
 
 

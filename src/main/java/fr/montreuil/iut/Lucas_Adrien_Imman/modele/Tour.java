@@ -46,13 +46,8 @@ public class Tour {
 
     public Acteur attaque(ObservableList<Acteur> acteurs) {
         for (Acteur m : acteurs) {
-            System.out.printf("X tourelle"+this.getX());
-            System.out.printf("X acteur"+m.getX());
-                if ((this.getY()-150<=m.getY() && m.getY()<= this.getY()+150) && (this.getX()-150<=m.getX() && m.getX() <= this.getX()+150)){
-
-                    System.out.printf("fffffffffffffffffffffffffffffffffffffffff");
+                if ((this.getY()-15<=m.getY() && m.getY()<= this.getY()+15) && (this.getX()-15<=m.getX() && m.getX() <= this.getX()+15)){
                     return m;
-
                 }
             }
             return null;

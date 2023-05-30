@@ -35,26 +35,25 @@ public class Environnement {
         for(int i=0;i<acteurs.size(); i++){
             Acteur a = acteurs.get(i);
             a.seDeplace();
-            if (terrain.tuile(a.getX(),a.getY())==2){
-                a.setPos(593,625);
-                a.setPv(a.getPv()-1);
-                if (a.estMort()){
-                    acteurs.remove(a);
-                }
+            if (a.estMort()){
+                acteurs.remove(a);
             }
         }
+        for (int i = 0; i <tours.size() ; i++) {
+            Tour t = tours.get(i);
+            Acteur a =  t.attaque(acteurs);
+            if(a!=null) {
+                a.setPv(0);
+                System.out.println(a.getPv()+"LE pv est de");
+
+            }
+        }
+
+
     }
 
     public void tourAgir(){
-        for (int i = 0; i <tours.size() ; i++) {
-            Tour t = tours.get(i);
-         Acteur a =  t.attaque(acteurs);
-         if(a!=null) {
-             a.setPv(-30);
 
-
-         }
-        }
     }
 
     public boolean verifObjectif() {
