@@ -22,13 +22,19 @@ public class Level {
     private ArrayList<ArrayList<Integer>> travelingMap;
     private ObservableList<Tower> placedTower;
     private ObservableList<Ennemy> ennemies;
+    private int[] startTilePos;
+    private int[] endTilePos;
+    private Pane levelPane;
 
-    public Level(String name){
+    public Level(String name, Pane levelPane){
+        this.levelPane = levelPane;
         this.levelName = name;
         this.tileMap = new ArrayList<>();
         this.travelingMap = new ArrayList<>();
         this.placedTower = FXCollections.observableArrayList();
         this.ennemies = FXCollections.observableArrayList();
+        startTilePos = new int[2];
+        endTilePos = new int[2];
     }
 
     public Level(String name, ArrayList<ArrayList<Integer>> tileMap){
@@ -54,12 +60,22 @@ public class Level {
                     traveling.get(index).add(4);
                 }else if (i == 9) {
                     traveling.get(index).add(5);
-                }else{
+                } else if (i == 11 || i == 12 || i == 13 || i == 14) {
+                    traveling.get(index).add(6);
+                    startTilePos[0] = index;
+                    startTilePos[1] = traveling.get(index).size()-1;
+                }else if (i == 1 || i == 2 || i == 4 || i == 5) {
+                    traveling.get(index).add(7);
+                    endTilePos[0] = index;
+                    endTilePos[1] = traveling.get(index).size()-1;
+                } else{
                     traveling.get(index).add(1);
                 }
             }
             index++;
         }
+        System.out.println(Arrays.toString(endTilePos));
+        System.out.println(Arrays.toString(startTilePos));
         return traveling;
     }
 
@@ -137,7 +153,23 @@ public class Level {
 
     public void doTurn(int nbTours){
         for (Ennemy e: getEnnemies()) {
+            if (!e.isOnBound()){
+                this.levelPane.getChildren().remove(levelPane.lookup("#E"+e.getId()));
+                this.ennemies.remove(e);
+            }
             e.move();
         }
+    }
+
+    public int[] getStartTilePos() {
+        return startTilePos;
+    }
+
+    public int[] getEndTilePos() {
+        return endTilePos;
+    }
+
+    public int getTileValue(int[] pos) {
+        return this.getTravelingMap().get(pos[1]).get(pos[0]);
     }
 }

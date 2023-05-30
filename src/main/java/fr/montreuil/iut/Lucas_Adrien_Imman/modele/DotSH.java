@@ -1,8 +1,10 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
+import javafx.scene.layout.Pane;
+
 public class DotSH extends Ennemy{
-    public DotSH(int x, int y) {
-        super(x, y);
+    public DotSH(int x, int y, Pane tilePane, Level level) {
+        super(x, y, tilePane, level);
     }
 
     @Override
@@ -12,6 +14,11 @@ public class DotSH extends Ennemy{
 
     @Override
     public void move() {
-        this.setX(this.getX()+1);
+        int[] pos = new int[2];
+        pos[0] = this.getX()/32;
+        pos[1] = this.getY()/32;
+        int travelingValue = this.getLevel().getTileValue(pos);
+
+        //code pour le déplacement
     }
 }

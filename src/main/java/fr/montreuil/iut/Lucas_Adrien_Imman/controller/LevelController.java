@@ -98,7 +98,6 @@ public class LevelController implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    this.level.addEnnemy(this.levelVue.placeEnnemy(540, 60));
                 }
             }
         });
@@ -110,7 +109,7 @@ public class LevelController implements Initializable {
     public void createLevel(){
         playButton.setVisible(false);
         int mapIndex = this.LDT.getMapIndex();
-        this.level = new Level("test");
+        this.level = new Level("test", this.levelPane);
         try {
             ArrayList<ArrayList<Integer>> map = this.level.createMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map"+mapIndex+".csv", tilePane);
             this.level.setTileMap(map);
@@ -167,6 +166,9 @@ public class LevelController implements Initializable {
                         gameLoop.stop();
                     }
                     else{
+                        if (nbTours == 1 || nbTours == 5 || nbTours == 500){
+                            this.level.addEnnemy(this.levelVue.placeEnnemy(this.level.getStartTilePos()));
+                        }
 
                         this.level.doTurn(nbTours);
 

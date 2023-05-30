@@ -35,9 +35,9 @@ public class LevelVue {
         return tk;
     }
 
-    public Ennemy placeEnnemy(int x, int y){
-         DotSH dsh = new DotSH(x, y);
-
+    public Ennemy placeEnnemy(int[] pos){
+         DotSH dsh = new DotSH(pos[0]*32 + 16, pos[1]*32 + 16, this.tilePane, this.level);
+         dsh.setId(this.level.getEnnemies().size());
 
         return dsh;
     }

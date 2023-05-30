@@ -24,8 +24,7 @@ public class EnnemyVue {
         levelPane.getChildren().add(ennemy);
         this.ennemy.translateXProperty().bind(newEnnemy.xProperty());
         this.ennemy.translateYProperty().bind(newEnnemy.yProperty());
-        System.out.println(newEnnemy.yProperty());
-        System.out.println(newEnnemy.xProperty());
+        this.ennemy.setId("E"+newEnnemy.getId());
 
 
     }

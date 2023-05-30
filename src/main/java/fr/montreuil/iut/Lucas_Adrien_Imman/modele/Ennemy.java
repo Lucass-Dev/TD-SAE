@@ -1,21 +1,43 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.layout.Pane;
 
 public abstract class Ennemy {
+    private int id;
+    private Pane tilePane;
+    private Level level;
     private SimpleIntegerProperty x, y;
     private int life;
     private String name;
     private double speed;
 
-    public Ennemy(int x, int y){
+    public Ennemy(int x, int y, Pane tilePane, Level level){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
+        this.tilePane = tilePane;
+        this.level = level;
     }
 
     public abstract void doDamage();
     public abstract void move();
 
+
+    public boolean isOnBound(){
+        System.out.println("Objet en "+this.getX() + " sur " + this.tilePane.getWidth());
+        System.out.println("Objet en "+this.getY() + " sur " + this.tilePane.getHeight());
+        System.out.println(this.getX() < this.tilePane.getWidth() && this.getY() < this.tilePane.getHeight());
+
+        return this.getX() < this.tilePane.getWidth() && this.getY() < this.tilePane.getHeight();
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public Pane getTilePane() {
+        return tilePane;
+    }
 
     public int getX() {
         return x.get();
@@ -63,5 +85,17 @@ public abstract class Ennemy {
 
     public void setSpeed(double speed) {
         this.speed = speed;
+    }
+
+    public void kill(Object o) {
+        o = null;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 }
