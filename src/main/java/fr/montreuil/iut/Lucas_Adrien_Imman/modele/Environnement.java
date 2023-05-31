@@ -43,7 +43,7 @@ public class Environnement {
             Tour t = tours.get(i);
             Acteur a =  t.attaque(acteurs);
             if(a!=null) {
-                a.setPv(0);
+                a.decrementerPv(5);
                 System.out.println(a.getPv()+"LE pv est de");
 
             }

@@ -62,6 +62,10 @@ public class Acteur {
         this.pv = pv;
     }
 
+    public void decrementerPv(int pv){
+        this.pv -= pv;
+    }
+
     public boolean estMort(){
         return (this.pv==0);
 
@@ -90,9 +94,12 @@ public class Acteur {
 
     public void seDeplace() {
         deplacmentDroite();
+
+
         while (!terrain.tuileSol(getX(), getY())) {
             deplacmentBas();
             deplacmentGauche();
+
         }
         if (terrain.tuile(getX(),getY())==2) {
             setPos(593, 625);
