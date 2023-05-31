@@ -1,8 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tower;
-import fr.montreuil.iut.Lucas_Adrien_Imman.vue.ActeurVue;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.TowerVue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;

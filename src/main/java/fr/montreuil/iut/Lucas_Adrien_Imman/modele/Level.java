@@ -153,7 +153,7 @@ public class Level {
 
     public void doTurn(int nbTours){
         for (Ennemy e: getEnnemies()) {
-            if (!e.isOnBound()){
+            if (!e.isOnBound() || e.isOnObjective()){
                 this.levelPane.getChildren().remove(levelPane.lookup("#E"+e.getId()));
                 this.ennemies.remove(e);
             }
