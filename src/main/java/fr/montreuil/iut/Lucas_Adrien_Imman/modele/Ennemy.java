@@ -8,7 +8,7 @@ public abstract class Ennemy {
     private Pane tilePane;
     private Level level;
     private SimpleIntegerProperty x, y;
-    private int life;
+    private SimpleIntegerProperty life;
     private String name;
     private int speed;
 
@@ -81,7 +81,7 @@ public abstract class Ennemy {
         return y;
     }
 
-    public int getLife() {
+    public SimpleIntegerProperty getLife() {
         return life;
     }
 
@@ -101,7 +101,7 @@ public abstract class Ennemy {
         this.y.set(y);
     }
 
-    public void setLife(int life) {
+    public void setLife(SimpleIntegerProperty life) {
         this.life = life;
     }
 
