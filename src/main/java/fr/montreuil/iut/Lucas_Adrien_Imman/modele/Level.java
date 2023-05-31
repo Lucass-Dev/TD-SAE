@@ -151,13 +151,19 @@ public class Level {
         this.ennemies.add(ennemy);
     }
 
+    public void creationEnnemy(int nbTours, Level level){
+        if (nbTours == 1 || nbTours == 5 || nbTours == 500){
+            ennemies.add(new DotSH(0*32 + 16, 1*32 + 16, levelPane,level));
+        }
+    }
+
     public void doTurn(int nbTours){
-        for (Ennemy e: getEnnemies()) {
-            if (!e.isOnBound() || e.isOnObjective()){
-                this.levelPane.getChildren().remove(levelPane.lookup("#E"+e.getId()));
-                this.ennemies.remove(e);
-            }
+        for (int i = 0; i <ennemies.size() ; i++) {
+            Ennemy e = ennemies.get(i);
             e.move();
+            if(!e.isOnBound() || e.isOnObjective() || e.estMort()) {
+                ennemies.remove(e);
+            }
         }
     }
 
@@ -171,5 +177,12 @@ public class Level {
 
     public int getTileValue(int[] pos) {
         return this.getTravelingMap().get(pos[1]).get(pos[0]);
+    }
+
+    public int[] getTilePos(int x, int y){
+        int[] pos = new int[2];
+        pos[0] = x/32;
+        pos[1] = y/32;
+        return pos;
     }
 }

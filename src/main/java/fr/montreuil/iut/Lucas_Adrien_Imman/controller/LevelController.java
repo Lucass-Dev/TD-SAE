@@ -89,7 +89,7 @@ public class LevelController implements Initializable {
             int x = (int) mouseEvent.getX();
             int y = (int) mouseEvent.getY();
 
-            int[] mousePos = getTilePos(x, y);
+            int[] mousePos = this.level.getTilePos(x, y);
 
             if (Main.stg.getScene().getCursor() != Cursor.DEFAULT && Main.stg.getScene().getCursor() != null){
                 if (this.level.validTile(mousePos)){
@@ -114,10 +114,13 @@ public class LevelController implements Initializable {
             ArrayList<ArrayList<Integer>> map = this.level.createMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map"+mapIndex+".csv", tilePane);
             this.level.setTileMap(map);
             this.level.setTravelingMap(this.level.getTileMap());
+
             ListChangeListener<Ennemy> ennemyListChangeListener = new ListObsEnnemy(levelPane);
             this.level.getEnnemies().addListener(ennemyListChangeListener);
+
             ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane);
             this.level.getPlacedTower().addListener(towerListChangeListener);
+
             this.levelVue = new LevelVue(this.level, this.tilePane, this.levelPane);
             this.levelVue.createShopMenu(towerShopVbox);
 
@@ -166,9 +169,6 @@ public class LevelController implements Initializable {
                         gameLoop.stop();
                     }
                     else{
-                        if (nbTours == 1 || nbTours == 5 || nbTours == 500){
-                            this.level.addEnnemy(this.levelVue.placeEnnemy(this.level.getStartTilePos()));
-                        }
 
                         this.level.doTurn(nbTours);
 
@@ -180,10 +180,5 @@ public class LevelController implements Initializable {
         gameLoop.getKeyFrames().add(kf);
     }
 
-    public int[] getTilePos(int x, int y){
-     int[] pos = new int[2];
-     pos[0] = x/32;
-     pos[1] = y/32;
-     return pos;
-    }
+
 }
