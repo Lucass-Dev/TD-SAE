@@ -57,6 +57,7 @@ public class LevelVue {
             Image newShopItemImage = new Image(Main.class.getResourceAsStream("graphics/tower/"+i+".png"));
             newShopItem.getChildren().add(new ImageView(newShopItemImage));
             newShopItem.getStyleClass().add("shopItem");
+            newShopItem.setId("tower_"+i);
             towerShopVbox.getChildren().add(newShopItem);
         }
 
