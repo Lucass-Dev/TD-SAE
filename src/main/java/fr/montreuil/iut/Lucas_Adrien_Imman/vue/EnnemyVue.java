@@ -2,12 +2,14 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemy;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class EnnemyVue {
     private Pane levelPane;
     private Circle ennemy;
+    private  VBox vie ;
 
     public EnnemyVue(Pane levelPane) {
         this.levelPane = levelPane;
