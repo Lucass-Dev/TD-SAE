@@ -83,6 +83,18 @@ public class Level {
         return travelingMap;
     }
 
+    public int[] getTileCenter(int[] tilePos){
+        int[] center = new int[2];
+        if (tilePos[0] >= this.travelingMap.size() || tilePos[1] > this.travelingMap.size()){
+            return null;
+        }else{
+            center[0] = tilePos[0]*32 + 16;
+            center[1] = tilePos[1]*32 + 16;
+        }
+
+        return center;
+    }
+
     public int getTile(int[] pos){
         return this.travelingMap.get(pos[1]).get(pos[0]);
     }

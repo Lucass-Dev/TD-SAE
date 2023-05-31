@@ -43,6 +43,9 @@ public class LevelController implements Initializable {
     private LevelDataTransit LDT;
     private LevelVue levelVue;
 
+    //Variables pour le contrôleur
+    private int cursorIndex = 0; //0 for none
+
 
     //FXML
     @FXML
@@ -70,21 +73,22 @@ public class LevelController implements Initializable {
         this.towerShopVbox.setOnMouseClicked(mouseEvent -> {
             EventTarget target = mouseEvent.getTarget();
             ImageView targetedTowerIV = new ImageView();
+            String[] stringId = new String[2];
             if (target instanceof  HBox){
                 HBox targetedTowerHB = (HBox) mouseEvent.getTarget();
                 targetedTowerIV = (ImageView) targetedTowerHB.getChildren().get(0);
+                stringId = targetedTowerHB.getId().split("_");
             } else if (target instanceof  ImageView) {
                 targetedTowerIV = (ImageView) target;
+                stringId = targetedTowerIV.getParent().getId().split("_");
             }
-
+            cursorIndex = Integer.parseInt(stringId[stringId.length-1]);
             Main.stg.getScene().setCursor(new ImageCursor(targetedTowerIV.getImage()));
         });
         this.towerShopVbox.setOnMouseEntered(mouseEvent ->{
             Main.stg.getScene().setCursor(Cursor.DEFAULT);
         });
         this.tilePane.setOnMouseClicked(mouseEvent -> {
-
-
 
             int x = (int) mouseEvent.getX();
             int y = (int) mouseEvent.getY();
@@ -94,7 +98,7 @@ public class LevelController implements Initializable {
             if (Main.stg.getScene().getCursor() != Cursor.DEFAULT && Main.stg.getScene().getCursor() != null){
                 if (this.level.validTile(mousePos)){
                     try {
-                        this.level.addTower(this.levelVue.placeTower(mousePos, new Image(Main.class.getResource("graphics/tower/0.png").openStream())));
+                        this.level.addTower(this.levelVue.placeTower(mousePos, new Image(Main.class.getResource("graphics/tower/"+cursorIndex+".png").openStream())));
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
