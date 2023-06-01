@@ -25,7 +25,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class LevelController implements Initializable {
@@ -64,11 +63,6 @@ public class LevelController implements Initializable {
         Main.stg.getScene().setCursor(Cursor.DEFAULT);
         this.estFini = false;
 
-        /*
-        this.tilePane.setHgap(5);
-        this.tilePane.setVgap(5);
-        */
-
 
         this.towerShopVbox.setOnMouseClicked(mouseEvent -> {
             EventTarget target = mouseEvent.getTarget();
@@ -85,9 +79,13 @@ public class LevelController implements Initializable {
             cursorIndex = Integer.parseInt(stringId[stringId.length-1]);
             Main.stg.getScene().setCursor(new ImageCursor(targetedTowerIV.getImage()));
         });
+
+
         this.towerShopVbox.setOnMouseEntered(mouseEvent ->{
             Main.stg.getScene().setCursor(Cursor.DEFAULT);
         });
+
+
         this.tilePane.setOnMouseClicked(mouseEvent -> {
 
             int x = (int) mouseEvent.getX();
@@ -97,17 +95,15 @@ public class LevelController implements Initializable {
 
             if (Main.stg.getScene().getCursor() != Cursor.DEFAULT && Main.stg.getScene().getCursor() != null){
                 if (this.level.validTile(mousePos)){
-                    try {
-                        this.level.addTower(this.levelVue.placeTower(mousePos, new Image(Main.class.getResource("graphics/tower/"+cursorIndex+".png").openStream())));
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    level.placeTower(x,y);
                 }
             }
         });
+
         this.tilePane.setOnMouseMoved(e -> {
             this.mousePos.setText("x : "+ e.getX() + " / y : "+e.getY());
         });
+
     }
 
     public void createLevel(){
@@ -174,8 +170,8 @@ public class LevelController implements Initializable {
                     }
                     else{
 
-                        this.level.doTurn(nbTours);
-
+                        this.level.doTurn(nbTours,level,temps);
+                        level.tourAgir();
                         nbTours++ ;
                     }
                     temps++;

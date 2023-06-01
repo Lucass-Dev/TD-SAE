@@ -1,5 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.ACO.Acteur;
+import fr.montreuil.iut.Lucas_Adrien_Imman.ACO.Tour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +27,7 @@ public class Level {
     private int[] startTilePos;
     private int[] endTilePos;
     private Pane levelPane;
+    private int nbActeurs ;
 
     public Level(String name, Pane levelPane){
         this.levelPane = levelPane;
@@ -35,6 +38,7 @@ public class Level {
         this.ennemies = FXCollections.observableArrayList();
         startTilePos = new int[2];
         endTilePos = new int[2];
+        this.nbActeurs = 4 ;
     }
 
     public Level(String name, ArrayList<ArrayList<Integer>> tileMap){
@@ -163,18 +167,45 @@ public class Level {
         this.ennemies.add(ennemy);
     }
 
-    public void creationEnnemy(int nbTours, Level level){
-        if (nbTours == 1 || nbTours == 5 || nbTours == 500){
-            ennemies.add(new DotSH(0*32 + 16, 1*32 + 16, levelPane,level));
+    public void creationEnnemy(int nbTours, Level level , int t){
+        if (t < nbActeurs*100) {
+            if (nbTours % 100 == 0) {
+                ennemies.add(new DotSH(levelPane, level));
+            }
         }
     }
 
-    public void doTurn(int nbTours){
+
+    public void placeTower(int x , int y ){
+        int[] pos = new int[2];
+        pos[0] = x/32;
+        pos[1] = y/32;
+        TaskKiller tk = new TaskKiller(pos[0]*32,pos[1]*32);
+            addTower(tk);
+    }
+
+    public void doTurn(int nbTours ,Level level, int t){
+        creationEnnemy(nbTours,level , t);
         for (int i = 0; i <ennemies.size() ; i++) {
             Ennemy e = ennemies.get(i);
             e.move();
+        }
+        for (int i = ennemies.size()-1 ; i>=0;i--) {
+            Ennemy e = ennemies.get(i);
             if(!e.isOnBound() || e.isOnObjective() || e.estMort()) {
                 ennemies.remove(e);
+            }
+        }
+    }
+
+    public void tourAgir(){
+        for (int i = 0; i <placedTower.size() ; i++) {
+            Tower t = placedTower.get(i);
+            Ennemy e =  t.attack(ennemies);
+            if(e!=null) {
+                e.setLife(0);
+
+
             }
         }
     }

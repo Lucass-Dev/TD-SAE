@@ -5,6 +5,8 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.vue.EnnemyVue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;
 
+import java.io.IOException;
+
 public class ListObsEnnemy implements ListChangeListener<Ennemy> {
     private Pane levelpane;
 
@@ -20,13 +22,16 @@ public class ListObsEnnemy implements ListChangeListener<Ennemy> {
         while (c.next()){
             for (Ennemy newEnnemy :c.getAddedSubList()) {
                 EnnemyVue ennemyVue = new EnnemyVue(levelpane);
-                ennemyVue.createEnnemySprite(newEnnemy); ;
+                try {
+                    ennemyVue.createEnnemySprite(newEnnemy);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             for(Ennemy acteurMort : c.getRemoved()){
                 levelpane.getChildren().remove(levelpane.lookup("#"+acteurMort.getId()));
             }
-
         }
     }
 }

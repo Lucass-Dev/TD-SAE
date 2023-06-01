@@ -11,6 +11,7 @@ public class Player {
     private IntegerProperty x , y ;
 
 
+
     public Player(SimpleIntegerProperty x , SimpleIntegerProperty y ) {
         this.life = new SimpleIntegerProperty(100) ;
         this.ram =  new SimpleIntegerProperty(0);
@@ -26,6 +27,7 @@ public class Player {
     public IntegerProperty xProperty() {
         return x;
     }
+
 
     public int getY() {
         return y.get();

@@ -4,29 +4,34 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.Pane;
 
 public abstract class Ennemy {
-    private int id;
+    private String id;
     private Pane tilePane;
     private Level level;
     private SimpleIntegerProperty x, y;
-    private int life;
+    private SimpleIntegerProperty life;
     private String name;
     private int speed;
+    public static int compteur=0;
 
     //direction stands for the cardinal direction with an int value : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
 
-    public Ennemy(int x, int y, Pane tilePane, Level level){
-        this.x = new SimpleIntegerProperty(x);
-        this.y = new SimpleIntegerProperty(y);
+    public Ennemy(Pane tilePane, Level level , int life){
+
+        this.x = new SimpleIntegerProperty(545);
+        this.y = new SimpleIntegerProperty(545);
         this.tilePane = tilePane;
         this.level = level;
         this.direction = 4;
         this.speed = 2;
+        this.life = new SimpleIntegerProperty(life);
+        this.id= "A" + compteur;
+        compteur++;
+
     }
 
     public abstract void doDamage();
     public abstract void move();
-
     public boolean isCentered(){
 
         System.out.println(this.getX());
@@ -81,10 +86,6 @@ public abstract class Ennemy {
         return y;
     }
 
-    public int getLife() {
-        return life;
-    }
-
     public String getName() {
         return name;
     }
@@ -97,6 +98,18 @@ public abstract class Ennemy {
         return getLife()==0 ;
     }
 
+    public int getLife() {
+        return life.get();
+    }
+
+    public SimpleIntegerProperty lifeProperty() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life.set(life);
+    }
+
     public void setX(int x) {
         this.x.set(x);
     }
@@ -105,8 +118,8 @@ public abstract class Ennemy {
         this.y.set(y);
     }
 
-    public void setLife(int life) {
-        this.life = life;
+    public void reductionPv(int l){
+        setLife(getLife()-l);
     }
 
     public void setName(String name) {
@@ -121,11 +134,11 @@ public abstract class Ennemy {
         o = null;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 }
