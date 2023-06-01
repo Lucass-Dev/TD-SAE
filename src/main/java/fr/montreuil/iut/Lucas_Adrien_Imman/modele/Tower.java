@@ -2,6 +2,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
@@ -11,46 +12,34 @@ abstract public class Tower{
     private int flopPrice;
     private int ramPrice;
     private String name;
-    private SimpleIntegerProperty level;
+    private int level;
     private int upgradeCost;
-    private Pane tilePane;
     private Image sprite;
-    private int id;
-    private SimpleIntegerProperty movingPrice;
 
-    abstract public void attack();
-    abstract public void detect();
+
 
     public Tower(){};
 
-    public Tower(Pane tilePane, int x, int y, Image image, int id){
+    public Tower(int x, int y){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
-        this.sprite = image;
-        this.id = id;
-        this.name = "Je suis la tour";
-        this.level =  new SimpleIntegerProperty(1);
-        this.movingPrice = new SimpleIntegerProperty(100);
     }
 
-    public Tower(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, SimpleIntegerProperty x, SimpleIntegerProperty y, int id) {
+    public Tower(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, SimpleIntegerProperty x, SimpleIntegerProperty y) {
         this.range = range;
         this.flopPrice = flopPrice;
         this.ramPrice = ramPrice;
         this.name = name;
-        this.level = new SimpleIntegerProperty(1);
+        this.level = level;
         this.upgradeCost = upgradeCost;
         this.x = x;
         this.y = y;
-        this.id = id;
     }
+
+    abstract public Ennemy attack(ObservableList<Ennemy> ennemis);
+    abstract public void detect();
 
     //GETTER
-
-
-    public int getId() {
-        return id;
-    }
 
     public int getRange() {
         return range;
@@ -68,7 +57,7 @@ abstract public class Tower{
         return name;
     }
 
-    public SimpleIntegerProperty getLevel() {
+    public int getLevel() {
         return level;
     }
 
@@ -90,22 +79,6 @@ abstract public class Tower{
 
     public IntegerProperty yProperty() {
         return y;
-    }
-
-    public SimpleIntegerProperty levelProperty() {
-        return level;
-    }
-
-    public Pane getTilePane() {
-        return tilePane;
-    }
-
-    public int getMovingPrice() {
-        return movingPrice.get();
-    }
-
-    public SimpleIntegerProperty movingPriceProperty() {
-        return movingPrice;
     }
 
     //SETTER
@@ -134,7 +107,7 @@ abstract public class Tower{
     }
 
     public void setLevel(int level) {
-        this.level.set(level);
+        this.level = level;
     }
 
     public void setUpgradeCost(int upgradeCost) {
@@ -147,16 +120,5 @@ abstract public class Tower{
 
     public void setSprite(Image sprite) {
         this.sprite = sprite;
-    }
-
-    //OTHER METHODS
-    public void upgrade(Player p){
-        if (p.getFlop() >= this.upgradeCost){
-            p.setFlop(p.getFlop() - this.upgradeCost);
-            this.level.setValue(this.getLevel().get() + 1);
-            System.out.println("J'ai amélioré la tour");
-        }else{
-            System.out.println("Pas assez d'argent");
-        }
     }
 }

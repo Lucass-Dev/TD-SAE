@@ -3,121 +3,47 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.Pane;
 
-import java.util.Arrays;
-
 public abstract class Ennemy {
-    private int id;
+    private String id;
     private Pane tilePane;
     private Level level;
     private SimpleIntegerProperty x, y;
     private SimpleIntegerProperty life;
     private String name;
     private int speed;
-    private int spriteIndex;
-    private SimpleIntegerProperty maxLife;
+    public static int compteur=0;
 
     //direction stands for the cardinal direction with an int value : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
 
-    public Ennemy(int x, int y, Pane tilePane, Level level, int spriteIndex){
-        this.x = new SimpleIntegerProperty(x);
-        this.y = new SimpleIntegerProperty(y);
+    public Ennemy(Pane tilePane, Level level , int life){
+
+        this.x = new SimpleIntegerProperty(545);
+        this.y = new SimpleIntegerProperty(545);
         this.tilePane = tilePane;
         this.level = level;
         this.direction = 4;
-        this.speed = 7;
-        this.life = new SimpleIntegerProperty(50);
-        this.maxLife = new SimpleIntegerProperty(50);
-        this.spriteIndex = spriteIndex;
-    }
+        this.speed = 2;
+        this.life = new SimpleIntegerProperty(life);
+        this.id= "A" + compteur;
+        compteur++;
 
-    public int getSpriteIndex() {
-        return spriteIndex;
     }
 
     public abstract void doDamage();
+    public abstract void move();
     public boolean isCentered(){
-        int[] center;
-        int[] pos = new int[2];
-        pos[0] = this.getX()/32;
-        pos[1] = this.getY()/32;
 
-        center = this.level.getTileCenter(pos);
+        System.out.println(this.getX());
 
-        pos[0] = this.getX();
-        pos[1] = this.getY();
-
-        return pos[0] <= center[0]+3 && pos[0] >= center[0]-3 && pos[1] <= center[1]+3 && pos[1] >= center[1]-3 ;
-    }
-    public void move() {
-        int[] pos = new int[2];
-        pos[0] = this.getX()/32;
-        pos[1] = this.getY()/32;
-        int travelingValue = this.getLevel().getTileValue(pos);
-
-        switch (travelingValue){
-            case 2 -> {
-                if (this.getDirection() == 2){
-                    if (isCentered()){
-                        this.setDirection(1);
-                    }
-                } else if (this.getDirection() == 3) {
-                    if(isCentered()){
-                        this.setDirection(4);
-                    }
-                }
-            }
-            case 3 -> {
-                if (this.getDirection() == 2){
-                    if (isCentered()){
-                        this.setDirection(3);
-                    }
-                } else if (this.getDirection() == 1) {
-                    if(isCentered()){
-                        this.setDirection(4);
-                    }
-                }
-            }
-            case 4 -> {
-                if (this.getDirection() == 4){
-                    if (isCentered()){
-                        this.setDirection(1);
-                    }
-                } else if (this.getDirection() == 3) {
-                    if (isCentered()){
-                        this.setDirection(2);
-                    }
-                }
-            }
-            case 5 -> {
-                if (this.getDirection() == 4){
-                    if (isCentered()){
-                        this.setDirection(3);
-                    }
-                } else if (this.getDirection() == 1) {
-                    if (isCentered()){
-                        this.setDirection(2);
-                    }
-                }
-            }
-        }
-
-        if (this.getDirection() == 1){
-            this.setY(this.getY()-this.getSpeed());
-        }
-        else if(this.getDirection() == 2){
-            this.setX(this.getX()+this.getSpeed());
-        }
-        else if(this.getDirection() == 3){
-            this.setY(this.getY()+this.getSpeed());
-        }
-        else if(this.getDirection() == 4){
-            this.setX(this.getX()-this.getSpeed());
-        }
-
+        return true;
     }
 
-    public boolean isOnBound(){
+    public boolean isOnBound(){// Dans le cas ou il dépasse les tuiles de la map
+        System.out.println("Objet en "+this.getX() + " sur " + this.tilePane.getWidth());
+        System.out.println("Objet en "+this.getY() + " sur " + this.tilePane.getHeight());
+        System.out.println(this.getX() < this.tilePane.getWidth() && this.getY() < this.tilePane.getHeight());
+
         return this.getX() < this.tilePane.getWidth() && this.getY() < this.tilePane.getHeight() && this.getX() >= 0 && this.getY() >=0;
     }
 
@@ -160,10 +86,6 @@ public abstract class Ennemy {
         return y;
     }
 
-    public SimpleIntegerProperty getLife() {
-        return life;
-    }
-
     public String getName() {
         return name;
     }
@@ -173,7 +95,19 @@ public abstract class Ennemy {
     }
 
     public boolean estMort(){
-        return getLife().get()==0 ;
+        return getLife()==0 ;
+    }
+
+    public int getLife() {
+        return life.get();
+    }
+
+    public SimpleIntegerProperty lifeProperty() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life.set(life);
     }
 
     public void setX(int x) {
@@ -184,8 +118,8 @@ public abstract class Ennemy {
         this.y.set(y);
     }
 
-    public void setLife(SimpleIntegerProperty life) {
-        this.life = life;
+    public void reductionPv(int l){
+        setLife(getLife()-l);
     }
 
     public void setName(String name) {
@@ -200,23 +134,11 @@ public abstract class Ennemy {
         o = null;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
-    }
-
-    public SimpleIntegerProperty lifeProperty() {
-        return life;
-    }
-
-    public int getMaxLife() {
-        return maxLife.get();
-    }
-
-    public SimpleIntegerProperty maxLifeProperty() {
-        return maxLife;
     }
 }

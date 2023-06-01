@@ -13,6 +13,7 @@ public class Player {
     private IntegerProperty maxRAM;
 
 
+
     public Player(SimpleIntegerProperty x , SimpleIntegerProperty y ) {
         this.life = new SimpleIntegerProperty(100) ;
         this.maxlife = new SimpleIntegerProperty(100);
@@ -46,6 +47,7 @@ public class Player {
     public IntegerProperty xProperty() {
         return x;
     }
+
 
     public int getY() {
         return y.get();
