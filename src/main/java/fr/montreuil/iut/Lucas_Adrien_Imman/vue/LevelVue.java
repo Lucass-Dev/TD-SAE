@@ -31,14 +31,12 @@ public class LevelVue {
     public Tower placeTower(int[] pos, Image image){
         TaskKiller tk = new TaskKiller(this.levelPane, pos[0]*32, pos[1]*32, image);
 
-
         return tk;
     }
 
     public Ennemy placeEnnemy(int[] pos){
          DotSH dsh = new DotSH(pos[0]*32 + 16, pos[1]*32 + 16, this.tilePane, this.level);
          dsh.setId(this.level.getEnnemies().size());
-
         return dsh;
     }
 
@@ -50,7 +48,6 @@ public class LevelVue {
                 totalTower++;
             }
         }
-
 
         for (int i = 0; i < totalTower; i++) {
             HBox newShopItem = new HBox();

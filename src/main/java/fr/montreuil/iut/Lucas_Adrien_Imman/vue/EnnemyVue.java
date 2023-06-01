@@ -18,17 +18,16 @@ public class EnnemyVue {
 
     public EnnemyVue(Pane levelPane) {
         this.levelPane = levelPane;
+        this.ennemy = new VBox();
+        this.pv = new Label();
     }
 
     public void createEnnemySprite(Ennemy newEnnemy) throws IOException {
-        this.ennemy = new VBox();
+
+        this.image = new ImageView(new Image(Main.class.getResource("graphics/ennemy/Virus.png").openStream()));
         this.pv.textProperty().bind(newEnnemy.getLife().asString());
-        this.ennemy.translateXProperty().bind(ennemy.translateXProperty());
-        this.ennemy.translateYProperty().bind(ennemy.translateYProperty());
-        this.image = new ImageView(new Image(Main.class.getResource("graphics/ennemy/Archive.png").openStream()));
         ennemy.getChildren().add(pv);
         ennemy.getChildren().add(image);
-
         levelPane.getChildren().add(ennemy);
         this.ennemy.translateXProperty().bind(newEnnemy.xProperty());
         this.ennemy.translateYProperty().bind(newEnnemy.yProperty());

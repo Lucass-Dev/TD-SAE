@@ -72,8 +72,6 @@ public class Controller implements Initializable {
 
     }
 
-
-
     public void initAnimation() {
 
         this.estFini = false;

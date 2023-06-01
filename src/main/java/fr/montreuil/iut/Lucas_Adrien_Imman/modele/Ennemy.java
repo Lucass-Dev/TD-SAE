@@ -21,7 +21,8 @@ public abstract class Ennemy {
         this.tilePane = tilePane;
         this.level = level;
         this.direction = 4;
-        this.speed = 2;
+        this.speed = 1;
+        this.life = new SimpleIntegerProperty(50);
     }
 
     public abstract void doDamage();
