@@ -13,7 +13,6 @@ import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -22,7 +21,6 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -46,6 +44,7 @@ public class LevelController implements Initializable {
     private int cursorIndex = 0; //0 for none
 
 
+
     //FXML
     @FXML
     Label mousePos;
@@ -57,6 +56,7 @@ public class LevelController implements Initializable {
     Button playButton;
     @FXML
     VBox towerShopVbox;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -70,7 +70,7 @@ public class LevelController implements Initializable {
             String[] stringId = new String[2];
             if (target instanceof  HBox){
                 HBox targetedTowerHB = (HBox) mouseEvent.getTarget();
-                targetedTowerIV = (ImageView) targetedTowerHB.getChildren().get(0);
+                targetedTowerIV = (ImageView) targetedTowerHB.getChildren().get(0);  // a déplacer dans la vue
                 stringId = targetedTowerHB.getId().split("_");
             } else if (target instanceof  ImageView) {
                 targetedTowerIV = (ImageView) target;
@@ -93,12 +93,13 @@ public class LevelController implements Initializable {
 
             int[] mousePos = this.level.getTilePos(x, y);
 
-            if (Main.stg.getScene().getCursor() != Cursor.DEFAULT && Main.stg.getScene().getCursor() != null){
+            if (Main.stg.getScene().getCursor() != Cursor.DEFAULT && Main.stg.getScene().getCursor() != null){  //Placement de la tourelle
                 if (this.level.validTile(mousePos)){
                     level.placeTower(x,y);
                 }
             }
         });
+
 
         this.tilePane.setOnMouseMoved(e -> {
             this.mousePos.setText("x : "+ e.getX() + " / y : "+e.getY());
@@ -121,7 +122,7 @@ public class LevelController implements Initializable {
             ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane);
             this.level.getPlacedTower().addListener(towerListChangeListener);
 
-            this.levelVue = new LevelVue(this.level, this.tilePane, this.levelPane);
+            this.levelVue = new LevelVue();/*this.level, this.tilePane, this.levelPane*/
             this.levelVue.createShopMenu(towerShopVbox);
 
 
@@ -134,6 +135,7 @@ public class LevelController implements Initializable {
                 System.out.println(arrayList);
             }
 
+           // levelVue.createATH(player,hBox);
             //Quand tout est parametré comme il faut j'initialise la gameloop
             initAnimation();
             gameLoop.play();

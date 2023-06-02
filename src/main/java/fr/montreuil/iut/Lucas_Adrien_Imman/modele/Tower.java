@@ -3,7 +3,6 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
 abstract public class Tower{
@@ -14,8 +13,7 @@ abstract public class Tower{
     private String name;
     private int level;
     private int upgradeCost;
-    private Image sprite;
-
+    private Pane levelPane;
 
 
     public Tower(){};
@@ -25,7 +23,7 @@ abstract public class Tower{
         this.y = new SimpleIntegerProperty(y);
     }
 
-    public Tower(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    public Tower(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, SimpleIntegerProperty x, SimpleIntegerProperty y  , Pane levelPane) {
         this.range = range;
         this.flopPrice = flopPrice;
         this.ramPrice = ramPrice;
@@ -34,9 +32,10 @@ abstract public class Tower{
         this.upgradeCost = upgradeCost;
         this.x = x;
         this.y = y;
+        this.levelPane = levelPane ;
     }
 
-    abstract public Ennemy attack(ObservableList<Ennemy> ennemis);
+    abstract public Ennemy attack(ObservableList<Ennemy> ennemis , Pane levelPane);
     abstract public void detect();
 
     //GETTER
@@ -114,11 +113,4 @@ abstract public class Tower{
         this.upgradeCost = upgradeCost;
     }
 
-    public Image getSprite() {
-        return sprite;
-    }
-
-    public void setSprite(Image sprite) {
-        this.sprite = sprite;
-    }
 }

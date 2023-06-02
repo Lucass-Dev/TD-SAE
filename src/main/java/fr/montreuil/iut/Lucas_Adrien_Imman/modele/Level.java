@@ -1,8 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.ACO.Acteur;
-import fr.montreuil.iut.Lucas_Adrien_Imman.ACO.Tour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
@@ -28,6 +27,8 @@ public class Level {
     private int[] endTilePos;
     private Pane levelPane;
     private int nbActeurs ;
+    private Player player ;
+  //  private Projectile projectile ;
 
     public Level(String name, Pane levelPane){
         this.levelPane = levelPane;
@@ -39,6 +40,7 @@ public class Level {
         startTilePos = new int[2];
         endTilePos = new int[2];
         this.nbActeurs = 4 ;
+        this.player = new Player(new SimpleIntegerProperty(5),new SimpleIntegerProperty(5));
     }
 
     public Level(String name, ArrayList<ArrayList<Integer>> tileMap){
@@ -92,8 +94,8 @@ public class Level {
         if (tilePos[0] >= this.travelingMap.size() || tilePos[1] > this.travelingMap.size()){
             return null;
         }else{
-            center[0] = tilePos[0]*32 + 16;
-            center[1] = tilePos[1]*32 + 16;
+            center[0] = tilePos[0]*32 ;
+            center[1] = tilePos[1]*32 ;
         }
 
         return center;
@@ -170,7 +172,7 @@ public class Level {
     public void creationEnnemy(int nbTours, Level level , int t){
         if (t < nbActeurs*100) {
             if (nbTours % 100 == 0) {
-                ennemies.add(new DotSH(levelPane, level));
+                ennemies.add(new DotSH(levelPane, level , player));
             }
         }
     }
@@ -201,10 +203,9 @@ public class Level {
     public void tourAgir(){
         for (int i = 0; i <placedTower.size() ; i++) {
             Tower t = placedTower.get(i);
-            Ennemy e =  t.attack(ennemies);
+            Ennemy e =  t.attack(ennemies , levelPane );
             if(e!=null) {
-                e.setLife(0);
-
+                e.setLife(e.getLife()-10);
 
             }
         }
