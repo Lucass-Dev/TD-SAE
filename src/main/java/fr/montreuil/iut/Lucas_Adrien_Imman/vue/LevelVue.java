@@ -68,7 +68,6 @@ public class LevelVue {
             newShopItem.setId("tower_"+i);
             towerShopVbox.getChildren().add(newShopItem);
         }
-
     }
 
     public void createATH(Player p, HBox location) {

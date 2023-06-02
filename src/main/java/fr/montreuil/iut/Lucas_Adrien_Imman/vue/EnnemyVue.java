@@ -28,7 +28,7 @@ public class EnnemyVue {
     public void createEnnemySprite(Ennemy newEnnemy, int i) throws IOException {
         LevelVue lv = new LevelVue();
         HBox life = new HBox();
-        lv.createBar(life, Color.RED, "", newEnnemy.lifeProperty(), newEnnemy.maxLifeProperty(), "lifeBar", 15, 100, false);
+        lv.createBar(life, Color.RED, "", newEnnemy.lifeProperty(), newEnnemy.maxLifeProperty(), "lifeBar", 5, 100, false);
         this.image = new ImageView(new Image(Main.class.getResource("graphics/enemy/"+i+".png").openStream()));
         ennemy.getChildren().add(life);
         ennemy.getChildren().add(image);
