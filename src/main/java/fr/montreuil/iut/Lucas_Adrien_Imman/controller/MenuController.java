@@ -2,6 +2,8 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.LevelDataTransit;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -76,7 +78,8 @@ public class MenuController implements Initializable {
         //Main.stg.setFullScreen(true);
 
         LevelController levelController = fxmlLoader.getController();
-        sendData(levelController, mapIndex, "mapName");
+        Player p = new Player(new SimpleIntegerProperty(10), new SimpleIntegerProperty(10));
+        sendData(levelController, mapIndex, "mapName", p);
     }
 
     public void changeDifficulty(Event e) throws FileNotFoundException {
@@ -141,7 +144,6 @@ public class MenuController implements Initializable {
                 newFullPath += fullPath[i] + '/';
             }
             newFullPath += image[0] +'.'+image[1];
-
             actualMap = Integer.parseInt(image[0]);
 
             previewMapImage.setImage(new Image(newFullPath));
@@ -169,8 +171,8 @@ public class MenuController implements Initializable {
         }
     }
 
-    public void sendData(LevelController levelController, int mapIndex, String mapName){
-        LevelDataTransit LDT = new LevelDataTransit(mapIndex, mapName);
+    public void sendData(LevelController levelController, int mapIndex, String mapName, Player player){
+        LevelDataTransit LDT = new LevelDataTransit(mapIndex, mapName, player);
         levelController.setLDT(LDT);
     }
 }

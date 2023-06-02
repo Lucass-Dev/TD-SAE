@@ -19,7 +19,7 @@ public class EnnemyVue {
         this.ennemy = new Circle(5);
 
         this.ennemy.setFill(Color.DARKGOLDENROD);
-        levelPane.getChildren().add(ennemy);
+        this.levelPane.getChildren().add(ennemy);
         this.ennemy.translateXProperty().bind(newEnnemy.xProperty());
         this.ennemy.translateYProperty().bind(newEnnemy.yProperty());
         this.ennemy.setId("E"+newEnnemy.getId());

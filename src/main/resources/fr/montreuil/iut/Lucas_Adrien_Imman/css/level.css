@@ -34,3 +34,12 @@
 #tilePane .image-view:hover{
     -fx-opacity : 0.5;
 }
+
+.barContainerPane{
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.barPane{
+
+}

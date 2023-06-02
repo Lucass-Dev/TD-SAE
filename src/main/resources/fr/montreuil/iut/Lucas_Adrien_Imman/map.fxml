@@ -18,7 +18,7 @@
       </Pane>
    </bottom>
    <top>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <HBox fx:id="athHbox" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </top>
    <right>
       <Pane id="towerShopPane" fx:id="towerShopPane" prefHeight="640.0" prefWidth="240.0" BorderPane.alignment="CENTER">
@@ -27,7 +27,7 @@
          </children></Pane>
    </right>
    <center>
-      <Pane id="levelPane" fx:id="levelPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="levelPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
               <TilePane id="tilePane" fx:id="tilePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="640.0" />
          </children>

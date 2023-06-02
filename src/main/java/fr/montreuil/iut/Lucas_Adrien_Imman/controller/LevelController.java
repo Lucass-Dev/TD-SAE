@@ -5,6 +5,7 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.LevelVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventTarget;
 import javafx.fxml.FXML;
@@ -42,6 +43,7 @@ public class LevelController implements Initializable {
     private Level level;
     private LevelDataTransit LDT;
     private LevelVue levelVue;
+    private Player player;
 
     //Variables pour le contrôleur
     private int cursorIndex = 0; //0 for none
@@ -58,6 +60,8 @@ public class LevelController implements Initializable {
     Button playButton;
     @FXML
     VBox towerShopVbox;
+    @FXML
+    HBox athHbox;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -112,6 +116,19 @@ public class LevelController implements Initializable {
 
     public void createLevel(){
         playButton.setVisible(false);
+        this.player = this.LDT.getPlayer();
+
+        this.player.lifeProperty().addListener((observableValue, number, t1) -> {
+                Pane lifebarPane = (Pane) this.athHbox.lookup("#lifebarPane");
+                lifebarPane.setPrefWidth(t1.intValue()*4);
+        });
+        this.athHbox.setOnMouseClicked(e -> {
+            if (player.getLife() > 0){
+                this.player.setLife(this.player.getLife() -10);
+            }
+
+        });
+
         int mapIndex = this.LDT.getMapIndex();
         this.level = new Level("test", this.levelPane);
         try {
@@ -138,6 +155,7 @@ public class LevelController implements Initializable {
                 System.out.println(arrayList);
             }
 
+            this.levelVue.createATH(this.player,athHbox);
             //Quand tout est parametré comme il faut j'initialise la gameloop
             initAnimation();
             gameLoop.play();

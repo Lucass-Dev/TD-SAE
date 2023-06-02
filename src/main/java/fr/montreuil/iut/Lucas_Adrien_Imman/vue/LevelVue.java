@@ -2,17 +2,24 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class LevelVue {
@@ -61,5 +68,41 @@ public class LevelVue {
             towerShopVbox.getChildren().add(newShopItem);
         }
 
+    }
+
+    public void createATH(Player p, HBox location) {
+        createBar(location, Color.RED, "Life", p.lifeProperty(), p.maxlifeProperty(), "lifebarPane");
+        createBar(location, Color.CADETBLUE, "RAM", p.ramProperty(), p.maxRAMProperty(), "rambarPane");
+        Label flopLabel = new Label();
+        flopLabel.textProperty().bind(p.flopProperty().asString());
+        location.getChildren().add(flopLabel);
+    }
+
+    public void createBar(HBox location, Color color, String attributeName, IntegerProperty actualProperty, IntegerProperty maxProperty, String id){
+        Pane container = new Pane();
+        Pane bar = new Pane();
+
+        //container.setBorder(Border.stroke(Color.BLACK));
+        container.setPrefWidth(Integer.parseInt(maxProperty.getValue().toString())*4);
+        container.setMaxHeight(35);
+
+        bar.setBackground(Background.fill(color));
+        bar.setPrefWidth(Integer.parseInt(actualProperty.getValue().toString())*4);
+        bar.setPrefHeight(35);
+
+        bar.setId(id);
+        bar.getStyleClass().add("barPane");
+        container.getStyleClass().add("barContainerPane");
+        container.getChildren().add(bar);
+
+        Label lifeLabel = new Label();
+        HBox lifeLabelHbox = new HBox();
+        lifeLabel.textProperty().bind(actualProperty.asString());
+        lifeLabelHbox.getChildren().add(new Label(attributeName+" : "));
+        lifeLabelHbox.getChildren().add(lifeLabel);
+        lifeLabelHbox.getChildren().add(new Label(" / "+maxProperty.get()));
+        bar.getChildren().add(lifeLabelHbox);
+
+        location.getChildren().add(container);
     }
 }

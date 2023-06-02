@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Level {
+    private Player player;
     private String levelName;
     private String difficulty;
     private int actualWaveNumber;
@@ -74,7 +75,6 @@ public class Level {
             }
             index++;
         }
-        System.out.println(Arrays.toString(endTilePos));
         System.out.println(Arrays.toString(startTilePos));
         return traveling;
     }
@@ -164,12 +164,14 @@ public class Level {
     }
 
     public void creationEnnemy(int nbTours, Level level){
-        if (nbTours == 1 || nbTours == 5 || nbTours == 500){
-            ennemies.add(new DotSH(0*32 + 16, 1*32 + 16, levelPane,level));
+        if (nbTours %100 == 0){
+            ennemies.add(new DotSH(getStartTilePos()[0]*32 +16, getStartTilePos()[1]*32 +16, levelPane,level));
         }
     }
 
     public void doTurn(int nbTours){
+        creationEnnemy(nbTours, this);
+        System.out.println(ennemies.size());
         for (int i = 0; i <ennemies.size() ; i++) {
             Ennemy e = ennemies.get(i);
             e.move();
@@ -196,5 +198,9 @@ public class Level {
         pos[0] = x/32;
         pos[1] = y/32;
         return pos;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }
