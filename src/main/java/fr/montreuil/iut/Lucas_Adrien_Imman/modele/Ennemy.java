@@ -10,20 +10,29 @@ public abstract class Ennemy {
     private Pane tilePane;
     private Level level;
     private SimpleIntegerProperty x, y;
-    private int life;
+    private SimpleIntegerProperty life;
     private String name;
     private int speed;
+    private int spriteIndex;
+    private SimpleIntegerProperty maxLife;
 
     //direction stands for the cardinal direction with an int value : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
 
-    public Ennemy(int x, int y, Pane tilePane, Level level){
+    public Ennemy(int x, int y, Pane tilePane, Level level, int spriteIndex){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.tilePane = tilePane;
         this.level = level;
         this.direction = 4;
-        this.speed = 2;
+        this.speed = 1;
+        this.life = new SimpleIntegerProperty(10);
+        this.maxLife = new SimpleIntegerProperty(50);
+        this.spriteIndex = spriteIndex;
+    }
+
+    public int getSpriteIndex() {
+        return spriteIndex;
     }
 
     public abstract void doDamage();
@@ -37,9 +46,6 @@ public abstract class Ennemy {
 
         pos[0] = this.getX();
         pos[1] = this.getY();
-
-        System.out.println(Arrays.toString(center));
-        System.out.println(Arrays.toString(pos));
 
         return pos[0] <= center[0]+5 && pos[0] >= center[0]-5 && pos[1] <= center[1]+5 && pos[1] >= center[1]-5 ;
     }
@@ -154,7 +160,7 @@ public abstract class Ennemy {
         return y;
     }
 
-    public int getLife() {
+    public SimpleIntegerProperty getLife() {
         return life;
     }
 
@@ -167,7 +173,7 @@ public abstract class Ennemy {
     }
 
     public boolean estMort(){
-        return getLife()==0 ;
+        return getLife().get()==0 ;
     }
 
     public void setX(int x) {
@@ -178,7 +184,7 @@ public abstract class Ennemy {
         this.y.set(y);
     }
 
-    public void setLife(int life) {
+    public void setLife(SimpleIntegerProperty life) {
         this.life = life;
     }
 
@@ -200,5 +206,17 @@ public abstract class Ennemy {
 
     public int getId() {
         return id;
+    }
+
+    public SimpleIntegerProperty lifeProperty() {
+        return life;
+    }
+
+    public int getMaxLife() {
+        return maxLife.get();
+    }
+
+    public SimpleIntegerProperty maxLifeProperty() {
+        return maxLife;
     }
 }

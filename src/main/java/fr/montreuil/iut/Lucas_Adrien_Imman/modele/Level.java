@@ -75,7 +75,6 @@ public class Level {
             }
             index++;
         }
-        System.out.println(Arrays.toString(startTilePos));
         return traveling;
     }
 
@@ -165,19 +164,16 @@ public class Level {
 
     public void creationEnnemy(int nbTours, Level level){
         if (nbTours %100 == 0){
-            ennemies.add(new DotSH(getStartTilePos()[0]*32 +16, getStartTilePos()[1]*32 +16, levelPane,level));
+            ennemies.add(new DotSH(getStartTilePos()[0]*32 +16, getStartTilePos()[1]*32 +16, levelPane,level, 0));
         }
     }
 
     public void doTurn(int nbTours){
         creationEnnemy(nbTours, this);
-        System.out.println(ennemies.size());
         for (int i = 0; i <ennemies.size() ; i++) {
             Ennemy e = ennemies.get(i);
             e.move();
-            if(!e.isOnBound() || e.isOnObjective() || e.estMort()) {
-                ennemies.remove(e);
-            }
+
         }
     }
 
