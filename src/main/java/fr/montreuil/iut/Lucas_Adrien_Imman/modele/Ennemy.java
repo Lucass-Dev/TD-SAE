@@ -3,6 +3,8 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.Pane;
 
+import java.util.Arrays;
+
 public abstract class Ennemy {
     private String id;
     private Pane tilePane;
@@ -12,11 +14,12 @@ public abstract class Ennemy {
     private String name;
     private int speed;
     public static int compteur=0;
+    Player player ;
 
     //direction stands for the cardinal direction with an int value : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
 
-    public Ennemy(Pane tilePane, Level level , int life){
+    public Ennemy(Pane tilePane, Level level , int life , Player player){
 
         this.x = new SimpleIntegerProperty(545);
         this.y = new SimpleIntegerProperty(545);
@@ -25,18 +28,30 @@ public abstract class Ennemy {
         this.direction = 4;
         this.speed = 2;
         this.life = new SimpleIntegerProperty(life);
-        this.id= "A" + compteur;
+        this.id= "E" + compteur;
         compteur++;
+        this.player = player ;
 
     }
 
-    public abstract void doDamage();
+    public void doDamage(){
+        if(isOnObjective()){
+            player.setLife(getLife()-10);
+        }
+    }
     public abstract void move();
     public boolean isCentered(){
+        int[] center;
+        int[] pos = new int[2];
+        pos[0] = this.getX()/32;
+        pos[1] = this.getY()/32;
 
-        System.out.println(this.getX());
+        center = this.level.getTileCenter(pos);
 
-        return true;
+        pos[0] = this.getX();
+        pos[1] = this.getY();
+
+        return pos[0] <= center[0]+5 && pos[0] >= center[0]-5 && pos[1] <= center[1]+5 && pos[1] >= center[1]-5 ;
     }
 
     public boolean isOnBound(){// Dans le cas ou il dépasse les tuiles de la map
