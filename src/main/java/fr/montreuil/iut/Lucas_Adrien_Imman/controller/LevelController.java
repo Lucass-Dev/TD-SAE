@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -38,7 +39,6 @@ public class LevelController implements Initializable {
     private int nbTours;
 
 
-
     //Données quelconques relatives au niveau
     private Level level;
     private LevelDataTransit LDT;
@@ -51,8 +51,6 @@ public class LevelController implements Initializable {
 
     //FXML
     @FXML
-    Label mousePos;
-    @FXML
     TilePane tilePane;
     @FXML
     Pane levelPane;
@@ -62,6 +60,8 @@ public class LevelController implements Initializable {
     VBox towerShopVbox;
     @FXML
     HBox athHbox;
+    @FXML
+    Pane towerMenu;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -78,18 +78,18 @@ public class LevelController implements Initializable {
             EventTarget target = mouseEvent.getTarget();
             ImageView targetedTowerIV = new ImageView();
             String[] stringId = new String[2];
-            if (target instanceof  HBox){
+            if (target instanceof HBox) {
                 HBox targetedTowerHB = (HBox) mouseEvent.getTarget();
                 targetedTowerIV = (ImageView) targetedTowerHB.getChildren().get(0);
                 stringId = targetedTowerHB.getId().split("_");
-            } else if (target instanceof  ImageView) {
+            } else if (target instanceof ImageView) {
                 targetedTowerIV = (ImageView) target;
                 stringId = targetedTowerIV.getParent().getId().split("_");
             }
-            cursorIndex = Integer.parseInt(stringId[stringId.length-1]);
+            cursorIndex = Integer.parseInt(stringId[stringId.length - 1]);
             Main.stg.getScene().setCursor(new ImageCursor(targetedTowerIV.getImage()));
         });
-        this.towerShopVbox.setOnMouseEntered(mouseEvent ->{
+        this.towerShopVbox.setOnMouseEntered(mouseEvent -> {
             Main.stg.getScene().setCursor(Cursor.DEFAULT);
         });
         this.tilePane.setOnMouseClicked(mouseEvent -> {
@@ -99,40 +99,53 @@ public class LevelController implements Initializable {
 
             int[] mousePos = this.level.getTilePos(x, y);
 
-            if (Main.stg.getScene().getCursor() != Cursor.DEFAULT && Main.stg.getScene().getCursor() != null){
-                if (this.level.validTile(mousePos)){
+            if (Main.stg.getScene().getCursor() != Cursor.DEFAULT && Main.stg.getScene().getCursor() != null) {
+                if (this.level.validTile(mousePos)) {
                     try {
-                        this.level.addTower(this.levelVue.placeTower(mousePos, new Image(Main.class.getResource("graphics/tower/"+cursorIndex+".png").openStream())));
+                        this.level.addTower(this.levelVue.placeTower(mousePos, new Image(Main.class.getResource("graphics/tower/" + cursorIndex + ".png").openStream())));
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }
             }
         });
-        this.tilePane.setOnMouseMoved(e -> {
-            this.mousePos.setText("x : "+ e.getX() + " / y : "+e.getY());
+        this.levelPane.setOnMouseClicked(mouseEvent -> {
+
+            if (this.towerMenu.getChildren().size() > 0) {
+                for (int i = towerMenu.getChildren().size() - 1; i >= 0; i--) {
+                    towerMenu.getChildren().remove(i);
+                }
+            }
+            ImageView imageView = (ImageView) mouseEvent.getTarget();
+            String imageViewId = imageView.getId();
+            int towerId;
+            if (imageViewId != null) {
+                towerId = Integer.parseInt(imageViewId);
+                Tower t = this.level.getTower(towerId);
+                this.levelVue.printTowerMenu(t, this.towerMenu);
+            }
         });
     }
 
-    public void createLevel(){
-        playButton.setVisible(false);
+    public void createLevel() {
+        this.towerMenu.getChildren().remove(this.playButton);
         this.player = this.LDT.getPlayer();
-
         this.player.lifeProperty().addListener((observableValue, number, t1) -> {
-                Pane lifebarPane = (Pane) this.athHbox.lookup("#lifebarPane");
-                lifebarPane.setPrefWidth(t1.intValue()*4);
+            Pane lifebarPane = (Pane) this.athHbox.lookup("#lifebarPane");
+            lifebarPane.setPrefWidth(t1.intValue() * 4);
         });
         this.athHbox.setOnMouseClicked(e -> {
-            if (player.getLife() > 0){
-                this.player.setLife(this.player.getLife() -10);
+            if (player.getLife() > 0) {
+                this.player.setLife(this.player.getLife() - 10);
             }
 
         });
 
         int mapIndex = this.LDT.getMapIndex();
         this.level = new Level("test", this.levelPane);
+        this.level.setPlayer(this.LDT.getPlayer());
         try {
-            ArrayList<ArrayList<Integer>> map = this.level.createMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map"+mapIndex+".csv", tilePane);
+            ArrayList<ArrayList<Integer>> map = this.level.createMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map" + mapIndex + ".csv", tilePane);
             this.level.setTileMap(map);
             this.level.setTravelingMap(this.level.getTileMap());
 
@@ -147,15 +160,15 @@ public class LevelController implements Initializable {
 
 
             //Sout pour le tableau 2D des tuiles et de la version chemin tarversable
-            for (ArrayList<Integer> arrayList: this.level.getTileMap()) {
+            for (ArrayList<Integer> arrayList : this.level.getTileMap()) {
                 System.out.println(arrayList);
             }
             System.out.println();
-            for (ArrayList<Integer> arrayList: this.level.getTravelingMap()) {
+            for (ArrayList<Integer> arrayList : this.level.getTravelingMap()) {
                 System.out.println(arrayList);
             }
 
-            this.levelVue.createATH(this.player,athHbox);
+            this.levelVue.createATH(this.player, athHbox);
             //Quand tout est parametré comme il faut j'initialise la gameloop
             initAnimation();
             gameLoop.play();
@@ -164,11 +177,11 @@ public class LevelController implements Initializable {
         }
     }
 
-    public void setLDT(LevelDataTransit LDT){
+    public void setLDT(LevelDataTransit LDT) {
         this.LDT = LDT;
     }
 
-    public void printData(){
+    public void printData() {
         System.out.println(this.LDT.toString());
     }
 
@@ -176,8 +189,8 @@ public class LevelController implements Initializable {
 
         this.estFini = false;
         this.gameLoop = new Timeline();
-        temps = 0 ;
-        nbTours = 1 ;
+        temps = 0;
+        nbTours = 1;
         this.gameLoop.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(
                 // on définit le FPS (nbre de frame par seconde)
@@ -185,16 +198,15 @@ public class LevelController implements Initializable {
                 Duration.seconds(0.017),
                 // on définit ce qui se passe à chaque frame
                 // c'est un eventHandler d'ou le lambda
-                (ev ->{
-                    if(estFini){
+                (ev -> {
+                    if (estFini) {
                         System.out.println("fini");
                         gameLoop.stop();
-                    }
-                    else{
+                    } else {
 
-                        this.level.doTurn(nbTours);
+                        estFini = this.level.doTurn(nbTours);
 
-                        nbTours++ ;
+                        nbTours++;
                     }
                     temps++;
                 })

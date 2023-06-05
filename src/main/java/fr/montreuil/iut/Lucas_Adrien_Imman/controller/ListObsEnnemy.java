@@ -32,7 +32,7 @@ public class ListObsEnnemy implements ListChangeListener<Ennemy> {
             }
 
             for(Ennemy acteurMort : c.getRemoved()){
-                levelpane.getChildren().remove(levelpane.lookup("#"+acteurMort.getId()));
+                levelpane.getChildren().remove(levelpane.lookup("#E"+acteurMort.getId()));
             }
 
         }

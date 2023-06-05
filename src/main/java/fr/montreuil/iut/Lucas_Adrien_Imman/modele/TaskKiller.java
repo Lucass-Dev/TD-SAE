@@ -8,10 +8,10 @@ public class TaskKiller extends Tower {
 
     public TaskKiller(){super();}
 
-    public TaskKiller(Pane tilePane, int x, int y, Image image){super(tilePane, x, y, image);}
+    public TaskKiller(Pane tilePane, int x, int y, Image image, int id){super(tilePane, x, y, image, id);}
 
-    public TaskKiller(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, int x, int y){
-        super(range, flopPrice, ramPrice, name, level, upgradeCost, new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
+    public TaskKiller(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, int x, int y, int id){
+        super(range, flopPrice, ramPrice, name, level, upgradeCost, new SimpleIntegerProperty(x), new SimpleIntegerProperty(y), id);
     }
 
     @Override

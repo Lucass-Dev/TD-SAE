@@ -10,10 +10,9 @@
 
 <BorderPane prefWidth="940.0" stylesheets="@css/level.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.montreuil.iut.Lucas_Adrien_Imman.controller.LevelController">
    <bottom>
-      <Pane prefHeight="160.0" prefWidth="940.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="towerMenu" prefHeight="160.0" prefWidth="940.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="playButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#createLevel" text="Commencer à Jouer !" />
-             <Label fx:id="mousePos" />
          </children>
       </Pane>
    </bottom>

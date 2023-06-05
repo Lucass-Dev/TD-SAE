@@ -91,7 +91,9 @@ public class Player {
         this.flop.set(flop);
     }
 
-
+    public boolean isDead(){
+        return this.life.get() <= 0;
+    }
 
 
 }

@@ -20,6 +20,8 @@ public class TowerVue {
 
     public void createTowerSprite(Tower newTower, Image image){
         this.imageView = new ImageView(image);
+        this.imageView.setPickOnBounds(true);
+        this.imageView.setId(String.valueOf(newTower.getId()));
         levelPane.getChildren().add(imageView);
         this.imageView.translateXProperty().bind(newTower.xProperty());
         this.imageView.translateYProperty().bind(newTower.yProperty());

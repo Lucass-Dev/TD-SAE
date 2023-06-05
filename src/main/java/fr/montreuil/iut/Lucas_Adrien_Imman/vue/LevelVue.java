@@ -5,9 +5,11 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.geometry.HorizontalDirection;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,7 +42,7 @@ public class LevelVue {
     }
 
     public Tower placeTower(int[] pos, Image image){
-        TaskKiller tk = new TaskKiller(this.levelPane, pos[0]*32, pos[1]*32, image);
+        TaskKiller tk = new TaskKiller(this.levelPane, pos[0]*32, pos[1]*32, image, this.level.getPlacedTower().size());
 
 
         return tk;
@@ -77,9 +79,14 @@ public class LevelVue {
     public void createATH(Player p, HBox location) {
         createBar(location, Color.RED, "Life", p.lifeProperty(), p.maxlifeProperty(), "lifebarPane", 35, 400, true);
         createBar(location, Color.CADETBLUE, "RAM", p.ramProperty(), p.maxRAMProperty(), "rambarPane", 35, 400, true);
+
+        HBox flopHBox = new HBox();
+        //flopHBox.getChildren().add(new ImageView(new Image()));
         Label flopLabel = new Label();
         flopLabel.textProperty().bind(p.flopProperty().asString());
-        location.getChildren().add(flopLabel);
+        flopHBox.getChildren().add(flopLabel);
+
+        location.getChildren().add(flopHBox);
     }
 
     public void createBar(HBox location, Color color, String attributeName, IntegerProperty actualProperty, IntegerProperty maxProperty, String id, int heigth, int width, boolean showContext){
@@ -117,5 +124,27 @@ public class LevelVue {
         }
 
         location.getChildren().add(container);
+    }
+    public void printTowerMenu(Tower tower, Pane location){
+        HBox hbox = new HBox();
+        VBox towerPresentation = new VBox();
+        towerPresentation.getChildren().add(new Label(tower.getName()));
+
+        ImageView imageView = new ImageView(tower.getSprite());
+        towerPresentation.getChildren().add(imageView);
+
+        Label levelLabel = new Label();
+        levelLabel.textProperty().bind(tower.getLevel().asString());
+        towerPresentation.getChildren().add(levelLabel);
+
+        hbox.getChildren().add(towerPresentation);
+
+        Button upgradeButton = new Button("Upgrade Tower : " +tower.getUpgradeCost());
+        upgradeButton.setOnAction(e-> tower.upgrade(level.getPlayer()));
+        Button moveButton = new Button("Move Tower");
+        moveButton.setOnAction(e-> System.out.println("je move"));
+        hbox.getChildren().add(upgradeButton);
+        hbox.getChildren().add(moveButton);
+        location.getChildren().add(hbox);
     }
 }

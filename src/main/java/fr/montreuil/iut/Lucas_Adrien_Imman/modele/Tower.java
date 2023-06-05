@@ -11,34 +11,44 @@ abstract public class Tower{
     private int flopPrice;
     private int ramPrice;
     private String name;
-    private int level;
+    private SimpleIntegerProperty level;
     private int upgradeCost;
     private Pane tilePane;
     private Image sprite;
+    private int id;
 
     abstract public void attack();
     abstract public void detect();
 
     public Tower(){};
 
-    public Tower(Pane tilePane, int x, int y, Image image){
+    public Tower(Pane tilePane, int x, int y, Image image, int id){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.sprite = image;
-    };
+        this.id = id;
+        this.name = "Je suis la tour";
+        this.level =  new SimpleIntegerProperty(1);
+    }
 
-    public Tower(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    public Tower(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, SimpleIntegerProperty x, SimpleIntegerProperty y, int id) {
         this.range = range;
         this.flopPrice = flopPrice;
         this.ramPrice = ramPrice;
         this.name = name;
-        this.level = level;
+        this.level = new SimpleIntegerProperty(1);
         this.upgradeCost = upgradeCost;
         this.x = x;
         this.y = y;
+        this.id = id;
     }
 
     //GETTER
+
+
+    public int getId() {
+        return id;
+    }
 
     public int getRange() {
         return range;
@@ -56,7 +66,7 @@ abstract public class Tower{
         return name;
     }
 
-    public int getLevel() {
+    public SimpleIntegerProperty getLevel() {
         return level;
     }
 
@@ -106,7 +116,7 @@ abstract public class Tower{
     }
 
     public void setLevel(int level) {
-        this.level = level;
+        this.level.set(level);
     }
 
     public void setUpgradeCost(int upgradeCost) {
@@ -119,5 +129,16 @@ abstract public class Tower{
 
     public void setSprite(Image sprite) {
         this.sprite = sprite;
+    }
+
+    //OTHER METHODS
+    public void upgrade(Player p){
+        if (p.getFlop() >= this.upgradeCost){
+            p.setFlop(p.getFlop() - this.upgradeCost);
+            this.level.setValue(this.getLevel().get() + 1);
+            System.out.println("J'ai amélioré la tour");
+        }else{
+            System.out.println("Pas assez d'argent");
+        }
     }
 }

@@ -168,13 +168,18 @@ public class Level {
         }
     }
 
-    public void doTurn(int nbTours){
+    public boolean doTurn(int nbTours){
         creationEnnemy(nbTours, this);
         for (int i = 0; i <ennemies.size() ; i++) {
             Ennemy e = ennemies.get(i);
             e.move();
+            if (e.isOnObjective()){
+                this.player.setLife(this.player.getLife()-5);
+                ennemies.remove(e);
+            }
 
         }
+        return this.player.isDead();
     }
 
     public int[] getStartTilePos() {
@@ -198,5 +203,19 @@ public class Level {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public Tower getTower(int id){
+        Tower t = null;
+        for (Tower tower: this.getPlacedTower()) {
+            if (tower.getId() == id){
+                t =  tower;
+            }
+        }
+        return t;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

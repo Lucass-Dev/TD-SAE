@@ -25,8 +25,8 @@ public abstract class Ennemy {
         this.tilePane = tilePane;
         this.level = level;
         this.direction = 4;
-        this.speed = 1;
-        this.life = new SimpleIntegerProperty(10);
+        this.speed = 4;
+        this.life = new SimpleIntegerProperty(50);
         this.maxLife = new SimpleIntegerProperty(50);
         this.spriteIndex = spriteIndex;
     }
@@ -47,7 +47,7 @@ public abstract class Ennemy {
         pos[0] = this.getX();
         pos[1] = this.getY();
 
-        return pos[0] <= center[0]+5 && pos[0] >= center[0]-5 && pos[1] <= center[1]+5 && pos[1] >= center[1]-5 ;
+        return pos[0] <= center[0]+3 && pos[0] >= center[0]-3 && pos[1] <= center[1]+3 && pos[1] >= center[1]-3 ;
     }
     public void move() {
         int[] pos = new int[2];
