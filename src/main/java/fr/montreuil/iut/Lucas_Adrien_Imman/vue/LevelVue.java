@@ -1,6 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
+import fr.montreuil.iut.Lucas_Adrien_Imman.controller.LevelController;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
@@ -32,13 +33,15 @@ public class LevelVue {
     private Pane levelPane;
     private TowerVue towerVue;
     private Level level;
+    private LevelController levelController;
 
     public LevelVue(){}
 
-    public LevelVue(Level level, Pane tilePane, Pane levelPane){
+    public LevelVue(Level level, Pane tilePane, Pane levelPane, LevelController levelController){
         this.level = level;
         this.tilePane = tilePane;
         this.levelPane = levelPane;
+        this.levelController = levelController;
     }
 
     public Tower placeTower(int[] pos, Image image){
@@ -142,7 +145,15 @@ public class LevelVue {
         Button upgradeButton = new Button("Upgrade Tower : " +tower.getUpgradeCost());
         upgradeButton.setOnAction(e-> tower.upgrade(level.getPlayer()));
         Button moveButton = new Button("Move Tower");
-        moveButton.setOnAction(e-> System.out.println("je move"));
+        moveButton.setOnAction(e-> {
+            if (this.level.getPlayer().getFlop() >= tower.getMovingPrice()){
+                levelController.setMovingTower(true);
+                levelController.setMovingTower(tower);
+                levelController.setCursor(tower.getSprite());
+            }else{
+                System.out.println("Can't move Tower");
+            }
+        });
         hbox.getChildren().add(upgradeButton);
         hbox.getChildren().add(moveButton);
         location.getChildren().add(hbox);

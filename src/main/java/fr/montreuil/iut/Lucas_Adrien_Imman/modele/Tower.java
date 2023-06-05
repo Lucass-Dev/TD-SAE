@@ -16,6 +16,7 @@ abstract public class Tower{
     private Pane tilePane;
     private Image sprite;
     private int id;
+    private SimpleIntegerProperty movingPrice;
 
     abstract public void attack();
     abstract public void detect();
@@ -29,6 +30,7 @@ abstract public class Tower{
         this.id = id;
         this.name = "Je suis la tour";
         this.level =  new SimpleIntegerProperty(1);
+        this.movingPrice = new SimpleIntegerProperty(100);
     }
 
     public Tower(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, SimpleIntegerProperty x, SimpleIntegerProperty y, int id) {
@@ -88,6 +90,22 @@ abstract public class Tower{
 
     public IntegerProperty yProperty() {
         return y;
+    }
+
+    public SimpleIntegerProperty levelProperty() {
+        return level;
+    }
+
+    public Pane getTilePane() {
+        return tilePane;
+    }
+
+    public int getMovingPrice() {
+        return movingPrice.get();
+    }
+
+    public SimpleIntegerProperty movingPriceProperty() {
+        return movingPrice;
     }
 
     //SETTER

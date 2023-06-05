@@ -47,6 +47,8 @@ public class LevelController implements Initializable {
 
     //Variables pour le contrôleur
     private int cursorIndex = 0; //0 for none
+    private boolean isMovingTower=  false;
+    private Tower movingTower;
 
 
     //FXML
@@ -65,7 +67,7 @@ public class LevelController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Main.stg.getScene().setCursor(Cursor.DEFAULT);
+        setCursor(Cursor.DEFAULT);
         this.estFini = false;
 
         /*
@@ -75,6 +77,7 @@ public class LevelController implements Initializable {
 
 
         this.towerShopVbox.setOnMouseClicked(mouseEvent -> {
+
             EventTarget target = mouseEvent.getTarget();
             ImageView targetedTowerIV = new ImageView();
             String[] stringId = new String[2];
@@ -87,10 +90,10 @@ public class LevelController implements Initializable {
                 stringId = targetedTowerIV.getParent().getId().split("_");
             }
             cursorIndex = Integer.parseInt(stringId[stringId.length - 1]);
-            Main.stg.getScene().setCursor(new ImageCursor(targetedTowerIV.getImage()));
+            setCursor(targetedTowerIV.getImage());
         });
         this.towerShopVbox.setOnMouseEntered(mouseEvent -> {
-            Main.stg.getScene().setCursor(Cursor.DEFAULT);
+            setCursor(Cursor.DEFAULT);
         });
         this.tilePane.setOnMouseClicked(mouseEvent -> {
 
@@ -99,15 +102,26 @@ public class LevelController implements Initializable {
 
             int[] mousePos = this.level.getTilePos(x, y);
 
-            if (Main.stg.getScene().getCursor() != Cursor.DEFAULT && Main.stg.getScene().getCursor() != null) {
-                if (this.level.validTile(mousePos)) {
-                    try {
-                        this.level.addTower(this.levelVue.placeTower(mousePos, new Image(Main.class.getResource("graphics/tower/" + cursorIndex + ".png").openStream())));
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+            if (this.isMovingTower){
+                System.out.println(mouseEvent);
+                if (this.level.validTile(mousePos)){
+                    moveTowerTo(this.movingTower, mousePos[0]*32, mousePos[1]*32);
+                    setCursor(Cursor.DEFAULT);
+                    this.movingTower = null;
+                    this.isMovingTower = false;
+                }
+            }else{
+                if (Main.stg.getScene().getCursor() != Cursor.DEFAULT && Main.stg.getScene().getCursor() != null) {
+                    if (this.level.validTile(mousePos)) {
+                        try {
+                            this.level.addTower(this.levelVue.placeTower(mousePos, new Image(Main.class.getResource("graphics/tower/" + cursorIndex + ".png").openStream())));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
             }
+
         });
         this.levelPane.setOnMouseClicked(mouseEvent -> {
 
@@ -155,7 +169,7 @@ public class LevelController implements Initializable {
             ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane);
             this.level.getPlacedTower().addListener(towerListChangeListener);
 
-            this.levelVue = new LevelVue(this.level, this.tilePane, this.levelPane);
+            this.levelVue = new LevelVue(this.level, this.tilePane, this.levelPane, this);
             this.levelVue.createShopMenu(towerShopVbox);
 
 
@@ -214,5 +228,24 @@ public class LevelController implements Initializable {
         gameLoop.getKeyFrames().add(kf);
     }
 
+    public void moveTowerTo(Tower t, int x, int y){
+        t.setX(x);
+        t.setY(y);
+    }
 
+    public void setMovingTower(boolean b){
+        this.isMovingTower = b;
+    }
+
+    public void setCursor(Image image){
+        Main.stg.getScene().setCursor(new ImageCursor(image));
+    }
+
+    public void setCursor(Cursor cursor){
+        Main.stg.getScene().setCursor(cursor);
+    }
+
+    public void setMovingTower(Tower t){
+        this.movingTower = t;
+    }
 }
