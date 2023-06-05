@@ -19,16 +19,21 @@ public class Level {
     private String difficulty;
     private int actualWaveNumber;
     //private Wave actualWave;
+
     private ArrayList<ArrayList<Integer>> tileMap;
     private ArrayList<ArrayList<Integer>> travelingMap;
+
     private ObservableList<Tower> placedTower;
     private ObservableList<Ennemy> ennemies;
+    private ObservableList<Projectile> projectiles ;
+
     private int[] startTilePos;
     private int[] endTilePos;
     private Pane levelPane;
     private int nbActeurs ;
     private Player player ;
-  //  private Projectile projectile ;
+
+    //  private Projectile projectile ;
 
     public Level(String name, Pane levelPane){
         this.levelPane = levelPane;
@@ -37,6 +42,7 @@ public class Level {
         this.travelingMap = new ArrayList<>();
         this.placedTower = FXCollections.observableArrayList();
         this.ennemies = FXCollections.observableArrayList();
+        this.projectiles = FXCollections.observableArrayList();
         startTilePos = new int[2];
         endTilePos = new int[2];
         this.nbActeurs = 4 ;
@@ -117,6 +123,7 @@ public class Level {
         this.travelingMap = tileMapToTraveling(this.tileMap);
     }
 
+
     public ArrayList<ArrayList<Integer>> getTileMap() {
         return tileMap;
     }
@@ -165,6 +172,11 @@ public class Level {
         return ennemies;
     }
 
+    public ObservableList<Projectile> getProjectiles(){
+        return projectiles ;
+    }
+
+
     public void addEnnemy(Ennemy ennemy){
         this.ennemies.add(ennemy);
     }
@@ -183,7 +195,7 @@ public class Level {
         pos[0] = x/32;
         pos[1] = y/32;
         TaskKiller tk = new TaskKiller(pos[0]*32,pos[1]*32);
-            addTower(tk);
+        addTower(tk);
     }
 
     public void doTurn(int nbTours ,Level level, int t){
@@ -200,16 +212,34 @@ public class Level {
         }
     }
 
-    public void tourAgir(){
+    public void tourAgir(int nbTours){
         for (int i = 0; i <placedTower.size() ; i++) {
             Tower t = placedTower.get(i);
-            Ennemy e =  t.attack(ennemies , levelPane );
+            Ennemy e =  t.ennemiProche(ennemies);
             if(e!=null) {
-                e.setLife(e.getLife()-10);
+                if(nbTours%50==0) {
+                    Projectile projectile = new Projectile(t.getX(), t.getY(), e);
+                    projectiles.add(projectile);
+                }
 
+            }
+            for (int j = projectiles.size()-1 ; j>=0;j--) {
+                Projectile p = projectiles.get(j);
+                if(p.cibleAtteint()) {
+                    projectiles.remove(p);
+                    System.out.println("ddddddddddddmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+                }
             }
         }
     }
+
+    public void animationProjectiles(){
+        for (Projectile p : projectiles){
+            p.creeProjectile();
+        }
+
+    }
+
 
     public int[] getStartTilePos() {
         return startTilePos;

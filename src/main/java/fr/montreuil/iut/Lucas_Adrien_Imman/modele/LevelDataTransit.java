@@ -19,7 +19,7 @@ public class LevelDataTransit {
         return mapName;
     }
 
-    @Override
+   @Override
     public String toString() {
         return getMapIndex() + getMapName();
     }

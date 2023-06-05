@@ -13,7 +13,6 @@ abstract public class Tower{
     private String name;
     private int level;
     private int upgradeCost;
-    private Pane levelPane;
 
 
     public Tower(){};
@@ -23,7 +22,7 @@ abstract public class Tower{
         this.y = new SimpleIntegerProperty(y);
     }
 
-    public Tower(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, SimpleIntegerProperty x, SimpleIntegerProperty y  , Pane levelPane) {
+    public Tower(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, SimpleIntegerProperty x, SimpleIntegerProperty y ) {
         this.range = range;
         this.flopPrice = flopPrice;
         this.ramPrice = ramPrice;
@@ -32,11 +31,18 @@ abstract public class Tower{
         this.upgradeCost = upgradeCost;
         this.x = x;
         this.y = y;
-        this.levelPane = levelPane ;
     }
 
-    abstract public Ennemy attack(ObservableList<Ennemy> ennemis , Pane levelPane);
-    abstract public void detect();
+    public Ennemy ennemiProche(ObservableList<Ennemy> ennemis ){
+        for (Ennemy m : ennemis) {
+            if ((this.getY()-100<=m.getY() && m.getY()<= this.getY()+100) && (this.getX()-100<=m.getX() && m.getX() <= this.getX()+100)){
+                return m;
+            }
+        }
+        return null;
+    }
+
+
 
     //GETTER
 
