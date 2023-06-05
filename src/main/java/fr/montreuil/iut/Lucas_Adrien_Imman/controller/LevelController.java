@@ -186,7 +186,7 @@ public class LevelController implements Initializable {
             //Quand tout est parametré comme il faut j'initialise la gameloop
             initAnimation();
             gameLoop.play();
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

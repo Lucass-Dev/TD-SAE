@@ -10,10 +10,10 @@ public class InternetExplorer extends Tower{
         super();
     }
 
-    public InternetExplorer(Pane tilePane, int x, int y, Image image){super(tilePane, x, y, image);}
+    public InternetExplorer(Pane tilePane, int x, int y, Image image, int id){super(tilePane, x, y, image, id);}
 
-    public InternetExplorer(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, int x, int y){
-        super(range, flopPrice, ramPrice, name, level, upgradeCost, new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
+    public InternetExplorer(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, int x, int y, int id){
+        super(range, flopPrice, ramPrice, name, level, upgradeCost, new SimpleIntegerProperty(x), new SimpleIntegerProperty(y), id);
     }
 
 

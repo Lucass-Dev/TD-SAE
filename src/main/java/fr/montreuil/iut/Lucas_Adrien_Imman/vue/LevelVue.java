@@ -21,9 +21,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Popup;
+import javafx.stage.PopupWindow;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -77,12 +80,14 @@ public class LevelVue {
 
     }
 
-    public void createATH(Player p, HBox location) {
-        createBar(location, Color.RED, "Life", p.lifeProperty(), p.maxlifeProperty(), "lifebarPane", 35, 400, true);
-        createBar(location, Color.CADETBLUE, "RAM", p.ramProperty(), p.maxRAMProperty(), "rambarPane", 35, 400, true);
+    public void createATH(Player p, HBox location) throws IOException {
+        createBar(location, Color.RED, "Life", p.lifeProperty(), p.maxlifeProperty(), "lifebarPane", 35, 400, true, new Image(Main.class.getResource("graphics/logo/HDD_1.png").openStream()));
+        createBar(location, Color.CADETBLUE, "RAM", p.ramProperty(), p.maxRAMProperty(), "rambarPane", 35, 400, true, new Image(Main.class.getResource("graphics/logo/RAM.png").openStream()));
 
         HBox flopHBox = new HBox();
-        //flopHBox.getChildren().add(new ImageView(new Image()));
+        flopHBox.getChildren().add(new ImageView(new Image(Main.class.getResource("graphics/logo/Flops.png").openStream())));
+        Label flop = new Label("\tFLOPS : ");
+        flopHBox.getChildren().add(flop);
         Label flopLabel = new Label();
         flopLabel.textProperty().bind(p.flopProperty().asString());
         flopHBox.getChildren().add(flopLabel);
@@ -90,30 +95,26 @@ public class LevelVue {
         location.getChildren().add(flopHBox);
     }
 
-    public void createBar(HBox location, Color color, String attributeName, IntegerProperty actualProperty, IntegerProperty maxProperty, String id, int heigth, int width, boolean showContext){
+    public void createBar(HBox location, Color color, String attributeName, IntegerProperty actualProperty, IntegerProperty maxProperty, String id, int heigth, int width, boolean showContext, Image image){
+        HBox hBox = new HBox();
+        if (image != null){
+            hBox.getChildren().add(new ImageView(image));
+        }
         Pane container = new Pane();
         Pane bar = new Pane();
-
         int multiplier = width/100;
-
-
         if (multiplier == 0){
             multiplier++;
         }
-
-
         container.setPrefWidth(Integer.parseInt(maxProperty.getValue().toString())*multiplier);
         container.setMaxHeight(heigth);
-
         bar.setBackground(Background.fill(color));
         bar.setPrefWidth(Integer.parseInt(actualProperty.getValue().toString())*multiplier);
         bar.setPrefHeight(heigth);
-
         bar.setId(id);
         bar.getStyleClass().add("barPane");
         container.getStyleClass().add("barContainerPane");
         container.getChildren().add(bar);
-
         if (showContext){
             Label lifeLabel = new Label();
             HBox lifeLabelHbox = new HBox();
@@ -123,8 +124,8 @@ public class LevelVue {
             lifeLabelHbox.getChildren().add(new Label(" / "+maxProperty.get()));
             bar.getChildren().add(lifeLabelHbox);
         }
-
-        location.getChildren().add(container);
+        hBox.getChildren().add(container);
+        location.getChildren().add(hBox);
     }
     public void printTowerMenu(Tower tower, Pane location){
         HBox hbox = new HBox();
@@ -154,7 +155,7 @@ public class LevelVue {
                 levelController.setMovingTower(tower);
                 levelController.setCursor(tower.getSprite());
             }else{
-                System.out.println("Can't move Tower");
+                System.out.println("Pas d'argent chien");
             }
         });
         hbox.getChildren().add(upgradeButton);
