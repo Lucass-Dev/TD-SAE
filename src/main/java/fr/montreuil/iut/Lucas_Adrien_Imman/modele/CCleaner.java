@@ -18,7 +18,6 @@ public class CCleaner extends Tower{
     }
 
 
-
     @Override
     public void attack() {
 
