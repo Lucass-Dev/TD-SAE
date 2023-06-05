@@ -8,6 +8,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.HorizontalDirection;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -133,9 +134,14 @@ public class LevelVue {
         ImageView imageView = new ImageView(tower.getSprite());
         towerPresentation.getChildren().add(imageView);
 
+        HBox levelHbox = new HBox();
+        levelHbox.getChildren().add(new Label("Tower level : "));
         Label levelLabel = new Label();
         levelLabel.textProperty().bind(tower.getLevel().asString());
-        towerPresentation.getChildren().add(levelLabel);
+        levelHbox.getChildren().add(levelLabel);
+
+        towerPresentation.getChildren().add(levelHbox);
+        towerPresentation.setAlignment(Pos.CENTER);
 
         hbox.getChildren().add(towerPresentation);
 
