@@ -16,6 +16,7 @@ public class ProjectileVue {
     public void projectileSprite(Projectile newProjectile){
         Circle circle =  new Circle(5);
         circle.setFill(Color.VIOLET);
+        circle.setId(newProjectile.getId());
         circle.translateXProperty().bind(newProjectile.xProperty());
         circle.translateYProperty().bind(newProjectile.yProperty());
         levelPane.getChildren().add(circle);

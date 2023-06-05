@@ -25,10 +25,10 @@ public class EnnemyVue {
     public void createEnnemySprite(Ennemy newEnnemy) throws IOException {
 
         this.imageEnemy = new ImageView(new Image(Main.class.getResource("graphics/enemy/.exe.png").openStream()));
-        levelPane.getChildren().add(imageEnemy);
         this.imageEnemy.translateXProperty().bind(newEnnemy.xProperty());
         this.imageEnemy.translateYProperty().bind(newEnnemy.yProperty());
         this.imageEnemy.setId(newEnnemy.getId());
+        levelPane.getChildren().add(imageEnemy);
 
 
     }

@@ -122,6 +122,9 @@ public class LevelController implements Initializable {
             ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane);
             this.level.getPlacedTower().addListener(towerListChangeListener);
 
+            ListChangeListener<Projectile> projectileListChangeListener = new ListeObsProjectile(levelPane);
+            this.level.getProjectiles().addListener(projectileListChangeListener);
+
             this.levelVue = new LevelVue();/*this.level, this.tilePane, this.levelPane*/
             this.levelVue.createShopMenu(towerShopVbox);
 
@@ -173,7 +176,8 @@ public class LevelController implements Initializable {
                     else{
 
                         this.level.doTurn(nbTours,level,temps);
-                        level.tourAgir();
+                        level.tourAgir(nbTours);
+                        level.animationProjectiles();
                         nbTours++ ;
                     }
                     temps++;
