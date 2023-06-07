@@ -218,7 +218,7 @@ public class Level {
             Ennemy e =  t.ennemiProche(ennemies);
             if(e!=null) {
                 if (nbTours % 20 == 0) {
-                    projectiles.add(new Projectile(t.getX(), t.getY(), e));
+                    projectiles.add(new Projectile2(t.getX(), t.getY(), e));
                 }
             }
         }
