@@ -41,7 +41,7 @@ public class Level {
         this.endTilePos = new int[2];
         this.actualWave = new ArrayList<>();
         this.waveSize = 2;
-        this.difficulty = 1;
+        this.difficulty = 3;
         this.actualWaveNumber = 0;
     }
 
@@ -177,12 +177,44 @@ public class Level {
 
     public void createWave(int size){
         for (int i = 0; i < size; i++) {
-            this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 0));
+            switch ((int) ((Math.random() * (6 - 1)) + 1)){
+                case 1 -> {
+                    this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 0));
+                }
+                case 2 -> {
+                    if (this.actualWaveNumber <= 5){
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 0));
+                    }else{
+                        this.actualWave.add(new Archive(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 1));
+                    }
+                }
+                case 3 -> {
+                    if (this.actualWaveNumber <= 10){
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 0));
+                    }else{
+                        this.actualWave.add(new Virus(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 2));
+                    }
+                }
+                case 4 -> {
+                    if (this.actualWaveNumber <= 15){
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 0));
+                    }else{
+                        this.actualWave.add(new Scam(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 3));
+                    }
+                }
+                case 5 -> {
+                    if (this.actualWaveNumber <= 20){
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 0));
+                    }else{
+                        this.actualWave.add(new DotExe(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 5));
+                    }
+                }
+            }
         }
         this.actualWaveNumber++;
     }
 
-    public boolean doTurn(int nbTours) throws InterruptedException {
+    public boolean doTurn(int nbTours){
         if (actualWave.size() == 0 && ennemies.size() == 0){
             createWave(this.waveSize);
             this.waveSize += actualWaveNumber*difficulty/3;
@@ -195,7 +227,7 @@ public class Level {
                 Ennemy e = ennemies.get(i);
                 e.move();
                 if (e.isOnObjective()){
-                    this.player.setLife(this.player.getLife()-5);
+                    //this.player.setLife(this.player.getLife()-5);
                     ennemies.remove(e);
                 }
             }
@@ -240,8 +272,7 @@ public class Level {
         this.player = player;
     }
 
-    /*
-    public void nextWave() throws InterruptedException {
+    public void nextWave() {
         int timer = 5;
         Popup nextWavePopup = new Popup();
         Label nextWaveLabel = new Label();
@@ -250,10 +281,7 @@ public class Level {
         nextWavePopup.show(Main.stg, Main.stg.getHeight()/2, Main.stg.getWidth()/2);
         for (int i = timer; i > 0; i--) {
             nextWaveLabel.setText("New wave in "+ i);
-            Thread.sleep(1000);
         }
         nextWavePopup.hide();
     }
-
-     */
 }
