@@ -3,9 +3,11 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Popup;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,9 +18,9 @@ import java.util.Scanner;
 public class Level {
     private Player player;
     private String levelName;
-    private String difficulty;
+    private int difficulty;
     private int actualWaveNumber;
-    //private Wave actualWave;
+    private ArrayList<Ennemy> actualWave;
     private ArrayList<ArrayList<Integer>> tileMap;
     private ArrayList<ArrayList<Integer>> travelingMap;
     private ObservableList<Tower> placedTower;
@@ -26,6 +28,7 @@ public class Level {
     private int[] startTilePos;
     private int[] endTilePos;
     private Pane levelPane;
+    private int waveSize;
 
     public Level(String name, Pane levelPane){
         this.levelPane = levelPane;
@@ -34,8 +37,12 @@ public class Level {
         this.travelingMap = new ArrayList<>();
         this.placedTower = FXCollections.observableArrayList();
         this.ennemies = FXCollections.observableArrayList();
-        startTilePos = new int[2];
-        endTilePos = new int[2];
+        this.startTilePos = new int[2];
+        this.endTilePos = new int[2];
+        this.actualWave = new ArrayList<>();
+        this.waveSize = 2;
+        this.difficulty = 1;
+        this.actualWaveNumber = 0;
     }
 
     public Level(String name, ArrayList<ArrayList<Integer>> tileMap){
@@ -168,16 +175,30 @@ public class Level {
         }
     }
 
-    public boolean doTurn(int nbTours){
-        creationEnnemy(nbTours, this);
-        for (int i = 0; i <ennemies.size() ; i++) {
-            Ennemy e = ennemies.get(i);
-            e.move();
-            if (e.isOnObjective()){
-                this.player.setLife(this.player.getLife()-5);
-                ennemies.remove(e);
-            }
+    public void createWave(int size){
+        for (int i = 0; i < size; i++) {
+            this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 0));
+        }
+        this.actualWaveNumber++;
+    }
 
+    public boolean doTurn(int nbTours) throws InterruptedException {
+        if (actualWave.size() == 0 && ennemies.size() == 0){
+            createWave(this.waveSize);
+            this.waveSize += actualWaveNumber*difficulty/3;
+            //nextWave();
+        }else if (nbTours % 20 == 0 && actualWave.size() != 0){
+            this.ennemies.add(this.actualWave.remove(0));
+        }
+        if (this.ennemies.size() > 0){
+            for (int i = 0; i < ennemies.size() ; i++) {
+                Ennemy e = ennemies.get(i);
+                e.move();
+                if (e.isOnObjective()){
+                    this.player.setLife(this.player.getLife()-5);
+                    ennemies.remove(e);
+                }
+            }
         }
         return this.player.isDead();
     }
@@ -218,4 +239,21 @@ public class Level {
     public void setPlayer(Player player) {
         this.player = player;
     }
+
+    /*
+    public void nextWave() throws InterruptedException {
+        int timer = 5;
+        Popup nextWavePopup = new Popup();
+        Label nextWaveLabel = new Label();
+
+        nextWavePopup.getContent().add(nextWaveLabel);
+        nextWavePopup.show(Main.stg, Main.stg.getHeight()/2, Main.stg.getWidth()/2);
+        for (int i = timer; i > 0; i--) {
+            nextWaveLabel.setText("New wave in "+ i);
+            Thread.sleep(1000);
+        }
+        nextWavePopup.hide();
+    }
+
+     */
 }

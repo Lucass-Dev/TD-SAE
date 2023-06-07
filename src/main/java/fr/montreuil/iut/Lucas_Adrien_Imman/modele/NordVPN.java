@@ -10,10 +10,10 @@ public class NordVPN extends Tower{
     public NordVPN(){
         super();
     }
-    public NordVPN(Pane tilePane, int x, int y, Image image){super(tilePane, x, y, image);}
+    public NordVPN(Pane tilePane, int x, int y, Image image, int id){super(tilePane, x, y, image, id);}
 
-    public NordVPN(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, int x, int y){
-        super(range, flopPrice, ramPrice, name, level, upgradeCost, new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
+    public NordVPN(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, int x, int y, int id){
+        super(range, flopPrice, ramPrice, name, level, upgradeCost, new SimpleIntegerProperty(x), new SimpleIntegerProperty(y), id);
     }
 
     @Override

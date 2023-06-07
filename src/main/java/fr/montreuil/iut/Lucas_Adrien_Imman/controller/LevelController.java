@@ -218,7 +218,11 @@ public class LevelController implements Initializable {
                         gameLoop.stop();
                     } else {
 
-                        estFini = this.level.doTurn(nbTours);
+                        try {
+                            estFini = this.level.doTurn(nbTours);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
 
                         nbTours++;
                     }

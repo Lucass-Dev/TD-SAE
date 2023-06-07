@@ -10,10 +10,10 @@ public class Demineur extends Tower{
         super();
     };
 
-    public Demineur(Pane tilePane, int x, int y, Image image){super(tilePane, x, y, image);}
+    public Demineur(Pane tilePane, int x, int y, Image image, int id){super(tilePane, x, y, image, id);}
 
-    public Demineur(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, int x, int y){
-        super(range, flopPrice, ramPrice, name, level, upgradeCost, new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
+    public Demineur(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, int x, int y, int id){
+        super(range, flopPrice, ramPrice, name, level, upgradeCost, new SimpleIntegerProperty(x), new SimpleIntegerProperty(y), id);
     }
 
 
