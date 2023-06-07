@@ -55,10 +55,6 @@ public abstract class Ennemy {
     }
 
     public boolean isOnBound(){// Dans le cas ou il dépasse les tuiles de la map
-        //System.out.println("Objet en "+this.getX() + " sur " + this.tilePane.getWidth());
-        //System.out.println("Objet en "+this.getY() + " sur " + this.tilePane.getHeight());
-       // System.out.println(this.getX() < this.tilePane.getWidth() && this.getY() < this.tilePane.getHeight());
-
         return this.getX() < this.tilePane.getWidth() && this.getY() < this.tilePane.getHeight() && this.getX() >= 0 && this.getY() >=0;
     }
 
@@ -96,6 +92,9 @@ public abstract class Ennemy {
     public int getY() {
         return y.get();
     }
+ //System.out.println("Objet en "+this.getX() + " sur " + this.tilePane.getWidth());
+        //System.out.println("Objet en "+this.getY() + " sur " + this.tilePane.getHeight());
+       // System.out.println(this.getX() < this.tilePane.getWidth() && this.getY() < this.tilePane.getHeight());
 
     public SimpleIntegerProperty yProperty() {
         return y;

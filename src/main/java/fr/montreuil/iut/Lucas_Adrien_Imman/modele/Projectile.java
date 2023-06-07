@@ -1,11 +1,8 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
-import fr.montreuil.iut.Lucas_Adrien_Imman.vue.EnnemyVue;
-import fr.montreuil.iut.Lucas_Adrien_Imman.vue.TowerVue;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.layout.Pane;
+
 
 public class Projectile {
     private IntegerProperty x , y ;
@@ -14,18 +11,13 @@ public class Projectile {
     public static int compteur=0;
 
 
-    public Projectile(int x, int y) {
-        this.x = new SimpleIntegerProperty(x);
-        this.y = new SimpleIntegerProperty(y);
-        this.id= "P" + compteur;
-        compteur++;
-    }
     public Projectile(int x , int y , Ennemy e){
         super();
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.e = e;
-
+        this.id= "P" + compteur;
+        compteur++;
     }
 
     public String getId() {
@@ -57,40 +49,33 @@ public class Projectile {
     }
 
     public boolean cibleAtteint() {
-        return this.getX() == e.getX() && this.getY() == e.getY();
-
+         if((this.getY()<=e.getY()+16 && e.getY()<= this.getY()) && (this.getX()<=e.getX()+16 && e.getX() <= this.getX())) {
+             e.setLife((e.getLife() - 10));
+             return true;
+         }
+         return false ;
     }
 
-    public void creeProjectile() {
-/*
+    public void moveProjectile() {
+
         double  posX = e.getX() - this.getX() ;
-        double  posY = e.getY() - this.getX() ;
+        double  posY = e.getY() - this.getY() ;
+        double dirX, dirY;
 
         double totalDis = Math.sqrt(posX * posX + posY * posY);
 
-        double dircX = posX / totalDis ;
-        double dircY = posY / totalDis ;
+        dirX = posX  / totalDis  ;
+        dirY = posY  / totalDis ;
 
 
-        double newPosX = this.getX() + (1 * dircX);
-        double newPosY = this.getY() + (1 * dircY);
+        double newPosX = this.getX() + (5 * dirX);
+        double newPosY = this.getY() + (5 * dirY);
 
-        setX((int) newPosX*32);
-        setY((int)newPosY*32);
+        setX((int) newPosX);
+        setY((int) newPosY);
 
 
-        if(cibleAtteint())
-        e.setLife((e.getLife()-50));
-*/
 
-       for (int i = 0; i < 10; i++) {
-
-           setX(getX()+(e.getX()-getX()) );
-           setY(getY()+(e.getY()-getY()));
-       }
-
-        if(cibleAtteint())
-            e.setLife((e.getLife()-50));
     }
 
 
