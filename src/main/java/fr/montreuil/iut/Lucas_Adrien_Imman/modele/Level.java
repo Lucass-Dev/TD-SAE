@@ -217,25 +217,28 @@ public class Level {
             Tower t = placedTower.get(i);
             Ennemy e =  t.ennemiProche(ennemies);
             if(e!=null) {
-                if(nbTours%50==0) {
-                    Projectile projectile = new Projectile(t.getX(), t.getY(), e);
-                    projectiles.add(projectile);
-                }
-
-            }
-            for (int j = projectiles.size()-1 ; j>=0;j--) {
-                Projectile p = projectiles.get(j);
-                if(p.cibleAtteint()) {
-                    projectiles.remove(p);
-                    System.out.println("ddddddddddddmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+                if (nbTours % 20 == 0) {
+                    projectiles.add(new Projectile(t.getX(), t.getY(), e));
                 }
             }
         }
+
     }
+
+
+
 
     public void animationProjectiles(){
         for (Projectile p : projectiles){
-            p.creeProjectile();
+            p.moveProjectile();
+
+        }
+        for (int j = projectiles.size()-1 ; j>=0;j--) {
+            Projectile p = projectiles.get(j);
+            if(p.cibleAtteint()) {
+                projectiles.remove(p);
+
+            }
         }
 
     }

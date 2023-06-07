@@ -138,7 +138,7 @@ public class LevelController implements Initializable {
                 System.out.println(arrayList);
             }
 
-           // levelVue.createATH(player,hBox);
+            // levelVue.createATH(player,hBox);
             //Quand tout est parametré comme il faut j'initialise la gameloop
             initAnimation();
             gameLoop.play();

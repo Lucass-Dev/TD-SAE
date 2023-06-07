@@ -30,8 +30,8 @@ public class ListeObsProjectile implements ListChangeListener<Projectile> {
                 }
             }
             for(Projectile oldProjectile : c.getRemoved()){
+                System.out.println(oldProjectile.getId());
                 levelpane.getChildren().remove(levelpane.lookup("#"+oldProjectile.getId()));
-                System.out.println("dddddddddddddddddddddddddddddddddddddddddddd");
             }
         }
     }
