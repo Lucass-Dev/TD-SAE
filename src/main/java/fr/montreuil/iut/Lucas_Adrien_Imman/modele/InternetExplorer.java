@@ -6,24 +6,7 @@ import javafx.scene.layout.Pane;
 
 public class InternetExplorer extends Tower{
 
-    public InternetExplorer(){
-        super();
-    }
-
-    public InternetExplorer(Pane tilePane, int x, int y, Image image, int id){super(tilePane, x, y, image, id);}
-
-    public InternetExplorer(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, int x, int y, int id){
-        super(range, flopPrice, ramPrice, name, level, upgradeCost, new SimpleIntegerProperty(x), new SimpleIntegerProperty(y), id);
-    }
-
-
-    @Override
-    public void attack() {
-
-    }
-
-    @Override
-    public void detect() {
-        System.out.println("test");
+    public InternetExplorer(int x, int y){
+        super(x, y, "Internet Explorer", 100, 325, 475, 75, 125, 3);
     }
 }

@@ -15,22 +15,20 @@ abstract public class Tower{
     private SimpleIntegerProperty level;
     private int upgradeCost;
     private Pane tilePane;
-    private Image sprite;
+    private int spriteIndex;
     private String id;
     public static int compteur = 0;
     private SimpleIntegerProperty movingPrice;
 
-    public Tower(){};
-
-    public Tower(int x, int y, Image image, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice){
+    public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
-        this.sprite = image;
+        this.spriteIndex = spriteIndex;
         this.id = "T"+compteur;
         compteur++;
         this.name = name;
         this.level =  new SimpleIntegerProperty(1);
-        this.movingPrice = new SimpleIntegerProperty(100);
+        this.movingPrice = new SimpleIntegerProperty(movingPrice);
         this.range = range;
         this.flopPrice = flopPrice;
         this.ramPrice = ramPrice;
@@ -100,8 +98,8 @@ abstract public class Tower{
         return movingPrice;
     }
 
-    public Image getSprite() {
-        return sprite;
+    public int getSpriteIndex() {
+        return spriteIndex;
     }
 
     //SETTER
@@ -137,8 +135,8 @@ abstract public class Tower{
         this.upgradeCost = upgradeCost;
     }
 
-    public void setSprite(Image sprite) {
-        this.sprite = sprite;
+    public void setSpriteIndex(int spriteIndex) {
+        this.spriteIndex = spriteIndex;
     }
 
     //OTHER METHODS
@@ -153,7 +151,7 @@ abstract public class Tower{
     }
     public Ennemy detect(ObservableList<Ennemy> ennemis ){
         for (Ennemy m : ennemis) {
-            if ((this.getY()-100<=m.getY() && m.getY()<= this.getY()+100) && (this.getX()-100<=m.getX() && m.getX() <= this.getX()+100)){
+            if ((this.getY()-range<=m.getY() && m.getY()<= this.getY()+range) && (this.getX()-range<=m.getX() && m.getX() <= this.getX()+range)){
                 return m;
             }
         }

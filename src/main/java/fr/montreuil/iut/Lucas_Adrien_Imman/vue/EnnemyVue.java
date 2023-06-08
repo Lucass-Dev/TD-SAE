@@ -31,17 +31,17 @@ public class EnnemyVue {
         this.pv = new Label();
     }
 
-    public void createEnnemySprite(Ennemy newEnnemy, int i) throws IOException {
+    public void createEnnemySprite(Ennemy newEnnemy) throws IOException {
         LevelVue lv = new LevelVue();
         HBox life = new HBox();
         lv.createBar(life, Color.RED, "", newEnnemy.lifeProperty(), newEnnemy.maxLifeProperty(), "lifeBar", 5, 100, false);
-        this.image = new ImageView(new Image(Main.class.getResource("graphics/enemy/"+i+".png").openStream()));
+        this.image = new ImageView(new Image(Main.class.getResource("graphics/enemy/"+newEnnemy.getSpriteIndex()+".png").openStream()));
         ennemy.getChildren().add(life);
         ennemy.getChildren().add(image);
         levelPane.getChildren().add(ennemy);
         this.ennemy.translateXProperty().bind(newEnnemy.xProperty());
         this.ennemy.translateYProperty().bind(newEnnemy.yProperty());
-        this.ennemy.setId("E"+newEnnemy.getId());
+        this.ennemy.setId(newEnnemy.getId());
         this.ennemy.setAlignment(Pos.CENTER);
         this.ennemy.getTransforms().add(new Translate(-20, -20));
     }

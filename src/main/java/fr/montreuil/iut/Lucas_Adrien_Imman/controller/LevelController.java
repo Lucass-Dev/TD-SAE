@@ -107,11 +107,7 @@ public class LevelController implements Initializable {
             }else{
                 if (Main.stg.getScene().getCursor() != Cursor.DEFAULT && Main.stg.getScene().getCursor() != null) {
                     if (this.level.validTile(mousePos)) {
-                        try {
-                            this.level.addTower(this.levelVue.placeTower(mousePos, new Image(Main.class.getResource("graphics/tower/" + cursorIndex + ".png").openStream())));
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
+                        this.level.placeTower(x, y, cursorIndex);
                     }
                 }
             }
@@ -125,12 +121,16 @@ public class LevelController implements Initializable {
             }
             ImageView imageView = (ImageView) mouseEvent.getTarget();
             String imageViewId = imageView.getId();
+            System.out.println(imageViewId);
+            /*
             int towerId;
             if (imageViewId != null) {
                 towerId = Integer.parseInt(imageViewId);
                 Tower t = this.level.getTower(towerId);
                 this.levelVue.printTowerMenu(t, this.towerMenu);
             }
+
+             */
         });
     }
 
@@ -216,7 +216,7 @@ public class LevelController implements Initializable {
                     }
                     else{
 
-                        this.level.doTurn(nbTours,level,temps);
+                        this.level.doTurn(nbTours);
                         level.tourAgir(nbTours);
                         level.animationProjectiles();
                         nbTours++ ;

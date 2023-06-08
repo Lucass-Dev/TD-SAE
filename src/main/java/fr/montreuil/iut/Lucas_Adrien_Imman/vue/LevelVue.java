@@ -24,6 +24,7 @@ import javafx.scene.shape.Circle;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -43,18 +44,6 @@ public class LevelVue {
         this.tilePane = tilePane;
         this.levelPane = levelPane;
         this.levelController = levelController;
-    }
-
-    public Tower placeTower(int[] pos, Image image){
-        TaskKiller tk = new TaskKiller(this.levelPane, pos[0]*32, pos[1]*32, image, this.level.getPlacedTower().size());
-
-        return tk;
-    }
-
-    public Ennemy placeEnnemy(int[] pos){
-         DotSH dsh = new DotSH(pos[0]*32 + 16, pos[1]*32 + 16, this.tilePane, this.level, 0);
-         dsh.setId(this.level.getEnnemies().size());
-        return dsh;
     }
 
     public void createShopMenu(VBox towerShopVbox){
@@ -77,7 +66,6 @@ public class LevelVue {
         }
 
     }
-
     public void createATH(Player p, HBox location) {
         createBar(location, Color.RED, "Life", p.lifeProperty(), p.maxlifeProperty(), "lifebarPane", 35, 400, true);
         createBar(location, Color.CADETBLUE, "RAM", p.ramProperty(), p.maxRAMProperty(), "rambarPane", 35, 400, true);
@@ -90,7 +78,6 @@ public class LevelVue {
 
         location.getChildren().add(flopHBox);
     }
-
     public void createBar(HBox location, Color color, String attributeName, IntegerProperty actualProperty, IntegerProperty maxProperty, String id, int heigth, int width, boolean showContext){
         Pane container = new Pane();
         Pane bar = new Pane();
@@ -127,12 +114,12 @@ public class LevelVue {
 
         location.getChildren().add(container);
     }
-    public void printTowerMenu(Tower tower, Pane location){
+    public void printTowerMenu(Tower tower, Pane location) throws IOException {
         HBox hbox = new HBox();
         VBox towerPresentation = new VBox();
         towerPresentation.getChildren().add(new Label(tower.getName()));
 
-        ImageView imageView = new ImageView(tower.getSprite());
+        ImageView imageView = new ImageView(new Image(Main.class.getResource("graphics/enemy/"+tower.getSpriteIndex()+".png").openStream()));
         towerPresentation.getChildren().add(imageView);
 
         HBox levelHbox = new HBox();
@@ -153,7 +140,11 @@ public class LevelVue {
             if (this.level.getPlayer().getFlop() >= tower.getMovingPrice()){
                 levelController.setMovingTower(true);
                 levelController.setMovingTower(tower);
-                levelController.setCursor(tower.getSprite());
+                try {
+                    levelController.setCursor(new Image(Main.class.getResource("graphics/enemy/"+tower.getSpriteIndex()+".png").openStream()));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }else{
                 System.out.println("Can't move Tower");
             }

@@ -3,11 +3,9 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.Pane;
 
-import java.util.Arrays;
-
 public abstract class Ennemy {
     private String id;
-    private Pane tilePane;
+    private Pane levelPane;
     private Level level;
     private SimpleIntegerProperty x, y;
     private SimpleIntegerProperty life;
@@ -21,10 +19,10 @@ public abstract class Ennemy {
     //direction stands for the cardinal direction with an int value : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
 
-    public Ennemy(int x, int y, Pane tilePane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife){
+    public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
-        this.tilePane = tilePane;
+        this.levelPane = levelPane;
         this.level = level;
         this.direction = 4;
         this.speed = speed;
@@ -34,15 +32,14 @@ public abstract class Ennemy {
         this.id= "E" + compteur;
         compteur++;
         this.player = player ;
-
     }
 
     public void doDamage(){
         if(isOnObjective()){
-            player.setLife(getLife()-10);
+            player.setLife(lifeProperty().get()-10);
         }
     }
-    public abstract void move();
+
     public boolean isCentered(){
         int[] center;
         int[] pos = new int[2];
@@ -125,7 +122,7 @@ public abstract class Ennemy {
     }
 
     public boolean isOnBound(){
-        return this.getX() < this.tilePane.getWidth() && this.getY() < this.tilePane.getHeight() && this.getX() >= 0 && this.getY() >=0;
+        return this.getX() < this.levelPane.getWidth() && this.getY() < this.levelPane.getHeight() && this.getX() >= 0 && this.getY() >=0;
     }
 
     public boolean isOnObjective(){
@@ -148,7 +145,7 @@ public abstract class Ennemy {
     }
 
     public Pane getTilePane() {
-        return tilePane;
+        return levelPane;
     }
 
     public int getX() {
@@ -191,8 +188,8 @@ public abstract class Ennemy {
         this.y.set(y);
     }
 
-    public void setLife(SimpleIntegerProperty life) {
-        this.life = life;
+    public void setLife(int life) {
+        this.life.set(life);
     }
 
     public void setName(String name) {
@@ -228,6 +225,10 @@ public abstract class Ennemy {
     }
 
     public void reductionPv(int l){
-        setLife(getLife()-l);
+        setLife(life.getValue()-l);
+    }
+
+    public int getSpriteIndex() {
+        return spriteIndex;
     }
 }

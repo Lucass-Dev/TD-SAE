@@ -7,12 +7,8 @@ import javafx.scene.layout.Pane;
 
 public class TaskKiller extends Tower {
 
-    public TaskKiller(){super();}
-
-    public TaskKiller(Pane tilePane, int x, int y, Image image){super(tilePane, x, y, image);}
-
-    public TaskKiller(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, int x, int y){
-        super(range, flopPrice, ramPrice, name, level, upgradeCost, new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
+    public TaskKiller(int x, int y){
+        super(x, y, "Task Killer", 100, 50, 75, 100, 100, 0);
     }
 
     @Override

@@ -48,7 +48,7 @@ public class Level {
         this.actualWave = new ArrayList<>();
         this.waveSize = 2;
         this.difficulty = 3;
-        this.actualWaveNumber = 0;
+        this.actualWaveNumber = 1;
         this.projectiles = FXCollections.observableArrayList();
         this.nbActeurs = 4;
     }
@@ -177,7 +177,7 @@ public class Level {
         return projectiles ;
     }
 
-
+/*
     public void addEnnemy(Ennemy ennemy){
         this.ennemies.add(ennemy);
     }
@@ -188,46 +188,69 @@ public class Level {
         }
     }
 
-    public void placeTower(int x , int y ){
+ */
+
+    public void placeTower(int x , int y, int index){
         int[] pos = new int[2];
         pos[0] = x/32;
         pos[1] = y/32;
-        TaskKiller tk = new TaskKiller(pos[0]*32,pos[1]*32);
-        addTower(tk);
+        Tower t = null;
+        switch(index){
+            case 0 -> {
+                t = new TaskKiller(pos[0]*32, pos[1]*32);
+            }
+            case 1 -> {
+                t = new CCleaner(pos[0]*32, pos[1]*32);
+            }
+            case 2 -> {
+                t = new Demineur(pos[0]*32, pos[1]*32);
+            }
+            case 3 -> {
+                t = new InternetExplorer(pos[0]*32, pos[1]*32);
+            }
+            case 4 -> {
+                t = new NordVPN(pos[0]*32, pos[1]*32);
+            }
+            case 5 -> {
+                t = new PDFConverter(pos[0]*32, pos[1]*32);
+            }
+            default -> System.out.println("Error, index might be from 0 to 5 and found " + index);
+        }
+        addTower(t);
     }
 
     public void createWave(int size){
         for (int i = 0; i < size; i++) {
             switch ((int) ((Math.random() * (6 - 1)) + 1)){
                 case 1 -> {
-                    this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 0));
+                    this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                 }
                 case 2 -> {
                     if (this.actualWaveNumber <= 5){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 0));
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }else{
-                        this.actualWave.add(new Archive(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 1));
+                        this.actualWave.add(new Archive(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }
                 }
                 case 3 -> {
                     if (this.actualWaveNumber <= 10){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 0));
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }else{
-                        this.actualWave.add(new Virus(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 2));
+                        this.actualWave.add(new Virus(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }
                 }
                 case 4 -> {
                     if (this.actualWaveNumber <= 15){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 0));
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }else{
-                        this.actualWave.add(new Scam(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 3));
+                        this.actualWave.add(new Scam(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }
                 }
                 case 5 -> {
                     if (this.actualWaveNumber <= 20){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 0));
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }else{
-                        this.actualWave.add(new DotExe(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, 5));
+                        this.actualWave.add(new DotExe(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }
                 }
             }
@@ -247,7 +270,7 @@ public class Level {
             for (int i = 0; i < ennemies.size() ; i++) {
                 Ennemy e = ennemies.get(i);
                 e.move();
-                if (e.isOnObjective()){
+                if (e.isOnObjective() || !e.isOnBound() || e.estMort()){
                     //this.player.setLife(this.player.getLife()-5);
                     ennemies.remove(e);
                 }
@@ -259,10 +282,10 @@ public class Level {
     public void tourAgir(int nbTours){
         for (int i = 0; i <placedTower.size() ; i++) {
             Tower t = placedTower.get(i);
-            Ennemy e =  t.ennemiProche(ennemies);
+            Ennemy e =  t.detect(ennemies);
             if(e!=null) {
                 if (nbTours % 20 == 0) {
-                    projectiles.add(new Projectile2(t.getX(), t.getY(), e));
+                    projectiles.add(new Projectile(t.getX(), t.getY(), e));
                 }
             }
         }
@@ -311,10 +334,10 @@ public class Level {
         return player;
     }
 
-    public Tower getTower(int id){
+    public Tower getTower(String id){
         Tower t = null;
         for (Tower tower: this.getPlacedTower()) {
-            if (tower.getId() == id){
+            if (tower.getId().equals(id)){
                 t =  tower;
             }
         }
