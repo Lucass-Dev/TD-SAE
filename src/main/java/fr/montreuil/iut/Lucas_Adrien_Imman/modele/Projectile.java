@@ -50,7 +50,7 @@ public   class Projectile {
 
      public boolean cibleAtteint() {
          if((this.getY()<=e.getY()+16 && e.getY()<= this.getY()) && (this.getX()<=e.getX()+16 && e.getX() <= this.getX())) {
-             e.setLife((e.getLife() - 10));
+             e.setLife((e.lifeProperty().getValue() - 10));
              return true;
          }
          return false ;

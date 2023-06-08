@@ -7,24 +7,9 @@ import javafx.scene.layout.Pane;
 public class CCleaner extends Tower{
 
 
-    public CCleaner(){
-        super();
-    }
-
-    public CCleaner(Pane tilePane, int x, int y, Image image, int id){super(tilePane, x, y, image, id);}
-
-    public CCleaner(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, int x, int y, int id){
-        super(range, flopPrice, ramPrice, name, level, upgradeCost, new SimpleIntegerProperty(x), new SimpleIntegerProperty(y), id);
+    public CCleaner(int x, int y){
+        super(x, y, "CCleaner", 100, 100, 150, 100, 150, 1);
     }
 
 
-    @Override
-    public void attack() {
-
-    }
-
-    @Override
-    public void detect() {
-        System.out.println("test");
-    }
 }

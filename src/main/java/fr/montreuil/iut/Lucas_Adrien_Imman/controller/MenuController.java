@@ -78,7 +78,7 @@ public class MenuController implements Initializable {
         //Main.stg.setFullScreen(true);
 
         LevelController levelController = fxmlLoader.getController();
-        Player p = new Player(new SimpleIntegerProperty(10), new SimpleIntegerProperty(10));
+        Player p = new Player();
         sendData(levelController, mapIndex, "mapName", p);
     }
 

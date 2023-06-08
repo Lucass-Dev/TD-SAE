@@ -2,6 +2,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.image.Image;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
 
@@ -11,40 +12,35 @@ abstract public class Tower{
     private int flopPrice;
     private int ramPrice;
     private String name;
-    private int level;
+    private SimpleIntegerProperty level;
     private int upgradeCost;
+    private Pane tilePane;
+    private int spriteIndex;
+    private String id;
+    public static int compteur = 0;
+    private SimpleIntegerProperty movingPrice;
 
-
-    public Tower(){};
-
-    public Tower(int x, int y){
+    public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
-    }
-
-    public Tower(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, SimpleIntegerProperty x, SimpleIntegerProperty y ) {
+        this.spriteIndex = spriteIndex;
+        this.id = "T"+compteur;
+        compteur++;
+        this.name = name;
+        this.level =  new SimpleIntegerProperty(1);
+        this.movingPrice = new SimpleIntegerProperty(movingPrice);
         this.range = range;
         this.flopPrice = flopPrice;
         this.ramPrice = ramPrice;
-        this.name = name;
-        this.level = level;
         this.upgradeCost = upgradeCost;
-        this.x = x;
-        this.y = y;
     }
-
-    public Ennemy ennemiProche(ObservableList<Ennemy> ennemis ){
-        for (Ennemy m : ennemis) {
-            if ((this.getY()-100<=m.getY() && m.getY()<= this.getY()+100) && (this.getX()-100<=m.getX() && m.getX() <= this.getX()+100)){
-                return m;
-            }
-        }
-        return null;
-    }
-
-
 
     //GETTER
+
+
+    public String getId() {
+        return id;
+    }
 
     public int getRange() {
         return range;
@@ -62,7 +58,7 @@ abstract public class Tower{
         return name;
     }
 
-    public int getLevel() {
+    public SimpleIntegerProperty getLevel() {
         return level;
     }
 
@@ -84,6 +80,26 @@ abstract public class Tower{
 
     public IntegerProperty yProperty() {
         return y;
+    }
+
+    public SimpleIntegerProperty levelProperty() {
+        return level;
+    }
+
+    public Pane getTilePane() {
+        return tilePane;
+    }
+
+    public int getMovingPrice() {
+        return movingPrice.get();
+    }
+
+    public SimpleIntegerProperty movingPriceProperty() {
+        return movingPrice;
+    }
+
+    public int getSpriteIndex() {
+        return spriteIndex;
     }
 
     //SETTER
@@ -112,11 +128,33 @@ abstract public class Tower{
     }
 
     public void setLevel(int level) {
-        this.level = level;
+        this.level.set(level);
     }
 
     public void setUpgradeCost(int upgradeCost) {
         this.upgradeCost = upgradeCost;
     }
 
+    public void setSpriteIndex(int spriteIndex) {
+        this.spriteIndex = spriteIndex;
+    }
+
+    //OTHER METHODS
+    public void upgrade(Player p){
+        if (p.getFlop() >= this.upgradeCost){
+            p.setFlop(p.getFlop() - this.upgradeCost);
+            this.level.setValue(this.getLevel().get() + 1);
+            System.out.println("J'ai amélioré la tour");
+        }else{
+            System.out.println("Pas assez d'argent");
+        }
+    }
+    public Ennemy detect(ObservableList<Ennemy> ennemis ){
+        for (Ennemy m : ennemis) {
+            if ((this.getY()-range<=m.getY() && m.getY()<= this.getY()+range) && (this.getX()-range<=m.getX() && m.getX() <= this.getX()+range)){
+                return m;
+            }
+        }
+        return null;
+    }
 }

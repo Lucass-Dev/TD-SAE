@@ -3,11 +3,9 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.Pane;
 
-import java.util.Arrays;
-
 public abstract class Ennemy {
     private String id;
-    private Pane tilePane;
+    private Pane levelPane;
     private Level level;
     private SimpleIntegerProperty x, y;
     private SimpleIntegerProperty life;
@@ -15,31 +13,33 @@ public abstract class Ennemy {
     private int speed;
     public static int compteur=0;
     Player player ;
+    private int spriteIndex;
+    private SimpleIntegerProperty maxLife;
 
     //direction stands for the cardinal direction with an int value : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
 
-    public Ennemy(Pane tilePane, Level level , int life , Player player){
-
-        this.x = new SimpleIntegerProperty(545);
-        this.y = new SimpleIntegerProperty(545);
-        this.tilePane = tilePane;
+    public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife){
+        this.x = new SimpleIntegerProperty(x);
+        this.y = new SimpleIntegerProperty(y);
+        this.levelPane = levelPane;
         this.level = level;
         this.direction = 4;
-        this.speed = 2;
+        this.speed = speed;
         this.life = new SimpleIntegerProperty(life);
+        this.maxLife = new SimpleIntegerProperty(maxLife);
+        this.spriteIndex = spriteIndex;
         this.id= "E" + compteur;
         compteur++;
         this.player = player ;
-
     }
 
     public void doDamage(){
         if(isOnObjective()){
-            player.setLife(getLife()-10);
+            player.setLife(lifeProperty().get()-10);
         }
     }
-    public abstract void move();
+
     public boolean isCentered(){
         int[] center;
         int[] pos = new int[2];
@@ -51,11 +51,78 @@ public abstract class Ennemy {
         pos[0] = this.getX();
         pos[1] = this.getY();
 
-        return pos[0] <= center[0]+5 && pos[0] >= center[0]-5 && pos[1] <= center[1]+5 && pos[1] >= center[1]-5 ;
+        return pos[0] <= center[0]+3 && pos[0] >= center[0]-3 && pos[1] <= center[1]+3 && pos[1] >= center[1]-3 ;
+    }
+    public void move() {
+        int[] pos = new int[2];
+        pos[0] = this.getX()/32;
+        pos[1] = this.getY()/32;
+        int travelingValue = this.getLevel().getTileValue(pos);
+
+        switch (travelingValue){
+            case 2 -> {
+                if (this.getDirection() == 2){
+                    if (isCentered()){
+                        this.setDirection(1);
+                    }
+                } else if (this.getDirection() == 3) {
+                    if(isCentered()){
+                        this.setDirection(4);
+                    }
+                }
+            }
+            case 3 -> {
+                if (this.getDirection() == 2){
+                    if (isCentered()){
+                        this.setDirection(3);
+                    }
+                } else if (this.getDirection() == 1) {
+                    if(isCentered()){
+                        this.setDirection(4);
+                    }
+                }
+            }
+            case 4 -> {
+                if (this.getDirection() == 4){
+                    if (isCentered()){
+                        this.setDirection(1);
+                    }
+                } else if (this.getDirection() == 3) {
+                    if (isCentered()){
+                        this.setDirection(2);
+                    }
+                }
+            }
+            case 5 -> {
+                if (this.getDirection() == 4){
+                    if (isCentered()){
+                        this.setDirection(3);
+                    }
+                } else if (this.getDirection() == 1) {
+                    if (isCentered()){
+                        this.setDirection(2);
+                    }
+                }
+            }
+        }
+
+        if (this.getDirection() == 1){
+            this.setY(this.getY()-this.getSpeed());
+        }
+        else if(this.getDirection() == 2){
+            this.setX(this.getX()+this.getSpeed());
+        }
+        else if(this.getDirection() == 3){
+            this.setY(this.getY()+this.getSpeed());
+        }
+        else if(this.getDirection() == 4){
+            this.setX(this.getX()-this.getSpeed());
+        }
+
     }
 
-    public boolean isOnBound(){// Dans le cas ou il dépasse les tuiles de la map
-        return this.getX() < this.tilePane.getWidth() && this.getY() < this.tilePane.getHeight() && this.getX() >= 0 && this.getY() >=0;
+    public boolean isOnBound(){
+        return this.getX() < this.levelPane.getWidth() && this.getY() < this.levelPane.getHeight() && this.getX() >= 0 && this.getY() >=0;
     }
 
     public boolean isOnObjective(){
@@ -78,7 +145,7 @@ public abstract class Ennemy {
     }
 
     public Pane getTilePane() {
-        return tilePane;
+        return levelPane;
     }
 
     public int getX() {
@@ -92,12 +159,13 @@ public abstract class Ennemy {
     public int getY() {
         return y.get();
     }
- //System.out.println("Objet en "+this.getX() + " sur " + this.tilePane.getWidth());
-        //System.out.println("Objet en "+this.getY() + " sur " + this.tilePane.getHeight());
-       // System.out.println(this.getX() < this.tilePane.getWidth() && this.getY() < this.tilePane.getHeight());
 
     public SimpleIntegerProperty yProperty() {
         return y;
+    }
+
+    public SimpleIntegerProperty getLife() {
+        return life;
     }
 
     public String getName() {
@@ -109,19 +177,7 @@ public abstract class Ennemy {
     }
 
     public boolean estMort(){
-        return getLife()==0 ;
-    }
-
-    public int getLife() {
-        return life.get();
-    }
-
-    public SimpleIntegerProperty lifeProperty() {
-        return life;
-    }
-
-    public void setLife(int life) {
-        this.life.set(life);
+        return getLife().get()==0 ;
     }
 
     public void setX(int x) {
@@ -132,8 +188,8 @@ public abstract class Ennemy {
         this.y.set(y);
     }
 
-    public void reductionPv(int l){
-        setLife(getLife()-l);
+    public void setLife(int life) {
+        this.life.set(life);
     }
 
     public void setName(String name) {
@@ -154,5 +210,25 @@ public abstract class Ennemy {
 
     public String getId() {
         return id;
+    }
+
+    public SimpleIntegerProperty lifeProperty() {
+        return life;
+    }
+
+    public int getMaxLife() {
+        return maxLife.get();
+    }
+
+    public SimpleIntegerProperty maxLifeProperty() {
+        return maxLife;
+    }
+
+    public void reductionPv(int l){
+        setLife(life.getValue()-l);
+    }
+
+    public int getSpriteIndex() {
+        return spriteIndex;
     }
 }

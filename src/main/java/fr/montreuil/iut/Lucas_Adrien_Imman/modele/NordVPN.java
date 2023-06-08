@@ -7,22 +7,7 @@ import javafx.scene.layout.Pane;
 public class NordVPN extends Tower{
 
 
-    public NordVPN(){
-        super();
-    }
-    public NordVPN(Pane tilePane, int x, int y, Image image, int id){super(tilePane, x, y, image, id);}
-
-    public NordVPN(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, int x, int y, int id){
-        super(range, flopPrice, ramPrice, name, level, upgradeCost, new SimpleIntegerProperty(x), new SimpleIntegerProperty(y), id);
-    }
-
-    @Override
-    public void attack() {
-
-    }
-
-    @Override
-    public void detect() {
-        System.out.println("test");
+    public NordVPN(int x, int y){
+        super(x, y, "Task Killer", 100, 500, 600, 100, 300, 4);
     }
 }
