@@ -66,6 +66,7 @@ public class LevelVue {
             }
         }
 
+
         for (int i = 0; i < totalTower; i++) {
             HBox newShopItem = new HBox();
             Image newShopItemImage = new Image(Main.class.getResourceAsStream("graphics/tower/"+i+".png"));

@@ -55,12 +55,12 @@ public class Environnement {
     public void tourAgir(){
         for (int i = 0; i <tours.size() ; i++) {
             Tour t = tours.get(i);
-         Acteur a =  t.attaque(acteurs);
-         if(a!=null) {
-             a.setPv(-30);
+            Acteur a =  t.attaque(acteurs);
+            if(a!=null) {
+                a.setPv(-30);
 
 
-         }
+            }
         }
     }
 

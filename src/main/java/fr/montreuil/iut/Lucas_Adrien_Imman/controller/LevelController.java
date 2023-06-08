@@ -70,14 +70,8 @@ public class LevelController implements Initializable {
         setCursor(Cursor.DEFAULT);
         this.estFini = false;
 
-        /*
-        this.tilePane.setHgap(5);
-        this.tilePane.setVgap(5);
-        */
-
 
         this.towerShopVbox.setOnMouseClicked(mouseEvent -> {
-
             EventTarget target = mouseEvent.getTarget();
             ImageView targetedTowerIV = new ImageView();
             String[] stringId = new String[2];
@@ -121,7 +115,6 @@ public class LevelController implements Initializable {
                     }
                 }
             }
-
         });
         this.levelPane.setOnMouseClicked(mouseEvent -> {
 
@@ -159,7 +152,7 @@ public class LevelController implements Initializable {
         this.level = new Level("test", this.levelPane);
         this.level.setPlayer(this.LDT.getPlayer());
         try {
-            ArrayList<ArrayList<Integer>> map = this.level.createMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map" + mapIndex + ".csv", tilePane);
+            ArrayList<ArrayList<Integer>> map = this.level.createMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map"+mapIndex+".csv", tilePane);
             this.level.setTileMap(map);
             this.level.setTravelingMap(this.level.getTileMap());
 
@@ -169,16 +162,20 @@ public class LevelController implements Initializable {
             ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane);
             this.level.getPlacedTower().addListener(towerListChangeListener);
 
+            ListChangeListener<Projectile> projectileListChangeListener = new ListeObsProjectile(levelPane);
+            this.level.getProjectiles().addListener(projectileListChangeListener);
+
             this.levelVue = new LevelVue(this.level, this.tilePane, this.levelPane, this);
+            //this.levelVue = new LevelVue();/*this.level, this.tilePane, this.levelPane*/
             this.levelVue.createShopMenu(towerShopVbox);
 
 
             //Sout pour le tableau 2D des tuiles et de la version chemin tarversable
-            for (ArrayList<Integer> arrayList : this.level.getTileMap()) {
+            for (ArrayList<Integer> arrayList: this.level.getTileMap()) {
                 System.out.println(arrayList);
             }
             System.out.println();
-            for (ArrayList<Integer> arrayList : this.level.getTravelingMap()) {
+            for (ArrayList<Integer> arrayList: this.level.getTravelingMap()) {
                 System.out.println(arrayList);
             }
 
@@ -203,8 +200,8 @@ public class LevelController implements Initializable {
 
         this.estFini = false;
         this.gameLoop = new Timeline();
-        temps = 0;
-        nbTours = 1;
+        temps = 0 ;
+        nbTours = 1 ;
         this.gameLoop.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(
                 // on définit le FPS (nbre de frame par seconde)
@@ -212,14 +209,17 @@ public class LevelController implements Initializable {
                 Duration.seconds(0.017),
                 // on définit ce qui se passe à chaque frame
                 // c'est un eventHandler d'ou le lambda
-                (ev -> {
-                    if (estFini) {
+                (ev ->{
+                    if(estFini){
                         System.out.println("fini");
                         gameLoop.stop();
-                    } else {
-                        estFini = this.level.doTurn(nbTours);
+                    }
+                    else{
 
-                        nbTours++;
+                        this.level.doTurn(nbTours,level,temps);
+                        level.tourAgir(nbTours);
+                        level.animationProjectiles();
+                        nbTours++ ;
                     }
                     temps++;
                 })

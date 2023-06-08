@@ -25,14 +25,14 @@ public class ListObsEnnemy implements ListChangeListener<Ennemy> {
             for (Ennemy newEnnemy :c.getAddedSubList()) {
                 EnnemyVue ennemyVue = new EnnemyVue(levelpane);
                 try {
-                    ennemyVue.createEnnemySprite(newEnnemy, newEnnemy.getSpriteIndex());
+                    ennemyVue.createEnnemySprite(newEnnemy);
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
                 }
             }
 
             for(Ennemy acteurMort : c.getRemoved()){
-                levelpane.getChildren().remove(levelpane.lookup("#E"+acteurMort.getId()));
+                levelpane.getChildren().remove(levelpane.lookup("#"+acteurMort.getId()));
             }
 
         }

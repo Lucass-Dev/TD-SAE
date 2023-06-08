@@ -5,6 +5,8 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.vue.TowerVue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;
 
+import java.io.IOException;
+
 public class ListObsTower implements ListChangeListener<Tower> {
 
 
@@ -22,7 +24,11 @@ public class ListObsTower implements ListChangeListener<Tower> {
         while (c.next()){
             for (Tower newTower :c.getAddedSubList()) {
                 TowerVue towerVue = new TowerVue(levelpane);
-                towerVue.createTowerSprite(newTower, newTower.getSprite()) ;
+                try {
+                    towerVue.createTowerSprite(newTower) ;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
         }

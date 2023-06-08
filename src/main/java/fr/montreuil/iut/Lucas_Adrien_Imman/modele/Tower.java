@@ -3,6 +3,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
+import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
 
 abstract public class Tower{
@@ -15,40 +16,31 @@ abstract public class Tower{
     private int upgradeCost;
     private Pane tilePane;
     private Image sprite;
-    private int id;
+    private String id;
+    public static int compteur = 0;
     private SimpleIntegerProperty movingPrice;
-
-    abstract public void attack();
-    abstract public void detect();
 
     public Tower(){};
 
-    public Tower(Pane tilePane, int x, int y, Image image, int id){
+    public Tower(int x, int y, Image image, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.sprite = image;
-        this.id = id;
-        this.name = "Je suis la tour";
+        this.id = "T"+compteur;
+        compteur++;
+        this.name = name;
         this.level =  new SimpleIntegerProperty(1);
         this.movingPrice = new SimpleIntegerProperty(100);
-    }
-
-    public Tower(int range, int flopPrice, int ramPrice, String name, int level, int upgradeCost, SimpleIntegerProperty x, SimpleIntegerProperty y, int id) {
         this.range = range;
         this.flopPrice = flopPrice;
         this.ramPrice = ramPrice;
-        this.name = name;
-        this.level = new SimpleIntegerProperty(1);
         this.upgradeCost = upgradeCost;
-        this.x = x;
-        this.y = y;
-        this.id = id;
     }
 
     //GETTER
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -108,6 +100,10 @@ abstract public class Tower{
         return movingPrice;
     }
 
+    public Image getSprite() {
+        return sprite;
+    }
+
     //SETTER
     public void setX(int x) {
         this.x.set(x);
@@ -141,10 +137,6 @@ abstract public class Tower{
         this.upgradeCost = upgradeCost;
     }
 
-    public Image getSprite() {
-        return sprite;
-    }
-
     public void setSprite(Image sprite) {
         this.sprite = sprite;
     }
@@ -158,5 +150,13 @@ abstract public class Tower{
         }else{
             System.out.println("Pas assez d'argent");
         }
+    }
+    public Ennemy detect(ObservableList<Ennemy> ennemis ){
+        for (Ennemy m : ennemis) {
+            if ((this.getY()-100<=m.getY() && m.getY()<= this.getY()+100) && (this.getX()-100<=m.getX() && m.getX() <= this.getX()+100)){
+                return m;
+            }
+        }
+        return null;
     }
 }

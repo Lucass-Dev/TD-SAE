@@ -1,6 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
@@ -25,10 +26,15 @@ public class Level {
     private ArrayList<ArrayList<Integer>> travelingMap;
     private ObservableList<Tower> placedTower;
     private ObservableList<Ennemy> ennemies;
+    private ObservableList<Projectile> projectiles ;
+
     private int[] startTilePos;
     private int[] endTilePos;
     private Pane levelPane;
     private int waveSize;
+    private int nbActeurs ;
+
+    //  private Projectile projectile ;
 
     public Level(String name, Pane levelPane){
         this.levelPane = levelPane;
@@ -43,6 +49,8 @@ public class Level {
         this.waveSize = 2;
         this.difficulty = 3;
         this.actualWaveNumber = 0;
+        this.projectiles = FXCollections.observableArrayList();
+        this.nbActeurs = 4;
     }
 
     public Level(String name, ArrayList<ArrayList<Integer>> tileMap){
@@ -165,6 +173,11 @@ public class Level {
         return ennemies;
     }
 
+    public ObservableList<Projectile> getProjectiles(){
+        return projectiles ;
+    }
+
+
     public void addEnnemy(Ennemy ennemy){
         this.ennemies.add(ennemy);
     }
@@ -173,6 +186,14 @@ public class Level {
         if (nbTours %100 == 0){
             ennemies.add(new DotSH(getStartTilePos()[0]*32 +16, getStartTilePos()[1]*32 +16, levelPane,level, 0));
         }
+    }
+
+    public void placeTower(int x , int y ){
+        int[] pos = new int[2];
+        pos[0] = x/32;
+        pos[1] = y/32;
+        TaskKiller tk = new TaskKiller(pos[0]*32,pos[1]*32);
+        addTower(tk);
     }
 
     public void createWave(int size){
@@ -234,6 +255,38 @@ public class Level {
         }
         return this.player.isDead();
     }
+
+    public void tourAgir(int nbTours){
+        for (int i = 0; i <placedTower.size() ; i++) {
+            Tower t = placedTower.get(i);
+            Ennemy e =  t.ennemiProche(ennemies);
+            if(e!=null) {
+                if (nbTours % 20 == 0) {
+                    projectiles.add(new Projectile2(t.getX(), t.getY(), e));
+                }
+            }
+        }
+
+    }
+
+
+
+
+    public void animationProjectiles(){
+        for (Projectile p : projectiles){
+            p.moveProjectile();
+
+        }
+        for (int j = projectiles.size()-1 ; j>=0;j--) {
+            Projectile p = projectiles.get(j);
+            if(p.cibleAtteint()) {
+                projectiles.remove(p);
+
+            }
+        }
+
+    }
+
 
     public int[] getStartTilePos() {
         return startTilePos;

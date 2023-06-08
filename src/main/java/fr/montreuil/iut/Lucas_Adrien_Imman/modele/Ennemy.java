@@ -6,36 +6,43 @@ import javafx.scene.layout.Pane;
 import java.util.Arrays;
 
 public abstract class Ennemy {
-    private int id;
+    private String id;
     private Pane tilePane;
     private Level level;
     private SimpleIntegerProperty x, y;
     private SimpleIntegerProperty life;
     private String name;
     private int speed;
+    public static int compteur=0;
+    Player player ;
     private int spriteIndex;
     private SimpleIntegerProperty maxLife;
 
     //direction stands for the cardinal direction with an int value : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
 
-    public Ennemy(int x, int y, Pane tilePane, Level level, int spriteIndex){
+    public Ennemy(int x, int y, Pane tilePane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.tilePane = tilePane;
         this.level = level;
         this.direction = 4;
-        this.speed = 7;
-        this.life = new SimpleIntegerProperty(50);
-        this.maxLife = new SimpleIntegerProperty(50);
+        this.speed = speed;
+        this.life = new SimpleIntegerProperty(life);
+        this.maxLife = new SimpleIntegerProperty(maxLife);
         this.spriteIndex = spriteIndex;
+        this.id= "E" + compteur;
+        compteur++;
+        this.player = player ;
+
     }
 
-    public int getSpriteIndex() {
-        return spriteIndex;
+    public void doDamage(){
+        if(isOnObjective()){
+            player.setLife(getLife()-10);
+        }
     }
-
-    public abstract void doDamage();
+    public abstract void move();
     public boolean isCentered(){
         int[] center;
         int[] pos = new int[2];
@@ -200,11 +207,11 @@ public abstract class Ennemy {
         o = null;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -218,5 +225,9 @@ public abstract class Ennemy {
 
     public SimpleIntegerProperty maxLifeProperty() {
         return maxLife;
+    }
+
+    public void reductionPv(int l){
+        setLife(getLife()-l);
     }
 }

@@ -17,6 +17,8 @@ import javafx.scene.transform.Translate;
 
 import java.io.IOException;
 
+import java.io.IOException;
+
 public class EnnemyVue {
     private Pane levelPane;
     private VBox ennemy;

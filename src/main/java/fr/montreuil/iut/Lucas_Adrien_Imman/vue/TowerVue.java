@@ -1,5 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectile;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tower;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -8,18 +10,19 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
+import java.io.IOException;
+
 public class TowerVue {
 
     private Pane levelPane;
-    private Rectangle rect;
     private ImageView imageView;
 
     public TowerVue(Pane levelPane){
         this.levelPane = levelPane;
     }
 
-    public void createTowerSprite(Tower newTower, Image image){
-        this.imageView = new ImageView(image);
+    public void createTowerSprite(Tower newTower){
+        this.imageView = new ImageView(newTower.getSprite());
         this.imageView.setPickOnBounds(true);
         this.imageView.setId(String.valueOf(newTower.getId()));
         levelPane.getChildren().add(imageView);
