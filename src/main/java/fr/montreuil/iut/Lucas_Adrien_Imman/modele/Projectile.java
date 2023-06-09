@@ -4,9 +4,9 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 
-public   class Projectile {
+public abstract class Projectile {
     private IntegerProperty x , y ;
-    private Ennemy e ;
+    protected Ennemy e ;
     private String id;
     public static int compteur=0;
 
@@ -18,6 +18,10 @@ public   class Projectile {
         this.e = e;
         this.id= "P" + compteur;
         compteur++;
+    }
+
+    public boolean isOnBound(){
+        return this.getX() >640  && this.getY() >640;
     }
 
     public String getId() {
@@ -48,15 +52,11 @@ public   class Projectile {
         this.y.set(y);
     }
 
-     public boolean cibleAtteint() {
-         if((this.getY()<=e.getY()+16 && e.getY()<= this.getY()) && (this.getX()<=e.getX()+16 && e.getX() <= this.getX())) {
-             e.setLife((e.lifeProperty().getValue() - 10));
-             return true;
-         }
-         return false ;
-     }
+    public abstract void agitSurLaCible();
 
-
+    public boolean cibleAtteint() {
+        return this.getY()<=e.getY()+16 && e.getY()<= this.getY() && this.getX()<=e.getX()+16 && e.getX() <= this.getX();
+    }
 
     public void moveProjectile() {
 
@@ -70,15 +70,12 @@ public   class Projectile {
         dirY = posY  / totalDis ;
 
 
-        double newPosX = this.getX() + (5 * dirX);
-        double newPosY = this.getY() + (5 * dirY);
+        double newPosX = this.getX() + (6 * dirX);
+        double newPosY = this.getY() + (6 * dirY);
 
         setX((int) newPosX);
         setY((int) newPosY);
 
-
-
     }
-
 
 }

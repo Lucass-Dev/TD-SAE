@@ -8,19 +8,16 @@ public class Player {
     private IntegerProperty life;
     private IntegerProperty ram ;
     private IntegerProperty flop;
-    private IntegerProperty x , y ;
     private IntegerProperty maxlife;
     private IntegerProperty maxRAM;
 
 
-    public Player(SimpleIntegerProperty x , SimpleIntegerProperty y ) {
-        this.life = new SimpleIntegerProperty(50) ;
+    public Player() {
+        this.life = new SimpleIntegerProperty(100) ;
         this.maxlife = new SimpleIntegerProperty(100);
         this.ram =  new SimpleIntegerProperty(0);
         this.maxRAM = new SimpleIntegerProperty(100);
-        this.flop = new SimpleIntegerProperty(50);
-        this.x = x ;
-        this.y = y ;
+        this.flop = new SimpleIntegerProperty(500);
     }
 
     public int getMaxRAM() {
@@ -39,24 +36,15 @@ public class Player {
         return maxlife;
     }
 
-    public int getX() {
-        return x.get();
-    }
-
-    public IntegerProperty xProperty() {
-        return x;
-    }
-
-    public int getY() {
-        return y.get();
-    }
-
-    public IntegerProperty yProperty() {
-        return y;
-    }
-
     public int getLife() {
         return life.get();
+    }
+
+    public void lifeReduction(int l){
+        if(life.getValue()-l>=0)
+            setLife(life.getValue()-l);
+        else
+            setLife(0);
     }
 
     public IntegerProperty lifeProperty() {
@@ -91,7 +79,9 @@ public class Player {
         this.flop.set(flop);
     }
 
-
+    public boolean isDead(){
+        return getLife() == 0;
+    }
 
 
 }
