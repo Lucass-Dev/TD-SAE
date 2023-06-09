@@ -7,5 +7,5 @@ public class DotSH extends Ennemy{
         super(x, y, levelPane, level, 0, 30, player, 3, 30,10);
     }
 
-
+  
 }

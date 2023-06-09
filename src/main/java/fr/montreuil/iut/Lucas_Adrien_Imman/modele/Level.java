@@ -260,12 +260,12 @@ public class Level {
         if (actualWave.size() == 0 && ennemies.size() == 0){
             createWave(this.waveSize);
             this.waveSize += actualWaveNumber*difficulty/3;
-           // nextWave();
+            // nextWave();
         }else if (nbTours % 20 == 0 && actualWave.size() != 0){
             this.ennemies.add(this.actualWave.remove(0));
         }
         if (this.ennemies.size() > 0){
-            for (int i = 0; i < ennemies.size() ; i++) {
+            for (int i = ennemies.size()-1; i>=0 ; i--) {
                 Ennemy e = ennemies.get(i);
                 e.move();
                 if (e.isOnObjective() || !e.isOnBound() || e.estMort()){
@@ -283,7 +283,11 @@ public class Level {
             Ennemy e =  t.detect(ennemies);
             if(e!=null) {
                 if (nbTours % 20 == 0) {
-                    projectiles.add(new ProjectileDegatsBrut(t.getX(), t.getY(), e));
+                    if(t instanceof TaskKiller)
+                        projectiles.add(new ProjectileDegatsBrut(t.getX(), t.getY(), e));
+                    else if(t instanceof InternetExplorer)
+                        projectiles.add(new ProjectileRalentisseur(t.getX(), t.getY(),e)) ;
+
                 }
             }
         }
@@ -304,7 +308,7 @@ public class Level {
         }
         for (int j = projectiles.size()-1 ; j>=0;j--) {
             Projectile p = projectiles.get(j);
-            if(p.cibleAtteint() || p.isOnBound()) {
+            if(p.cibleAtteint() || p.isOnBound() ) {
                 projectiles.remove(p);
 
             }

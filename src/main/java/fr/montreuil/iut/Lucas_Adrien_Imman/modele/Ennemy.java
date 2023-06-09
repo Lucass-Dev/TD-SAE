@@ -234,8 +234,6 @@ public abstract class Ennemy {
     public void reductionSpeed(int s){
         if(speed-s>=0)
             setSpeed(speed-=s);
-        else
-            setSpeed(1);
     }
     public int getSpriteIndex() {
         return spriteIndex;

@@ -12,14 +12,23 @@ public class ProjectileRalentisseur extends Projectile  {
     @Override
     public void agitSurLaCible() {
        int speed =  e.getSpeed() ;
-        if (cibleAtteint()){
-            e.reductionSpeed(10);
+        if (!cibleAtteint()){
+            e.setSpeed(1);
         }
-        e.setSpeed(speed);
+
     }
 
+    @Override
+    public boolean cibleAtteint() {
+        return false;
+    }
 
-
+    @Override
+    public void moveProjectile() {
+        System.out.println("fdff");
+        setX(getX()+16);
+        setY(getY()+16);
+    }
 
 
 }

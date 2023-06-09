@@ -6,6 +6,8 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.ProjectileRalentisseur;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
+import javafx.scene.shape.Shape3D;
 
 public class ProjectileVue {
     private Pane levelPane;
@@ -15,21 +17,24 @@ public class ProjectileVue {
         this.levelPane = levelPane;
     }
 
-    public void projectileSprite(Projectile newProjectile){
-        Circle circle =  new Circle(5);
+    public void projectileSprite(Projectile newProjectile) {
+        Circle circle = null;
 
-      if(newProjectile instanceof ProjectileDegatsBrut)
-          circle.setFill(Color.YELLOW);
+        if (newProjectile instanceof ProjectileDegatsBrut){
+            circle = new Circle(5);
+        circle.setFill(Color.YELLOW);
+    }
       else if (newProjectile instanceof ProjectileRalentisseur)
+          circle = new Circle(60);
           circle.setFill(Color.BLUE);
 
 
-
-        circle.setId(newProjectile.getId());
-        System.out.println(newProjectile.getId());
         circle.translateXProperty().bind(newProjectile.xProperty());
         circle.translateYProperty().bind(newProjectile.yProperty());
+        circle.setId(newProjectile.getId());
         levelPane.getChildren().add(circle);
 
     }
+
+
 }

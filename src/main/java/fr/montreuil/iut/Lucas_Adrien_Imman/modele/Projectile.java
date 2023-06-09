@@ -54,28 +54,10 @@ public abstract class Projectile {
 
     public abstract void agitSurLaCible();
 
-    public boolean cibleAtteint() {
-        return this.getY()<=e.getY()+16 && e.getY()<= this.getY() && this.getX()<=e.getX()+16 && e.getX() <= this.getX();
-    }
+    public  abstract  boolean cibleAtteint() ;
 
-    public void moveProjectile() {
-
-        double  posX = e.getX() - this.getX() ;
-        double  posY = e.getY() - this.getY() ;
-        double dirX, dirY;
-
-        double totalDis = Math.sqrt(posX * posX + posY * posY);
-
-        dirX = posX  / totalDis  ;
-        dirY = posY  / totalDis ;
+    public abstract void moveProjectile() ;
 
 
-        double newPosX = this.getX() + (6 * dirX);
-        double newPosY = this.getY() + (6 * dirY);
-
-        setX((int) newPosX);
-        setY((int) newPosY);
-
-    }
 
 }
