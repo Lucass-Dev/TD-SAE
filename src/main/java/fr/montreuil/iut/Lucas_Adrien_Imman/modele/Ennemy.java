@@ -15,11 +15,12 @@ public abstract class Ennemy {
     Player player ;
     private int spriteIndex;
     private SimpleIntegerProperty maxLife;
+    private int damage ;
 
     //direction stands for the cardinal direction with an int value : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
 
-    public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife){
+    public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife , int damage){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.levelPane = levelPane;
@@ -32,11 +33,12 @@ public abstract class Ennemy {
         this.id= "E" + compteur;
         compteur++;
         this.player = player ;
+        this.damage = damage ;
     }
 
     public void doDamage(){
         if(isOnObjective()){
-            player.setLife(lifeProperty().get()-10);
+            player.lifeReduction(damage);
         }
     }
 
@@ -177,7 +179,7 @@ public abstract class Ennemy {
     }
 
     public boolean estMort(){
-        return getLife().get()==0 ;
+        return getLife().getValue()==0 ;
     }
 
     public void setX(int x) {
@@ -200,9 +202,6 @@ public abstract class Ennemy {
         this.speed = speed;
     }
 
-    public void kill(Object o) {
-        o = null;
-    }
 
     public void setId(String id) {
         this.id = id;
@@ -225,9 +224,19 @@ public abstract class Ennemy {
     }
 
     public void reductionPv(int l){
-        setLife(life.getValue()-l);
+        if(life.getValue()-l>=0)
+            setLife(life.getValue()-l);
+        else
+            setLife(0);
     }
 
+
+    public void reductionSpeed(int s){
+        if(speed-s>=0)
+            setSpeed(speed-=s);
+        else
+            setSpeed(1);
+    }
     public int getSpriteIndex() {
         return spriteIndex;
     }
