@@ -137,10 +137,6 @@ public class LevelController implements Initializable {
     public void createLevel() {
         this.towerMenu.getChildren().remove(this.playButton);
         this.player = this.LDT.getPlayer();
-        this.player.lifeProperty().addListener((observableValue, number, t1) -> {
-            Pane lifebarPane = (Pane) this.athHbox.lookup("#lifebarPane");
-            lifebarPane.setPrefWidth(t1.intValue() * 4);
-        });
         this.athHbox.setOnMouseClicked(e -> {
             if (player.getLife() > 0) {
                 this.player.setLife(this.player.getLife() - 10);

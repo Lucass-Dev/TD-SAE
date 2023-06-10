@@ -271,7 +271,7 @@ public class Level {
                 Ennemy e = ennemies.get(i);
                 e.move();
                 if (e.isOnObjective() || !e.isOnBound() || e.estMort()){
-                    //this.player.setLife(this.player.getLife()-5);
+                    this.player.setLife(this.player.getLife()-5);
                     ennemies.remove(e);
                 }
             }
