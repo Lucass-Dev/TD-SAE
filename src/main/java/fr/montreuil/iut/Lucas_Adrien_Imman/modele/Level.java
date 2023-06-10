@@ -271,7 +271,7 @@ public class Level {
                 Ennemy e = ennemies.get(i);
                 e.move();
                 if (e.isOnObjective() || !e.isOnBound() || e.estMort()){
-                    this.player.setLife(this.player.getLife()-5);
+                    e.doDamage();
                     ennemies.remove(e);
                 }
             }
@@ -285,24 +285,28 @@ public class Level {
             Ennemy e =  t.detect(ennemies);
             if(e!=null) {
                 if (nbTours % 20 == 0) {
-                    projectiles.add(new Projectile(t.getX(), t.getY(), e));
+                    projectiles.add(new ProjectileDegatsBrut(t.getX(), t.getY(), e));
                 }
             }
         }
 
     }
 
+    public boolean verifProgression(){
+        return player.isDead();
+    }
 
 
 
     public void animationProjectiles(){
         for (Projectile p : projectiles){
             p.moveProjectile();
+            p.agitSurLaCible();
 
         }
         for (int j = projectiles.size()-1 ; j>=0;j--) {
             Projectile p = projectiles.get(j);
-            if(p.cibleAtteint()) {
+            if(p.cibleAtteint() || p.isOnBound()) {
                 projectiles.remove(p);
 
             }

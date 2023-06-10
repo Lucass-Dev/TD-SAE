@@ -170,13 +170,13 @@ public class LevelController implements Initializable {
 
 
             //Sout pour le tableau 2D des tuiles et de la version chemin tarversable
-            for (ArrayList<Integer> arrayList: this.level.getTileMap()) {
+          /*  for (ArrayList<Integer> arrayList: this.level.getTileMap()) {
                 System.out.println(arrayList);
             }
             System.out.println();
             for (ArrayList<Integer> arrayList: this.level.getTravelingMap()) {
                 System.out.println(arrayList);
-            }
+            }*/
 
             this.levelVue.createATH(this.player, athHbox);
             //Quand tout est parametré comme il faut j'initialise la gameloop
@@ -209,7 +209,7 @@ public class LevelController implements Initializable {
                 // on définit ce qui se passe à chaque frame
                 // c'est un eventHandler d'ou le lambda
                 (ev ->{
-                    if(estFini){
+                    if(estFini /*|| level.verifProgression()*/){
                         System.out.println("fini");
                         gameLoop.stop();
                     }

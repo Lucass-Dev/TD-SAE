@@ -40,6 +40,13 @@ public class Player {
         return life.get();
     }
 
+    public void lifeReduction(int l){
+        if(life.getValue()-l>=0)
+            setLife(life.getValue()-l);
+        else
+            setLife(0);
+    }
+
     public IntegerProperty lifeProperty() {
         return life;
     }
@@ -73,7 +80,7 @@ public class Player {
     }
 
     public boolean isDead(){
-        return this.life.get() <= 0;
+        return getLife() == 0;
     }
 
 

@@ -33,6 +33,7 @@ public class EnnemyVue {
         this.image = new ImageView(new Image(Main.class.getResource("graphics/enemy/"+newEnnemy.getSpriteIndex()+".png").openStream()));
         ennemy.getChildren().add(life);
         ennemy.getChildren().add(image);
+
         levelPane.getChildren().add(ennemy);
         this.ennemy.translateXProperty().bind(newEnnemy.xProperty());
         this.ennemy.translateYProperty().bind(newEnnemy.yProperty());

@@ -7,8 +7,5 @@ public class DotSH extends Ennemy{
         super(x, y, levelPane, level, 0, 30, player, 7, 30);
     }
 
-    @Override
-    public void doDamage() {
 
-    }
 }
