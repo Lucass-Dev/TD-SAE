@@ -122,15 +122,18 @@ public class LevelController implements Initializable {
             ImageView imageView = (ImageView) mouseEvent.getTarget();
             String imageViewId = imageView.getId();
             System.out.println(imageViewId);
-            /*
-            int towerId;
+
+            Tower t = null;
             if (imageViewId != null) {
-                towerId = Integer.parseInt(imageViewId);
-                Tower t = this.level.getTower(towerId);
-                this.levelVue.printTowerMenu(t, this.towerMenu);
+                t = this.level.getTower(imageViewId);
+                try {
+                    this.levelVue.printTowerMenu(t, this.towerMenu);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
-             */
+
         });
     }
 

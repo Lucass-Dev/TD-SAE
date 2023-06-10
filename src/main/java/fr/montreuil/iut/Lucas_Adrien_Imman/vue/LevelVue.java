@@ -113,7 +113,7 @@ public class LevelVue {
         VBox towerPresentation = new VBox();
         towerPresentation.getChildren().add(new Label(tower.getName()));
 
-        ImageView imageView = new ImageView(new Image(Main.class.getResource("graphics/enemy/"+tower.getSpriteIndex()+".png").openStream()));
+        ImageView imageView = new ImageView(new Image(Main.class.getResource("graphics/tower/"+tower.getSpriteIndex()+".png").openStream()));
         towerPresentation.getChildren().add(imageView);
 
         HBox levelHbox = new HBox();
