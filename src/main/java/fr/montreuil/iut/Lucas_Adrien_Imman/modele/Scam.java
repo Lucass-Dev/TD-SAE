@@ -7,5 +7,10 @@ public class Scam extends Ennemy{
         super(x, y, levelPane, level, 3, 10, player, 6, 10,30);
     }
 
-
+    @Override
+    public void doDamage(){
+        if(isOnObjective()){
+            this.getPlayer().lifeReduction(this.getDamage());
+        }
+    }
 }

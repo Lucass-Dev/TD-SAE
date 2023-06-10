@@ -36,11 +36,7 @@ public abstract class Ennemy {
         this.damage = damage ;
     }
 
-    public void doDamage(){
-        if(isOnObjective()){
-            player.lifeReduction(damage);
-        }
-    }
+    public abstract void doDamage();
 
     public boolean isCentered(){
         int[] center;
@@ -55,6 +51,7 @@ public abstract class Ennemy {
 
         return pos[0] <= center[0]+3 && pos[0] >= center[0]-3 && pos[1] <= center[1]+3 && pos[1] >= center[1]-3 ;
     }
+
     public void move() {
         int[] pos = new int[2];
         pos[0] = this.getX()/32;
@@ -202,7 +199,6 @@ public abstract class Ennemy {
         this.speed = speed;
     }
 
-
     public void setId(String id) {
         this.id = id;
     }
@@ -230,7 +226,6 @@ public abstract class Ennemy {
             setLife(0);
     }
 
-
     public void reductionSpeed(int s){
         if(speed-s>=0)
             setSpeed(speed-=s);
@@ -239,5 +234,13 @@ public abstract class Ennemy {
     }
     public int getSpriteIndex() {
         return spriteIndex;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public int getDamage() {
+        return damage;
     }
 }

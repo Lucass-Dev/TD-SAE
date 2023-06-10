@@ -1,5 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemy;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tower;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.TowerVue;
 import javafx.collections.ListChangeListener;
@@ -29,6 +30,10 @@ public class ListObsTower implements ListChangeListener<Tower> {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+
+            for(Tower acteurMort : c.getRemoved()){
+                levelpane.getChildren().remove(levelpane.lookup("#"+acteurMort.getId()));
             }
 
         }

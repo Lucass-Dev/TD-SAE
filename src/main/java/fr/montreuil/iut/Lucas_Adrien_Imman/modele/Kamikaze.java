@@ -7,5 +7,10 @@ public class Kamikaze extends Ennemy{
         super(x, y, levelPane, level, 4, 30, player, 2, 30,35);
     }
 
-
+    @Override
+    public void doDamage(){
+        if(isOnObjective()){
+            this.getPlayer().lifeReduction(this.getDamage());
+        }
+    }
 }

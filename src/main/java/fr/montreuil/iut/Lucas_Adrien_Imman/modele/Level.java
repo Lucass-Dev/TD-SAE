@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Level {
+    private int nbTours;
     private Player player;
     private String levelName;
     private int difficulty;
@@ -36,6 +37,12 @@ public class Level {
 
     //  private Projectile projectile ;
 
+    //For freezing state
+    private boolean freezingRam;
+    private int startFreezingRam;
+    private int freezingDelay;
+    private int freezedRamAmount;
+
     public Level(String name, Pane levelPane){
         this.levelPane = levelPane;
         this.levelName = name;
@@ -46,11 +53,15 @@ public class Level {
         this.startTilePos = new int[2];
         this.endTilePos = new int[2];
         this.actualWave = new ArrayList<>();
-        this.waveSize = 2;
+        this.waveSize = 6;
         this.difficulty = 3;
-        this.actualWaveNumber = 1;
+        this.actualWaveNumber = 20;
         this.projectiles = FXCollections.observableArrayList();
         this.nbActeurs = 4;
+        this.freezingDelay = 0;
+        this.freezingRam = false;
+        this.freezedRamAmount = 0;
+        this.startFreezingRam = 0;
     }
 
     public Level(String name, ArrayList<ArrayList<Integer>> tileMap){
@@ -259,6 +270,7 @@ public class Level {
     }
 
     public boolean doTurn(int nbTours){
+        //System.out.println(nbTours);
         if (actualWave.size() == 0 && ennemies.size() == 0){
             createWave(this.waveSize);
             this.waveSize += actualWaveNumber*difficulty/3;
@@ -276,6 +288,8 @@ public class Level {
                 }
             }
         }
+        this.nbTours = nbTours;
+        defreezeRam();
         return this.player.isDead();
     }
 
@@ -363,5 +377,24 @@ public class Level {
             nextWaveLabel.setText("New wave in "+ i);
         }
         nextWavePopup.hide();
+    }
+
+    public void freezeRam(int amount){
+        this.freezingRam = true;
+        this.freezedRamAmount += amount;
+        this.startFreezingRam = this.nbTours;
+        this.freezingDelay = 500;
+        this.player.setRam(this.player.getRam() - amount);
+    }
+
+    public void defreezeRam(){
+        if (freezingRam){
+            if (this.nbTours - this.startFreezingRam >= freezingDelay){
+                System.out.println(this.player.getRam() + freezedRamAmount);
+                this.freezingRam = false;
+                this.player.setRam(this.player.getRam() + freezedRamAmount);
+                this.freezedRamAmount = 0;
+            }
+        }
     }
 }

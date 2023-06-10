@@ -15,7 +15,7 @@ public class Player {
     public Player() {
         this.life = new SimpleIntegerProperty(100) ;
         this.maxlife = new SimpleIntegerProperty(100);
-        this.ram =  new SimpleIntegerProperty(0);
+        this.ram =  new SimpleIntegerProperty(100);
         this.maxRAM = new SimpleIntegerProperty(100);
         this.flop = new SimpleIntegerProperty(500);
     }
@@ -64,7 +64,11 @@ public class Player {
     }
 
     public void setRam(int ram) {
-        this.ram.set(ram);
+        if (ram > this.getMaxRAM()){
+            this.ram.set(this.maxRAM.getValue());
+        }else{
+            this.ram.set(ram);
+        }
     }
 
     public int getFlop() {

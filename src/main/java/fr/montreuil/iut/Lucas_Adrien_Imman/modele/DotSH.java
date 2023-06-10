@@ -7,5 +7,11 @@ public class DotSH extends Ennemy{
         super(x, y, levelPane, level, 0, 30, player, 7, 30, 5);
     }
 
+    @Override
+    public void doDamage(){
+        if(isOnObjective()){
+            this.getPlayer().lifeReduction(this.getDamage());
+        }
+    }
 
 }
