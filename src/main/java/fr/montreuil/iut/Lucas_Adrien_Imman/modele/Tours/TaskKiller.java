@@ -1,9 +1,4 @@
-package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
-
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.image.Image;
-import javafx.collections.ObservableList;
-import javafx.scene.layout.Pane;
+package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
 public class TaskKiller extends Tower {
 

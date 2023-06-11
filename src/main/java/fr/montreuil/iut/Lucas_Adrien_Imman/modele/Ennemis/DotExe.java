@@ -1,5 +1,7 @@
-package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
+package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.scene.layout.Pane;
 
 public class DotExe extends Ennemy {

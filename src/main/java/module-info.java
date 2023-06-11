@@ -10,6 +10,12 @@ module fr.montreuil.iut.Lucas_Adrien_Imman {
     opens fr.montreuil.iut.Lucas_Adrien_Imman.controller to javafx.fxml;
     exports fr.montreuil.iut.Lucas_Adrien_Imman.modele;
     opens fr.montreuil.iut.Lucas_Adrien_Imman.modele to javafx.fxml;
+    exports fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
+    opens fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours to javafx.fxml;
+    exports fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
+    opens fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis to javafx.fxml;
+    exports fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles;
+    opens fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles to javafx.fxml;
 
 
 }

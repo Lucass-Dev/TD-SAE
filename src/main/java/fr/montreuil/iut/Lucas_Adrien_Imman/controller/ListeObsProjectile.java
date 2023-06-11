@@ -1,6 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectile;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.ProjectileVue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;
