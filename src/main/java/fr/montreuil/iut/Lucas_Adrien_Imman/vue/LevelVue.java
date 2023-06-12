@@ -4,6 +4,7 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import fr.montreuil.iut.Lucas_Adrien_Imman.controller.LevelController;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.*;
 import javafx.beans.binding.Bindings;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tower;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;

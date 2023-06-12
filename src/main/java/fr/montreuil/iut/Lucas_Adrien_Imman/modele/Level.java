@@ -2,6 +2,12 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import javafx.beans.property.SimpleIntegerProperty;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.ProjectileDegatsBrut;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.ProjectilePoison;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.ProjectileRalentisseur;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -283,7 +289,7 @@ public class Level {
             this.ennemies.add(this.actualWave.remove(0));
         }
         if (this.ennemies.size() > 0){
-            for (int i = 0; i < ennemies.size() ; i++) {
+            for (int i = ennemies.size()-1; i>=0 ; i--) {
                 Ennemy e = ennemies.get(i);
                 e.move();
                 if (e.isOnObjective() || !e.isOnBound()){
@@ -301,33 +307,67 @@ public class Level {
         return this.player.isDead();
     }
 
-    public void tourAgir(int nbTours){
-        for (int i = 0; i <placedTower.size() ; i++) {
+    public void tourAgir(int nbTours) {
+        for (int i = 0; i < placedTower.size(); i++) {
             Tower t = placedTower.get(i);
-            Ennemy e =  t.detect(ennemies);
-            if(e!=null) {
-                if (nbTours % 20 == 0) {
-                    projectiles.add(new ProjectileDegatsBrut(t.getX(), t.getY(), e));
+            Ennemy e = t.detect(ennemies);
+            if (e != null) {
+                Projectile p = null;
+                int delais = 0;
+                if (t instanceof TaskKiller) {
+                    p = new ProjectileDegatsBrut(t.getX()+16, t.getY()+16, e);
+                    delais = 20;
+                } else if (t instanceof NordVPN) {
+                    p = new ProjectilePoison(t.getX()+16, t.getY()+16, e);
+                    delais = 70;
+                }
+                if (t instanceof InternetExplorer) {
+                    p = new ProjectileRalentisseur(t.getX()+16, t.getY()+16, e);
+                    delais = 2 ;
+                }
+                if (nbTours % delais == 0) {
+                    projectiles.add(p);
                 }
             }
-        }
 
+
+        }
     }
 
     public boolean verifProgression(){
         return player.isDead();
     }
 
-    public void animationProjectiles(){
+
+
+    public void animationProjectiles(int nbT){
         for (Projectile p : projectiles){
             p.moveProjectile();
-            p.agitSurLaCible();
+            if(p instanceof ProjectileDegatsBrut){
+                p.agitSurLaCible();
+            }
+            else if (p instanceof ProjectileRalentisseur){
+                    p.agitSurLaCible();
+
+
+            }
+            else if (p instanceof ProjectilePoison){
+            if(nbT %100 == 0){
+                    p.agitSurLaCible();
+
+                }
+
+
+
+            }
+
 
         }
         for (int j = projectiles.size()-1 ; j>=0;j--) {
             Projectile p = projectiles.get(j);
-            if(p.cibleAtteint() || p.isOnBound()) {
+            if(p.cibleAtteint() || p.isOnBound() ) {
                 projectiles.remove(p);
+
 
             }
         }

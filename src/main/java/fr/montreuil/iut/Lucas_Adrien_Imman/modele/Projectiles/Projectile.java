@@ -1,5 +1,6 @@
-package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
+package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -54,12 +55,12 @@ public abstract class Projectile {
 
     public abstract void agitSurLaCible();
 
-    public boolean cibleAtteint() {
-        return this.getY()<=e.getY()+16 && e.getY()<= this.getY() && this.getX()<=e.getX()+16 && e.getX() <= this.getX();
+    public   boolean cibleAtteint() {
+        int range = 16 ;
+        return ((this.getY()-range<=e.getY() && e.getY()<= this.getY()+range) && (this.getX()-range<=e.getX() && e.getX() <= this.getX()+range)) ;
     }
 
     public void moveProjectile() {
-
         double  posX = e.getX() - this.getX() ;
         double  posY = e.getY() - this.getY() ;
         double dirX, dirY;
@@ -70,12 +71,13 @@ public abstract class Projectile {
         dirY = posY  / totalDis ;
 
 
-        double newPosX = this.getX() + (6 * dirX);
-        double newPosY = this.getY() + (6 * dirY);
+        double newPosX = this.getX() + (5 * dirX);
+        double newPosY = this.getY() + (5 * dirY);
 
         setX((int) newPosX);
         setY((int) newPosY);
-
     }
+
+
 
 }

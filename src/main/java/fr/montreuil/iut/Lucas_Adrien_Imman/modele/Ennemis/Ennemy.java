@@ -1,5 +1,7 @@
-package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
+package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.Pane;
 
@@ -167,6 +169,9 @@ public abstract class Ennemy {
     public SimpleIntegerProperty getLife() {
         return life;
     }
+    public int getLifeValue(){
+        return life.getValue();
+    }
 
     public String getName() {
         return name;
@@ -230,8 +235,6 @@ public abstract class Ennemy {
     public void reductionSpeed(int s){
         if(speed-s>=0)
             setSpeed(speed-=s);
-        else
-            setSpeed(1);
     }
     public int getSpriteIndex() {
         return spriteIndex;

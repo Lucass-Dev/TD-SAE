@@ -1,8 +1,9 @@
-package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
+package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.image.Image;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
 

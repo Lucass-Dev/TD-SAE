@@ -1,7 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemy;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -31,14 +31,16 @@ public class EnnemyVue {
         HBox life = new HBox();
         lv.createBar(life, Color.RED, "Life", newEnnemy.lifeProperty(), newEnnemy.maxLifeProperty(), "lifeBar", false, true);
         this.image = new ImageView(new Image(Main.class.getResource("graphics/enemy/"+newEnnemy.getSpriteIndex()+".png").openStream()));
-        ennemy.getChildren().add(life);
-        ennemy.getChildren().add(image);
 
-        levelPane.getChildren().add(ennemy);
+
         this.ennemy.translateXProperty().bind(newEnnemy.xProperty());
         this.ennemy.translateYProperty().bind(newEnnemy.yProperty());
         this.ennemy.setId(newEnnemy.getId());
         this.ennemy.setAlignment(Pos.CENTER);
+        ennemy.getChildren().add(life);
+        ennemy.getChildren().add(image);
+        levelPane.getChildren().add(ennemy);
+
         this.ennemy.getTransforms().add(new Translate(-20, -20));
     }
 }
