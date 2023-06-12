@@ -13,4 +13,9 @@ public class Kamikaze extends Ennemy{
             this.getPlayer().lifeReduction(this.getDamage());
         }
     }
+
+    @Override
+    public void die(){
+
+    }
 }

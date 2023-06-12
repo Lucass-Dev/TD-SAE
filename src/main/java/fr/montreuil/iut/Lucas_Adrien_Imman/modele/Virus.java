@@ -5,15 +5,26 @@ import javafx.scene.layout.Pane;
 public class Virus extends Ennemy{
 
     public Virus(int x, int y, Pane levelPane, Level level, Player player) {
-        super(x, y, levelPane, level, 2, 5000, player, 4, 50,65);
+        super(x, y, levelPane, level, 2, 50, player, 4, 50,1);
     }
 
     @Override
     public void doDamage(){
         if(isOnObjective()){
             this.getPlayer().lifeReduction(this.getDamage());
-            this.getLevel().freezeRam(10);
+            int rand = (int)((Math.random() * (3 - 1)) + 1);
+            System.out.println(rand);
+            if (rand == 1){
+                this.getLevel().freezeRam(10);
+            }else{
+                this.getLevel().applyPoison(5);
+            }
         }
+    }
+
+    @Override
+    public void die(){
+
     }
 
 }

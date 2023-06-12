@@ -4,16 +4,18 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Level {
@@ -21,7 +23,7 @@ public class Level {
     private Player player;
     private String levelName;
     private int difficulty;
-    private int actualWaveNumber;
+    private SimpleIntegerProperty actualWaveNumber;
     private ArrayList<Ennemy> actualWave;
     private ArrayList<ArrayList<Integer>> tileMap;
     private ArrayList<ArrayList<Integer>> travelingMap;
@@ -37,11 +39,18 @@ public class Level {
 
     //  private Projectile projectile ;
 
-    //For freezing state
+    //For freezing ram state
     private boolean freezingRam;
     private int startFreezingRam;
     private int freezingDelay;
     private int freezedRamAmount;
+
+    //For poisoning state
+    private boolean poisoning;
+    private int startPoisoning;
+    private int poisoningDelay;
+    private int poisonedAmount;
+    private int poisonTicks;
 
     public Level(String name, Pane levelPane){
         this.levelPane = levelPane;
@@ -55,19 +64,15 @@ public class Level {
         this.actualWave = new ArrayList<>();
         this.waveSize = 6;
         this.difficulty = 3;
-        this.actualWaveNumber = 20;
+        this.actualWaveNumber = new SimpleIntegerProperty(20);
         this.projectiles = FXCollections.observableArrayList();
         this.nbActeurs = 4;
-        this.freezingDelay = 0;
+        this.freezingDelay = 350;
         this.freezingRam = false;
         this.freezedRamAmount = 0;
-        this.startFreezingRam = 0;
-    }
-
-    public Level(String name, ArrayList<ArrayList<Integer>> tileMap){
-        this.levelName = name;
-        this.tileMap = tileMap;
-        this.travelingMap = tileMapToTraveling(this.tileMap);
+        this.poisoning = false;
+        this.poisoningDelay = 150;
+        this.poisonedAmount = 0;
     }
 
     public ArrayList<ArrayList<Integer>> tileMapToTraveling(ArrayList<ArrayList<Integer>> tileMap){
@@ -237,28 +242,28 @@ public class Level {
                     this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                 }
                 case 2 -> {
-                    if (this.actualWaveNumber <= 5){
+                    if (this.actualWaveNumber.get() <= 5){
                         this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }else{
                         this.actualWave.add(new Archive(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }
                 }
                 case 3 -> {
-                    if (this.actualWaveNumber <= 10){
+                    if (this.actualWaveNumber.get() <= 10){
                         this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }else{
                         this.actualWave.add(new Virus(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }
                 }
                 case 4 -> {
-                    if (this.actualWaveNumber <= 15){
+                    if (this.actualWaveNumber.get() <= 15){
                         this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }else{
                         this.actualWave.add(new Scam(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }
                 }
                 case 5 -> {
-                    if (this.actualWaveNumber <= 20){
+                    if (this.actualWaveNumber.get()<= 20){
                         this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }else{
                         this.actualWave.add(new DotExe(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
@@ -266,14 +271,13 @@ public class Level {
                 }
             }
         }
-        this.actualWaveNumber++;
+        this.actualWaveNumber.set(this.actualWaveNumber.get()+1);
     }
 
     public boolean doTurn(int nbTours){
-        //System.out.println(nbTours);
         if (actualWave.size() == 0 && ennemies.size() == 0){
             createWave(this.waveSize);
-            this.waveSize += actualWaveNumber*difficulty/3;
+            this.waveSize += actualWaveNumber.get()*difficulty/3;
             //nextWave();
         }else if (nbTours % 20 == 0 && actualWave.size() != 0){
             this.ennemies.add(this.actualWave.remove(0));
@@ -282,14 +286,18 @@ public class Level {
             for (int i = 0; i < ennemies.size() ; i++) {
                 Ennemy e = ennemies.get(i);
                 e.move();
-                if (e.isOnObjective() || !e.isOnBound() || e.estMort()){
+                if (e.isOnObjective() || !e.isOnBound()){
                     e.doDamage();
+                    ennemies.remove(e);
+                } else if (e.estMort()) {
+                    e.die();
                     ennemies.remove(e);
                 }
             }
         }
         this.nbTours = nbTours;
         defreezeRam();
+        poison();
         return this.player.isDead();
     }
 
@@ -310,8 +318,6 @@ public class Level {
         return player.isDead();
     }
 
-
-
     public void animationProjectiles(){
         for (Projectile p : projectiles){
             p.moveProjectile();
@@ -327,7 +333,6 @@ public class Level {
         }
 
     }
-
 
     public int[] getStartTilePos() {
         return startTilePos;
@@ -383,18 +388,60 @@ public class Level {
         this.freezingRam = true;
         this.freezedRamAmount += amount;
         this.startFreezingRam = this.nbTours;
-        this.freezingDelay = 500;
         this.player.setRam(this.player.getRam() - amount);
     }
 
     public void defreezeRam(){
         if (freezingRam){
             if (this.nbTours - this.startFreezingRam >= freezingDelay){
-                System.out.println(this.player.getRam() + freezedRamAmount);
                 this.freezingRam = false;
                 this.player.setRam(this.player.getRam() + freezedRamAmount);
                 this.freezedRamAmount = 0;
             }
         }
+    }
+
+    public int getActualWaveNumber() {
+        return actualWaveNumber.get();
+    }
+
+    public SimpleIntegerProperty actualWaveNumberProperty() {
+        return actualWaveNumber;
+    }
+
+    public void applyPoison(int amount){
+        this.poisoning = true;
+        this.poisonedAmount += amount;
+        this.startPoisoning = this.nbTours;
+        this.poisonTicks = 0;
+    }
+
+    public void poison(){
+        if (this.poisoning && this.poisonTicks < 3 && this.nbTours - this.startPoisoning >= poisoningDelay){
+            this.player.setLife(this.player.getLife() - poisonedAmount);
+            this.startPoisoning = this.nbTours;
+            poisonTicks++;
+            if (poisonTicks == 2){
+                poisonTicks = 0;
+                poisoning = false;
+            }
+        }
+    }
+
+    public void scamPopup(){
+        Popup popup = new Popup();
+        Button closingButton = new Button("Close");
+        popup.setWidth(Main.stg.getWidth());
+        popup.setHeight(Main.stg.getHeight());
+        Label lb = new Label();
+        lb.setMinWidth(popup.getWidth());
+        lb.setMinHeight(popup.getHeight());
+        lb.setBackground(Background.fill(Color.WHEAT));
+        popup.getContent().add(lb);
+        popup.getContent().add(closingButton);
+        popup.show(Main.stg);
+        closingButton.setOnAction(e -> {
+            popup.hide();
+        });
     }
 }

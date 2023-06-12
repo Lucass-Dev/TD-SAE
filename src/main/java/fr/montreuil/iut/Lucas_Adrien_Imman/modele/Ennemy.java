@@ -37,6 +37,7 @@ public abstract class Ennemy {
     }
 
     public abstract void doDamage();
+    public abstract void die();
 
     public boolean isCentered(){
         int[] center;
@@ -242,5 +243,9 @@ public abstract class Ennemy {
 
     public int getDamage() {
         return damage;
+    }
+
+    public Pane getLevelPane() {
+        return levelPane;
     }
 }
