@@ -20,8 +20,9 @@ abstract public class Tower{
     private String id;
     public static int compteur = 0;
     private SimpleIntegerProperty movingPrice;
+    private int delais ;
 
-    public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex){
+    public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex , int delais){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.spriteIndex = spriteIndex;
@@ -34,6 +35,15 @@ abstract public class Tower{
         this.flopPrice = flopPrice;
         this.ramPrice = ramPrice;
         this.upgradeCost = upgradeCost;
+        this.delais = delais ;
+    }
+
+    public int getDelais() {
+        return delais;
+    }
+
+    public void setDelais(int delais) {
+        this.delais = delais;
     }
 
     //GETTER

@@ -2,7 +2,6 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles;
 
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
 
 public class ProjectileRalentisseur extends Projectile {
 
@@ -13,12 +12,12 @@ public class ProjectileRalentisseur extends Projectile {
     }
 
     @Override
-    public void agitSurLaCible() {
+    public int agitSurLaCible() {
        int speed =  e.getSpeed() ;
         if (!cibleAtteint()){
             e.setSpeed(1);
         }
-
+            return speed ;
     }
 
 

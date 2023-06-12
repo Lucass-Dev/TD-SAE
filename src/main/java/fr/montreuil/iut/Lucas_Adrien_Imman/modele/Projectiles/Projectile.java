@@ -10,16 +10,19 @@ public abstract class Projectile {
     protected Ennemy e ;
     private String id;
     public static int compteur=0;
+    private int delais ;
+
+
 
 
     public Projectile(int x , int y , Ennemy e){
-        super();
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.e = e;
         this.id= "P" + compteur;
         compteur++;
     }
+
 
     public boolean isOnBound(){
         return this.getX() >640  && this.getY() >640;
@@ -53,7 +56,7 @@ public abstract class Projectile {
         this.y.set(y);
     }
 
-    public abstract void agitSurLaCible();
+    public abstract int agitSurLaCible();
 
     public   boolean cibleAtteint() {
         int range = 16 ;

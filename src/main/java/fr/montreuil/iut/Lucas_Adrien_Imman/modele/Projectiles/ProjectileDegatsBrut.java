@@ -1,7 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
 
 public class ProjectileDegatsBrut extends Projectile {
 
@@ -12,9 +11,10 @@ public class ProjectileDegatsBrut extends Projectile {
     }
 
     @Override
-    public void agitSurLaCible() {
+    public int agitSurLaCible() {
         if(cibleAtteint())
         e.reductionPv(10);
+        return 0;
     }
 
 
