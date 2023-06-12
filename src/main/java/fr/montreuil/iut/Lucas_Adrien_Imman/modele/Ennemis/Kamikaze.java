@@ -11,4 +11,13 @@ public class Kamikaze extends Ennemy {
     }
 
 
+    @Override
+    public void doDamage() {
+
+    }
+
+    @Override
+    public void die() {
+
+    }
 }

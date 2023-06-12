@@ -1,7 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemy;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tower;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tower;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tower;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.TowerVue;
 import javafx.collections.ListChangeListener;
