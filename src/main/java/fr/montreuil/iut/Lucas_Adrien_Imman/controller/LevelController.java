@@ -64,6 +64,10 @@ public class LevelController implements Initializable {
     HBox athHbox;
     @FXML
     Pane towerMenu;
+    @FXML
+    Label waveLabel;
+    @FXML
+    Label timeLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -140,16 +144,11 @@ public class LevelController implements Initializable {
     public void createLevel() {
         this.towerMenu.getChildren().remove(this.playButton);
         this.player = this.LDT.getPlayer();
-        this.athHbox.setOnMouseClicked(e -> {
-            if (player.getLife() > 0) {
-                this.player.setLife(this.player.getLife() - 10);
-            }
-
-        });
 
         int mapIndex = this.LDT.getMapIndex();
         this.level = new Level("test", this.levelPane);
         this.level.setPlayer(this.LDT.getPlayer());
+        this.waveLabel.textProperty().bind(this.level.actualWaveNumberProperty().asString());
         try {
             ArrayList<ArrayList<Integer>> map = this.level.createMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map"+mapIndex+".csv", tilePane);
             this.level.setTileMap(map);
