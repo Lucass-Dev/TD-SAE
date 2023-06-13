@@ -18,11 +18,15 @@ public abstract class Ennemy {
     private int spriteIndex;
     private SimpleIntegerProperty maxLife;
     private int damage ;
+    private int dropRate ;
+
 
     //direction stands for the cardinal direction with an int value : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
 
-    public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife , int damage){
+
+
+    public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife , int damage , int dropeRate){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.levelPane = levelPane;
@@ -36,6 +40,19 @@ public abstract class Ennemy {
         compteur++;
         this.player = player ;
         this.damage = damage ;
+        this.dropRate = dropeRate ;
+    }
+
+    public void resetSpped(){
+        setSpeed(3);
+    }
+
+    public int getDropRate() {
+        return dropRate;
+    }
+
+    public void setDropRate(int dropRate) {
+        this.dropRate = dropRate;
     }
 
     public void doDamage(){

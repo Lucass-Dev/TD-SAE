@@ -208,6 +208,7 @@ public class LevelController implements Initializable {
                         this.level.doTurn(nbTours);
                         level.tourAgir(nbTours);
                         level.animationProjectiles(nbTours);
+                        level.flopGain();
                         nbTours++ ;
 
                     }

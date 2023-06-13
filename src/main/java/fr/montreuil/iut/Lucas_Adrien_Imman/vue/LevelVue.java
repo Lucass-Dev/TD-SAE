@@ -34,7 +34,6 @@ public class LevelVue {
         this.tilePane = tilePane;
         this.levelPane = levelPane;
         this.levelController = levelController;
-        this.nbVague = new Label();
     }
 
     public void createShopMenu(VBox towerShopVbox){
@@ -140,13 +139,5 @@ public class LevelVue {
                 System.out.println("Can't move Tower");
             }
         });
-        hbox.getChildren().add(upgradeButton);
-        hbox.getChildren().add(moveButton);
-        location.getChildren().add(hbox);
-
-        nbVague.setText("helllllllllo");
-        nbVague.setLayoutX(640);
-        nbVague.setLayoutY(700);
-        location.getChildren().add(nbVague);
     }
 }

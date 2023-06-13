@@ -39,7 +39,7 @@ abstract public class Tower{
     }
 
     public int getDelais() {
-        return delais;
+        return this.delais;
     }
 
     public void setDelais(int delais) {

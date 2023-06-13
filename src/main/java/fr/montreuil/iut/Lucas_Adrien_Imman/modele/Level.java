@@ -32,21 +32,23 @@ public class Level {
     private ArrayList<ArrayList<Integer>> travelingMap;
     private ObservableList<Tower> placedTower;
     private ObservableList<Ennemy> ennemies;
-    private ObservableList<Projectile> projectiles ;
+    private ArrayList<Ennemy> ennemiesDansLaZone ;
+    private ObservableList<Projectile> projectiles;
 
     private int[] startTilePos;
     private int[] endTilePos;
     private Pane levelPane;
     private int waveSize;
-    private int nbActeurs ;
+    private int nbActeurs;
 
     //  private Projectile projectile ;
 
-    public Level(String name, Pane levelPane){
+    public Level(String name, Pane levelPane) {
         this.levelPane = levelPane;
         this.levelName = name;
         this.tileMap = new ArrayList<>();
         this.travelingMap = new ArrayList<>();
+        this.ennemiesDansLaZone = new ArrayList<>();
         this.placedTower = FXCollections.observableArrayList();
         this.ennemies = FXCollections.observableArrayList();
         this.startTilePos = new int[2];
@@ -59,38 +61,38 @@ public class Level {
         this.nbActeurs = 4;
     }
 
-    public Level(String name, ArrayList<ArrayList<Integer>> tileMap){
+    public Level(String name, ArrayList<ArrayList<Integer>> tileMap) {
         this.levelName = name;
         this.tileMap = tileMap;
         this.travelingMap = tileMapToTraveling(this.tileMap);
     }
 
-    public ArrayList<ArrayList<Integer>> tileMapToTraveling(ArrayList<ArrayList<Integer>> tileMap){
+    public ArrayList<ArrayList<Integer>> tileMapToTraveling(ArrayList<ArrayList<Integer>> tileMap) {
         ArrayList<ArrayList<Integer>> traveling = new ArrayList<>();
 
         int index = 0;
-        for (ArrayList<Integer>  a: tileMap) {
+        for (ArrayList<Integer> a : tileMap) {
             traveling.add(new ArrayList<>());
             for (Integer i : a) {
-                if (i == 10){
+                if (i == 10) {
                     traveling.get(index).add(0);
                 } else if (i == 6) {
                     traveling.get(index).add(2);
-                }else if (i == 7) {
+                } else if (i == 7) {
                     traveling.get(index).add(3);
-                }else if (i == 8) {
+                } else if (i == 8) {
                     traveling.get(index).add(4);
-                }else if (i == 9) {
+                } else if (i == 9) {
                     traveling.get(index).add(5);
                 } else if (i == 11 || i == 12 || i == 13 || i == 14) {
                     traveling.get(index).add(6);
                     startTilePos[0] = index;
-                    startTilePos[1] = traveling.get(index).size()-1;
-                }else if (i == 1 || i == 2 || i == 4 || i == 5) {
+                    startTilePos[1] = traveling.get(index).size() - 1;
+                } else if (i == 1 || i == 2 || i == 4 || i == 5) {
                     traveling.get(index).add(7);
                     endTilePos[0] = index;
-                    endTilePos[1] = traveling.get(index).size()-1;
-                } else{
+                    endTilePos[1] = traveling.get(index).size() - 1;
+                } else {
                     traveling.get(index).add(1);
                 }
             }
@@ -103,23 +105,23 @@ public class Level {
         return travelingMap;
     }
 
-    public int[] getTileCenter(int[] tilePos){
+    public int[] getTileCenter(int[] tilePos) {
         int[] center = new int[2];
-        if (tilePos[0] >= this.travelingMap.size() || tilePos[1] > this.travelingMap.size()){
+        if (tilePos[0] >= this.travelingMap.size() || tilePos[1] > this.travelingMap.size()) {
             return null;
-        }else{
-            center[0] = tilePos[0]*32 + 16;
-            center[1] = tilePos[1]*32 + 16;
+        } else {
+            center[0] = tilePos[0] * 32 + 16;
+            center[1] = tilePos[1] * 32 + 16;
         }
 
         return center;
     }
 
-    public int getTile(int[] pos){
+    public int getTile(int[] pos) {
         return this.travelingMap.get(pos[1]).get(pos[0]);
     }
 
-    public boolean validTile(int[] pos){
+    public boolean validTile(int[] pos) {
         return getTile(pos) == 0;
     }
 
@@ -127,7 +129,7 @@ public class Level {
         this.tileMap = tileMap;
     }
 
-    public void setTravelingMap(ArrayList<ArrayList<Integer>> tileMap){
+    public void setTravelingMap(ArrayList<ArrayList<Integer>> tileMap) {
         this.travelingMap = tileMapToTraveling(this.tileMap);
     }
 
@@ -144,7 +146,7 @@ public class Level {
 
         int i = 0;
 
-        while (sc.hasNextLine()){
+        while (sc.hasNextLine()) {
             String l = sc.nextLine();
             String[] ls = l.split(",");
             map.add(new ArrayList<>());
@@ -158,7 +160,7 @@ public class Level {
         for (int j = 0; j < map.size(); j++) {
             for (int k = 0; k < map.get(j).size(); k++) {
                 ImageView newImageView = new ImageView();
-                String s = "graphics/tiles/"+map.get(j).get(k)+".png";
+                String s = "graphics/tiles/" + map.get(j).get(k) + ".png";
                 String newImagePath = Main.class.getResource(s).toString();
                 newImageView.setImage(new Image(newImagePath));
                 pane.getChildren().add(newImageView);
@@ -167,7 +169,7 @@ public class Level {
         return map;
     }
 
-    public void addTower(Tower tower){
+    public void addTower(Tower tower) {
         this.placedTower.add(tower);
     }
 
@@ -179,8 +181,8 @@ public class Level {
         return ennemies;
     }
 
-    public ObservableList<Projectile> getProjectiles(){
-        return projectiles ;
+    public ObservableList<Projectile> getProjectiles() {
+        return projectiles;
     }
 
 /*
@@ -196,29 +198,29 @@ public class Level {
 
  */
 
-    public void placeTower(int x , int y, int index){
+    public void placeTower(int x, int y, int index) {
         int[] pos = new int[2];
-        pos[0] = x/32;
-        pos[1] = y/32;
+        pos[0] = x / 32;
+        pos[1] = y / 32;
         Tower t = null;
-        switch(index){
+        switch (index) {
             case 0 -> {
-                t = new TaskKiller(pos[0]*32, pos[1]*32);
+                t = new TaskKiller(pos[0] * 32, pos[1] * 32);
             }
             case 1 -> {
-                t = new CCleaner(pos[0]*32, pos[1]*32);
+                t = new CCleaner(pos[0] * 32, pos[1] * 32);
             }
             case 2 -> {
-                t = new Demineur(pos[0]*32, pos[1]*32);
+                t = new Demineur(pos[0] * 32, pos[1] * 32);
             }
             case 3 -> {
-                t = new InternetExplorer(pos[0]*32, pos[1]*32);
+                t = new InternetExplorer(pos[0] * 32, pos[1] * 32);
             }
             case 4 -> {
-                t = new NordVPN(pos[0]*32, pos[1]*32);
+                t = new NordVPN(pos[0] * 32, pos[1] * 32);
             }
             case 5 -> {
-                t = new PDFConverter(pos[0]*32, pos[1]*32);
+                t = new PDFConverter(pos[0] * 32, pos[1] * 32);
             }
             default -> System.out.println("Error, index might be from 0 to 5 and found " + index);
         }
@@ -229,58 +231,58 @@ public class Level {
         this.actualWaveNumber.set(actualWaveNumber);
     }
 
-    public void createWave(int size){
+    public void createWave(int size) {
         for (int i = 0; i < size; i++) {
-            switch ((int) ((Math.random() * (6 - 1)) + 1)){
+            switch ((int) ((Math.random() * (6 - 1)) + 1)) {
                 case 1 -> {
-                    this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
+                    this.actualWave.add(new DotSH(startTilePos[0] * 32 + 16, startTilePos[1] * 32 + 16, levelPane, this, this.player));
                 }
                 case 2 -> {
-                    if (this.actualWaveNumber.get() <= 5){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
-                    }else{
-                        this.actualWave.add(new Archive(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
+                    if (this.actualWaveNumber.get() <= 5) {
+                        this.actualWave.add(new DotSH(startTilePos[0] * 32 + 16, startTilePos[1] * 32 + 16, levelPane, this, this.player));
+                    } else {
+                        this.actualWave.add(new Archive(startTilePos[0] * 32 + 16, startTilePos[1] * 32 + 16, levelPane, this, this.player));
                     }
                 }
                 case 3 -> {
-                    if (this.actualWaveNumber.get() <= 10){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
-                    }else{
-                        this.actualWave.add(new Virus(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
+                    if (this.actualWaveNumber.get() <= 10) {
+                        this.actualWave.add(new DotSH(startTilePos[0] * 32 + 16, startTilePos[1] * 32 + 16, levelPane, this, this.player));
+                    } else {
+                        this.actualWave.add(new Virus(startTilePos[0] * 32 + 16, startTilePos[1] * 32 + 16, levelPane, this, this.player));
                     }
                 }
                 case 4 -> {
-                    if (this.actualWaveNumber.get() <= 15){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
-                    }else{
-                        this.actualWave.add(new Scam(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
+                    if (this.actualWaveNumber.get() <= 15) {
+                        this.actualWave.add(new DotSH(startTilePos[0] * 32 + 16, startTilePos[1] * 32 + 16, levelPane, this, this.player));
+                    } else {
+                        this.actualWave.add(new Scam(startTilePos[0] * 32 + 16, startTilePos[1] * 32 + 16, levelPane, this, this.player));
                     }
                 }
                 case 5 -> {
-                    if (this.actualWaveNumber.get() <= 20){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
-                    }else{
-                        this.actualWave.add(new DotExe(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
+                    if (this.actualWaveNumber.get() <= 20) {
+                        this.actualWave.add(new DotSH(startTilePos[0] * 32 + 16, startTilePos[1] * 32 + 16, levelPane, this, this.player));
+                    } else {
+                        this.actualWave.add(new DotExe(startTilePos[0] * 32 + 16, startTilePos[1] * 32 + 16, levelPane, this, this.player));
                     }
                 }
             }
         }
-        setActualWaveNumber(actualWaveNumber.get()+1);
+        setActualWaveNumber(actualWaveNumber.get() + 1);
     }
 
-    public boolean doTurn(int nbTours){
-        if (actualWave.size() == 0 && ennemies.size() == 0){
+    public boolean doTurn(int nbTours) {
+        if (actualWave.size() == 0 && ennemies.size() == 0) {
             createWave(this.waveSize);
-            this.waveSize += actualWaveNumber.get()*difficulty/3;
+            this.waveSize += actualWaveNumber.get() * difficulty / 3;
             // nextWave();
-        }else if (nbTours % 20 == 0 && actualWave.size() != 0){
+        } else if (nbTours % 20 == 0 && actualWave.size() != 0) {
             this.ennemies.add(this.actualWave.remove(0));
         }
-        if (this.ennemies.size() > 0){
-            for (int i = ennemies.size()-1; i>=0 ; i--) {
+        if (this.ennemies.size() > 0) {
+            for (int i = ennemies.size() - 1; i >= 0; i--) {
                 Ennemy e = ennemies.get(i);
                 e.move();
-                if (e.isOnObjective() || !e.isOnBound() || e.estMort()){
+                if (e.isOnObjective() || !e.isOnBound() || e.estMort()) {
                     e.doDamage();
                     ennemies.remove(e);
                 }
@@ -290,7 +292,7 @@ public class Level {
     }
 
     public void tourAgir(int nbTours) {
-        for (int i = 0; i < placedTower.size(); i++) {
+        for (int i =  placedTower.size() - 1 ; i>=0 ; i--) {
             Tower t = placedTower.get(i);
             Ennemy e = t.detect(ennemies);
 
@@ -298,67 +300,69 @@ public class Level {
                 Projectile p = null;
 
                 if (t instanceof TaskKiller) {
-                    p = new ProjectileDegatsBrut(t.getX()+16, t.getY()+16, e);
-
-                } else if (t instanceof NordVPN) {
-                    p = new ProjectilePoison(t.getX()+16, t.getY()+16, e);
+                    p = new ProjectileDegatsBrut(t.getX() + 16, t.getY() + 16, e);
 
                 }
-                if (t instanceof InternetExplorer) {
-                    p = new ProjectileRalentisseur(t.getX()+16, t.getY()+16, e);
+                else if (t instanceof NordVPN) {
+                    p = new ProjectilePoison(t.getX() + 16, t.getY() + 16, e);
 
                 }
-                if (nbTours % t.getDelais() ==0) {
+                else if (t instanceof InternetExplorer) {
+
+                    if(ennemiesDansLaZone.size()!=0){
+                    for (int n = ennemiesDansLaZone.size() - 1; n >= 0; n--) {
+                       if(ennemiesDansLaZone.get(n) .getId()!=e.getId()){
+                           ennemiesDansLaZone.add(e);
+                       }
+                    }}
+                    else
+                        ennemiesDansLaZone.add(e);
+                    p = new ProjectileRalentisseur(t.getX() + 16, t.getY() + 16, e);
+
+                }
+                if (nbTours % t.getDelais() == 0) {
                     projectiles.add(p);
 
                 }
             }
 
+            else {
+                for (int n = ennemiesDansLaZone.size() - 1; n >= 0; n--) {
+                    ennemiesDansLaZone.get(n).resetSpped();
+                    ennemiesDansLaZone.remove(n);
+                }
 
+            }
         }
     }
 
-    public boolean verifProgression(){
+    public boolean verifProgression() {
         return player.isDead();
     }
 
 
-
-    public void animationProjectiles(int nbT){
-        for (Projectile p : projectiles){
+    public void animationProjectiles(int nbT) {
+        for (Projectile p : projectiles) {
             p.moveProjectile();
-            if(p instanceof ProjectileDegatsBrut){
+            if (p instanceof ProjectileDegatsBrut) {
                 p.agitSurLaCible();
-            }
-            else if (p instanceof ProjectileRalentisseur){
+            } else if (p instanceof ProjectileRalentisseur) {
+
+                for (int i = ennemiesDansLaZone.size() - 1; i >= 0; i--) {
                     p.agitSurLaCible();
-
-
-            }
-            else if (p instanceof ProjectilePoison){
-            if(nbT %100 == 0){
-                    p.agitSurLaCible();
-
                 }
 
-
+            } else if (p instanceof ProjectilePoison) {
+                p.agitSurLaCible();
 
             }
-
-
         }
-        for (int j = projectiles.size()-1 ; j>=0;j--) {
+        for (int j = projectiles.size() - 1; j >= 0; j--) {
             Projectile p = projectiles.get(j);
-            if(p.cibleAtteint() || p.isOnBound() ) {
+            if (p.cibleAtteint() || p.isOnBound()) {
                 projectiles.remove(p);
-                int r  = p.agitSurLaCible() ;
-                for (Ennemy e:
-                        ennemies) {
-                    e.setSpeed(r);
-                }
             }
         }
-
 
     }
 
@@ -375,10 +379,10 @@ public class Level {
         return this.getTravelingMap().get(pos[1]).get(pos[0]);
     }
 
-    public int[] getTilePos(int x, int y){
+    public int[] getTilePos(int x, int y) {
         int[] pos = new int[2];
-        pos[0] = x/32;
-        pos[1] = y/32;
+        pos[0] = x / 32;
+        pos[1] = y / 32;
         return pos;
     }
 
@@ -386,11 +390,11 @@ public class Level {
         return player;
     }
 
-    public Tower getTower(String id){
+    public Tower getTower(String id) {
         Tower t = null;
-        for (Tower tower: this.getPlacedTower()) {
-            if (tower.getId().equals(id)){
-                t =  tower;
+        for (Tower tower : this.getPlacedTower()) {
+            if (tower.getId().equals(id)) {
+                t = tower;
             }
         }
         return t;
@@ -406,10 +410,20 @@ public class Level {
         Label nextWaveLabel = new Label();
 
         nextWavePopup.getContent().add(nextWaveLabel);
-        nextWavePopup.show(Main.stg, Main.stg.getHeight()/2, Main.stg.getWidth()/2);
+        nextWavePopup.show(Main.stg, Main.stg.getHeight() / 2, Main.stg.getWidth() / 2);
         for (int i = timer; i > 0; i--) {
-            nextWaveLabel.setText("New wave in "+ i);
+            nextWaveLabel.setText("New wave in " + i);
         }
         nextWavePopup.hide();
     }
+
+    public void flopGain() {
+        for (int i = ennemies.size() - 1; i >= 0; i--) {
+            Ennemy e = ennemies.get(i);
+            if (e.estMort()) {
+                    player.setFlop(player.getFlop() + (e.getDropRate()* (int)(actualWaveNumber.getValue()*0.5)));
+            }
+        }
+    }
+
 }

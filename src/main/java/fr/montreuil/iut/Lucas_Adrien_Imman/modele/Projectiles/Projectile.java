@@ -56,7 +56,7 @@ public abstract class Projectile {
         this.y.set(y);
     }
 
-    public abstract int agitSurLaCible();
+    public abstract void agitSurLaCible();
 
     public   boolean cibleAtteint() {
         int range = 16 ;

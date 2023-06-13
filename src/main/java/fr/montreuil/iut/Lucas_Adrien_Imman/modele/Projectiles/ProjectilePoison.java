@@ -8,10 +8,22 @@ public class ProjectilePoison extends Projectile {
     }
 
 
-    public int agitSurLaCible() {
-        if(cibleAtteint())
-            e.reductionPv(10);
-        return 0;
+    public void agitSurLaCible() {
+        if (cibleAtteint()) {
+            // e.setY(e.getY()-e.getSpeed());
+            int nouvellePosX = e.getX() + 1;
+            int nouvellePosY = e.getY() + 1;
+
+            // Calculer la nouvelle vitesse en fonction du knockback
+            int nouvelleVitesse = e.getSpeed()+1;
+
+            // Mettre à jour la position et la vitesse de l'acteur avec le knockback
+            e.setX(nouvellePosX);
+         //   e.setY(nouvellePosY);
+         //   e.setSpeed(nouvelleVitesse);
+
+
+        }
     }
 
 }
