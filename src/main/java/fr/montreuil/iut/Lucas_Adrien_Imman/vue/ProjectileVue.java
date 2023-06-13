@@ -24,9 +24,9 @@ public class ProjectileVue {
             circle.setFill(Color.YELLOW);
         }
         else if (newProjectile instanceof ProjectileRalentisseur) {
-            circle = new Circle(6);
+            circle = new Circle(50);
             circle.setFill(Color.BLUE);
-            circle.setOpacity(Math.random()*3);
+            circle.setOpacity(0.2);
         }
         else if (newProjectile instanceof ProjectilePoison){
             circle = new Circle(10);

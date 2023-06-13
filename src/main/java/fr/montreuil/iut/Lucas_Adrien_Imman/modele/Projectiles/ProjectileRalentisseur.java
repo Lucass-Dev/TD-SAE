@@ -17,7 +17,15 @@ public class ProjectileRalentisseur extends Projectile {
             e.setSpeed(1);
         }
     }
+    public   boolean cibleAtteint() {
+        int range = 16 ;
+        return ((this.getY()-range<=e.getY() && e.getY()<= this.getY()+range) && (this.getX()-range<=e.getX() && e.getX() <= this.getX()+range)) ;
+    }
 
+    public void moveProjectile(){
+        setX(getX());
+        setY(getY());
+    }
 
 
 }

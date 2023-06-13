@@ -7,6 +7,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
+
 abstract public class Tower{
     private SimpleIntegerProperty x, y;
     private int range;
@@ -21,7 +23,7 @@ abstract public class Tower{
     public static int compteur = 0;
     private SimpleIntegerProperty movingPrice;
     private int delais ;
-
+    private ArrayList<Ennemy> ennemieDetecte ;
     public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex , int delais){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
@@ -36,6 +38,7 @@ abstract public class Tower{
         this.ramPrice = ramPrice;
         this.upgradeCost = upgradeCost;
         this.delais = delais ;
+        this.ennemieDetecte = new ArrayList<>() ;
     }
 
     public int getDelais() {
@@ -160,12 +163,12 @@ abstract public class Tower{
             System.out.println("Pas assez d'argent");
         }
     }
-    public Ennemy detect(ObservableList<Ennemy> ennemis ){
+    public ArrayList<Ennemy> detect(ObservableList<Ennemy> ennemis){
         for (Ennemy m : ennemis) {
-            if ((this.getY()-range<=m.getY() && m.getY()<= this.getY()+range) && (this.getX()-range<=m.getX() && m.getX() <= this.getX()+range)){
-                return m;
+            if (this.getY()-range<=m.getY() && m.getY()<= this.getY()+range && this.getX()-range<=m.getX() && m.getX() <= this.getX()+range){
+                ennemieDetecte.add(m);
             }
         }
-        return null;
+        return ennemieDetecte ;
     }
 }
