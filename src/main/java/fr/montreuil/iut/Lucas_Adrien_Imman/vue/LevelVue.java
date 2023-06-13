@@ -6,8 +6,6 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -18,7 +16,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +28,7 @@ public class LevelVue {
     private LevelController levelController;
     private Tower[] reference;
     private TowerVue tv;
+    private BarVue bv;
 
     public LevelVue(){}
 
@@ -47,6 +45,7 @@ public class LevelVue {
         this.reference[4] = new NordVPN(0, 0);
         this.reference[5] = new PDFConverter(0, 0);
         this.tv = new TowerVue(levelPane);
+        this.bv = new BarVue();
     }
 
     public void createShopMenu(VBox towerShopVbox){
@@ -75,8 +74,8 @@ public class LevelVue {
 
     }
     public void createATH(Player p, HBox location) {
-        createBar(location, Color.RED, "Life", p.lifeProperty(), p.maxlifeProperty(), "lifebarPane", true, false);
-        createBar(location, Color.CADETBLUE, "RAM", p.ramProperty(), p.maxRAMProperty(), "rambarPane", true, false);
+        this.bv.createBar(location, Color.RED, "Life", p.lifeProperty(), p.maxlifeProperty(), "lifebarPane", true, false);
+        this.bv.createBar(location, Color.CADETBLUE, "RAM", p.ramProperty(), p.maxRAMProperty(), "rambarPane", true, false);
 
         HBox flopHBox = new HBox();
         //flopHBox.getChildren().add(new ImageView(new Image()));
@@ -86,44 +85,7 @@ public class LevelVue {
 
         location.getChildren().add(flopHBox);
     }
-    public void createBar(HBox location, Color color, String attributeName, IntegerProperty actualProperty, IntegerProperty maxProperty, String id, boolean showContext, boolean isEnnemyBar){
-        Pane container = new Pane();
-        Rectangle bar = new Rectangle();
-        SimpleIntegerProperty barValue = new SimpleIntegerProperty(actualProperty.getValue());
-        int width, height;
 
-        if (isEnnemyBar){
-            width = 50;
-            height = 5;
-
-        }else{
-            width = 400;
-            height = 35;
-        }
-        container.setPrefWidth(width);
-        container.setMaxHeight(height);
-        bar.setFill(color);
-        bar.setWidth(width);
-        bar.setHeight(height);
-        bar.setId(id);
-        bar.getStyleClass().add("barPane");
-        container.getStyleClass().add("barContainerPane");
-        container.getChildren().add(bar);
-
-        bar.widthProperty().bind(Bindings.createIntegerBinding(() -> (width* actualProperty.get()/maxProperty.get()), actualProperty));
-
-        if (showContext){
-            Label lifeLabel = new Label();
-            HBox lifeLabelHbox = new HBox();
-            lifeLabel.textProperty().bind(actualProperty.asString());
-            lifeLabelHbox.getChildren().add(new Label(attributeName+" : "));
-            lifeLabelHbox.getChildren().add(lifeLabel);
-            lifeLabelHbox.getChildren().add(new Label(" / "+maxProperty.get()));
-            container.getChildren().add(lifeLabelHbox);
-        }
-
-        location.getChildren().add(container);
-    }
     public void createTowerMenu(Tower tower, Pane location) throws IOException {
         HBox hbox = new HBox();
         VBox towerPresentation = new VBox();

@@ -16,7 +16,6 @@ public class ListObsEnnemy implements ListChangeListener<Ennemy> {
 
     }
 
-
     @Override
     public void onChanged(Change<? extends Ennemy> c) {
         while (c.next()){
@@ -28,11 +27,9 @@ public class ListObsEnnemy implements ListChangeListener<Ennemy> {
                     e.printStackTrace();
                 }
             }
-
             for(Ennemy acteurMort : c.getRemoved()){
                 levelpane.getChildren().remove(levelpane.lookup("#"+acteurMort.getId()));
             }
-
         }
     }
 }

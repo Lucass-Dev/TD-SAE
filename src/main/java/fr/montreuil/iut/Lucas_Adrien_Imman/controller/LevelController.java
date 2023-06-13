@@ -162,7 +162,7 @@ public class LevelController implements Initializable {
             this.level.setTravelingMap(this.level.getTileMap());
             ListChangeListener<Ennemy> ennemyListChangeListener = new ListObsEnnemy(levelPane);
             this.level.getEnnemies().addListener(ennemyListChangeListener);
-            ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane);
+            ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane, player);
             this.level.getPlacedTower().addListener(towerListChangeListener);
             ListChangeListener<Projectile> projectileListChangeListener = new ListeObsProjectile(levelPane);
             this.level.getProjectiles().addListener(projectileListChangeListener);

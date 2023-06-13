@@ -19,17 +19,19 @@ public class EnnemyVue {
     private VBox ennemy;
     private Label pv;
     private ImageView image;
+    private BarVue bv;
 
     public EnnemyVue(Pane levelPane) {
         this.levelPane = levelPane;
         this.ennemy = new VBox();
         this.pv = new Label();
+        this.bv = new BarVue();
     }
 
     public void createEnnemySprite(Ennemy newEnnemy) throws IOException {
         LevelVue lv = new LevelVue();
         HBox life = new HBox();
-        lv.createBar(life, Color.RED, "Life", newEnnemy.lifeProperty(), newEnnemy.maxLifeProperty(), "lifeBar", false, true);
+        bv.createBar(life, Color.RED, "Life", newEnnemy.lifeProperty(), newEnnemy.maxLifeProperty(), "lifeBar", false, true);
         this.image = new ImageView(new Image(Main.class.getResource("graphics/enemy/"+newEnnemy.getSpriteIndex()+".png").openStream()));
 
 

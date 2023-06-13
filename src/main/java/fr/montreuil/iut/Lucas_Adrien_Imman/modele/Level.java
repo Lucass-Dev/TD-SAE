@@ -1,6 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
+import fr.montreuil.iut.Lucas_Adrien_Imman.vue.PopupVue;
 import javafx.beans.property.SimpleIntegerProperty;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
@@ -199,6 +200,10 @@ public class Level {
         return projectiles ;
     }
 
+    public boolean canPlaceTower(Tower tower){
+        return this.player.getFlop() >= tower.getFlopPrice() && this.player.getRam() >= tower.getRamPrice();
+    }
+
     public void placeTower(int x , int y, int index){
         int[] pos = new int[2];
         pos[0] = x/32;
@@ -225,7 +230,13 @@ public class Level {
             }
             default -> System.out.println("Error, index might be from 0 to 5 and found " + index);
         }
-        addTower(t);
+        if (canPlaceTower(t)){
+            addTower(t);
+        }else{
+            PopupVue popupVue = new PopupVue();
+            popupVue.createTemporaryPopup("Sorry but you haven't enough ressources");
+        }
+
     }
 
     public void createWave(int size){
