@@ -13,6 +13,7 @@ public class Acteur {
     private int pv ;
 
 
+
     // private int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     // private int direction ;
 
