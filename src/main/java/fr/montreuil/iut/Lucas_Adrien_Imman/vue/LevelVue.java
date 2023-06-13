@@ -2,18 +2,18 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import fr.montreuil.iut.Lucas_Adrien_Imman.controller.LevelController;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.*;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
 import javafx.beans.binding.Bindings;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tower;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -29,6 +29,8 @@ public class LevelVue {
     private TowerVue towerVue;
     private Level level;
     private LevelController levelController;
+    private Tower[] reference;
+    private TowerVue tv;
 
     public LevelVue(){}
 
@@ -37,6 +39,14 @@ public class LevelVue {
         this.tilePane = tilePane;
         this.levelPane = levelPane;
         this.levelController = levelController;
+        this.reference = new Tower[6];
+        this.reference[0] = new TaskKiller(0, 0);
+        this.reference[1] = new CCleaner(0, 0);
+        this.reference[2] = new Demineur(0, 0);
+        this.reference[3] = new InternetExplorer(0, 0);
+        this.reference[4] = new NordVPN(0, 0);
+        this.reference[5] = new PDFConverter(0, 0);
+        this.tv = new TowerVue(levelPane);
     }
 
     public void createShopMenu(VBox towerShopVbox){
@@ -47,14 +57,19 @@ public class LevelVue {
                 totalTower++;
             }
         }
-
-
         for (int i = 0; i < totalTower; i++) {
             HBox newShopItem = new HBox();
+            newShopItem.setPadding(new Insets(8));
             Image newShopItemImage = new Image(Main.class.getResourceAsStream("graphics/tower/"+i+".png"));
-            newShopItem.getChildren().add(new ImageView(newShopItemImage));
+            ImageView imageView = new ImageView(newShopItemImage);
+            newShopItem.getChildren().add(imageView);
             newShopItem.getStyleClass().add("shopItem");
             newShopItem.setId("tower_"+i);
+            Label price = new Label("Price : " + reference[i].getFlopPrice());
+            price.setPadding(new Insets(15));
+            newShopItem.getChildren().add(price);
+            VBox stats = this.tv.stats(reference[i]);
+            newShopItem.getChildren().add(stats);
             towerShopVbox.getChildren().add(newShopItem);
         }
 
@@ -109,7 +124,7 @@ public class LevelVue {
 
         location.getChildren().add(container);
     }
-    public void printTowerMenu(Tower tower, Pane location) throws IOException {
+    public void createTowerMenu(Tower tower, Pane location) throws IOException {
         HBox hbox = new HBox();
         VBox towerPresentation = new VBox();
         towerPresentation.getChildren().add(new Label(tower.getName()));
@@ -128,7 +143,8 @@ public class LevelVue {
 
         hbox.getChildren().add(towerPresentation);
 
-        Button upgradeButton = new Button("Upgrade Tower : " +tower.getUpgradeCost());
+        Button upgradeButton = new Button();
+        upgradeButton.textProperty().bind(Bindings.createStringBinding(() -> "Upgrade Tower : " +tower.upgradeCostProperty().get(), tower.upgradeCostProperty()));
         upgradeButton.setOnAction(e-> tower.upgrade(level.getPlayer()));
         Button moveButton = new Button("Move Tower");
         moveButton.setOnAction(e-> {
@@ -144,8 +160,12 @@ public class LevelVue {
                 System.out.println("Can't move Tower");
             }
         });
+        VBox stats = tv.stats(tower);
+
+
         hbox.getChildren().add(upgradeButton);
         hbox.getChildren().add(moveButton);
+        hbox.getChildren().add(stats);
         location.getChildren().add(hbox);
     }
 }

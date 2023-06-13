@@ -68,9 +68,9 @@ public class Level {
         this.startTilePos = new int[2];
         this.endTilePos = new int[2];
         this.actualWave = new ArrayList<>();
-        this.waveSize = 6;
-        this.difficulty = 3;
-        this.actualWaveNumber = new SimpleIntegerProperty(20);
+        this.waveSize = 3;
+        this.difficulty = 1;
+        this.actualWaveNumber = new SimpleIntegerProperty(0);
         this.projectiles = FXCollections.observableArrayList();
         this.nbActeurs = 4;
         this.freezingDelay = 350;
@@ -198,19 +198,6 @@ public class Level {
     public ObservableList<Projectile> getProjectiles(){
         return projectiles ;
     }
-
-/*
-    public void addEnnemy(Ennemy ennemy){
-        this.ennemies.add(ennemy);
-    }
-
-    public void creationEnnemy(int nbTours, Level level){
-        if (nbTours %100 == 0){
-            ennemies.add(new DotSH(getStartTilePos()[0]*32 +16, getStartTilePos()[1]*32 +16, levelPane,level, 0));
-        }
-    }
-
- */
 
     public void placeTower(int x , int y, int index){
         int[] pos = new int[2];

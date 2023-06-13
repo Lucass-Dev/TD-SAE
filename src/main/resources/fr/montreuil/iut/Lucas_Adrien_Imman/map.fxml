@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -24,12 +26,136 @@
       <Pane id="towerShopPane" fx:id="towerShopPane" prefHeight="640.0" prefWidth="240.0" BorderPane.alignment="CENTER">
          <children>
             <VBox fx:id="towerShopVbox" prefHeight="640.0" prefWidth="300.0" />
-         </children></Pane>
+         </children>
+      </Pane>
    </right>
    <center>
       <Pane fx:id="levelPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
               <TilePane id="tilePane" fx:id="tilePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="640.0" />
+              <Pane id="helpPopup" fx:id="helpPopup" minHeight="400.0" minWidth="500.0">
+                 <children>
+                    <VBox alignment="CENTER">
+                       <Label text="Welcome to Files Attack !" textAlignment="CENTER" />
+                       <Label text="Your goal here is to survive the longer you can facing corrupted and mean files and programms. Here are a short look of your ennemies :" />
+                       <VBox alignment="CENTER">
+                          <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="0.0">
+                             <Label text="-.sh" />
+                             <ImageView fitHeight="32.0" fitWidth="30.0">
+                              <image>
+                                 <Image url="@graphics/enemy/0.png" />
+                              </image></ImageView>
+                           <Label text="A basic turret. Deals simple damage with no effect." />
+                          </HBox>
+                          <HBox alignment="CENTER_LEFT">
+                             <Label text="-Archive" />
+                             <ImageView>
+                              <image>
+                                 <Image url="@graphics/enemy/1.png" />
+                              </image></ImageView>
+                           <Label text="When dying, splits into 3 .sh" />
+                          </HBox>
+                          <HBox alignment="CENTER_LEFT">
+                             <Label text="-Virus" />
+                             <ImageView>
+                              <image>
+                                 <Image url="@graphics/enemy/2.png" />
+                              </image></ImageView>
+                           <Label text="half poisous, half freezing ram" />
+                          </HBox>
+                          <HBox alignment="CENTER_LEFT">
+                             <Label text="-Scam" />
+                             <ImageView fitWidth="32.0">
+                              <image>
+                                 <Image url="@graphics/enemy/3.png" />
+                              </image></ImageView>
+                           <Label text="Invoke a popup when touching your objective" />
+                          </HBox>
+                          <HBox alignment="CENTER_LEFT">
+                             <Label text="-.exe" />
+                             <ImageView>
+                              <image>
+                                 <Image url="@graphics/enemy/5.png" />
+                              </image></ImageView>
+                           <Label text="Trust me, you don't want him to touch you, unless yout want to disapear" />
+                          </HBox>
+                       </VBox>
+                     <Label text="And to face these enemies you will have a shop where you can buy some turrets (see down there). " />
+                     <Label text="You will also have the possibility to upgrade and move your turrets. " />
+                     <Label text="To do so you will have to click on your placed turrets and interact with the menu below." />
+                     <VBox alignment="CENTER">
+                        <children>
+                           <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="0.0">
+                              <children>
+                                 <Label text="-Task Killer" />
+                                 <ImageView fitHeight="32.0" fitWidth="30.0">
+                                    <image>
+                                       <Image url="@graphics/tower/0.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label text="The simplest tower you can buy, basic damage." />
+                              </children>
+                           </HBox>
+                           <HBox alignment="CENTER_LEFT">
+                              <children>
+                                 <Label text="-CCleaner" />
+                                 <ImageView>
+                                    <image>
+                                       <Image url="@graphics/tower/1.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label text="Less damage than the TaskKiller but attack like an electric arc" />
+                              </children>
+                           </HBox>
+                           <HBox alignment="CENTER_LEFT">
+                              <children>
+                                 <Label text="-Démineur" />
+                                 <ImageView>
+                                    <image>
+                                       <Image url="@graphics/tower/2.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label text="Doesn't deal any damage but will transform ennemies into Kamikaze" />
+                              </children>
+                           </HBox>
+                           <HBox alignment="CENTER_LEFT">
+                              <children>
+                                 <Label text="-Internet Explorer" />
+                                 <ImageView fitWidth="32.0">
+                                    <image>
+                                       <Image url="@graphics/tower/3.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label text="Slows ennemies" />
+                              </children>
+                           </HBox>
+                           <HBox alignment="CENTER_LEFT">
+                              <children>
+                                 <Label text="-NordVPN" />
+                                 <ImageView>
+                                    <image>
+                                       <Image url="@graphics/tower/4.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label text="Knock back ennemies and deals a lot of damage" />
+                              </children>
+                           </HBox>
+                           <HBox alignment="CENTER_LEFT">
+                              <children>
+                                 <Label text="-PDF Converter" />
+                                 <ImageView>
+                                    <image>
+                                       <Image url="@graphics/tower/5.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label text="Acts like the Démineur but only with .exe and tranforms them into .sh" />
+                              </children>
+                           </HBox>
+                        </children>
+                     </VBox>
+                    </VBox>
+                 </children>
+              </Pane>
          </children>
       </Pane>
    </center>
@@ -37,10 +163,10 @@
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Wave  : " />
-            <Label fx:id="waveLabel" text="waveLabel" />
+            <Label fx:id="waveLabel" />
             <HBox prefHeight="100.0" prefWidth="200.0" />
             <Label text="Time  :" />
-            <Label fx:id="timeLabel" text="timeLabel" />
+            <Label fx:id="timeLabel" />
          </children>
       </VBox>
    </left>

@@ -43,3 +43,10 @@
 .barPane{
 
 }
+
+#helpPopup{
+    -fx-background-color: white;
+     -fx-opacity: 1;
+     -fx-alignment: center;
+     -fx-margin: 50;
+}

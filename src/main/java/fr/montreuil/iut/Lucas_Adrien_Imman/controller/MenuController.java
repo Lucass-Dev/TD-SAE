@@ -3,7 +3,6 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.LevelDataTransit;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -72,7 +71,7 @@ public class MenuController implements Initializable {
 
 
         Parent root = fxmlLoader.load();
-        Scene nS= new Scene(root, 940, 900);
+        Scene nS= new Scene(root, 1040, 900);
 
         Main.stg.setScene(nS);
         //Main.stg.setFullScreen(true);

@@ -3,25 +3,29 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
 
 abstract public class Tower{
     private SimpleIntegerProperty x, y;
-    private int range;
+    private SimpleIntegerProperty range;
+    private SimpleIntegerProperty damage;
+    private SimpleIntegerProperty reloadSpeed;
     private int flopPrice;
     private int ramPrice;
     private String name;
     private SimpleIntegerProperty level;
-    private int upgradeCost;
+    private SimpleIntegerProperty upgradeCost;
     private Pane tilePane;
     private int spriteIndex;
     private String id;
     public static int compteur = 0;
     private SimpleIntegerProperty movingPrice;
+    private SimpleBooleanProperty showingRange;
 
-    public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex){
+    public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex, int damage, int reloadSpeed){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.spriteIndex = spriteIndex;
@@ -30,21 +34,28 @@ abstract public class Tower{
         this.name = name;
         this.level =  new SimpleIntegerProperty(1);
         this.movingPrice = new SimpleIntegerProperty(movingPrice);
-        this.range = range;
+        this.range = new SimpleIntegerProperty(range);
         this.flopPrice = flopPrice;
         this.ramPrice = ramPrice;
-        this.upgradeCost = upgradeCost;
+        this.upgradeCost = new SimpleIntegerProperty(upgradeCost);
+        this.damage = new SimpleIntegerProperty(damage);
+        this.reloadSpeed = new SimpleIntegerProperty(reloadSpeed);
+        this.showingRange = new SimpleBooleanProperty(false);
     }
 
     //GETTER
 
 
-    public String getId() {
-        return id;
+    public boolean isShowingRange() {
+        return showingRange.get();
     }
 
-    public int getRange() {
-        return range;
+    public SimpleBooleanProperty showingRangeProperty() {
+        return showingRange;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public int getFlopPrice() {
@@ -64,7 +75,7 @@ abstract public class Tower{
     }
 
     public int getUpgradeCost() {
-        return upgradeCost;
+        return upgradeCost.get();
     }
 
     public int getX() {
@@ -103,6 +114,34 @@ abstract public class Tower{
         return spriteIndex;
     }
 
+    public int getRange() {
+        return range.get();
+    }
+
+    public SimpleIntegerProperty rangeProperty() {
+        return range;
+    }
+
+    public int getDamage() {
+        return damage.get();
+    }
+
+    public SimpleIntegerProperty damageProperty() {
+        return damage;
+    }
+
+    public int getReloadSpeed() {
+        return reloadSpeed.get();
+    }
+
+    public SimpleIntegerProperty reloadSpeedProperty() {
+        return reloadSpeed;
+    }
+
+    public SimpleIntegerProperty upgradeCostProperty() {
+        return upgradeCost;
+    }
+
     //SETTER
     public void setX(int x) {
         this.x.set(x);
@@ -110,10 +149,6 @@ abstract public class Tower{
 
     public void setY(int y) {
         this.y.set(y);
-    }
-
-    public void setRange(int range) {
-        this.range = range;
     }
 
     public void setFlopPrice(int flopPrice) {
@@ -133,26 +168,55 @@ abstract public class Tower{
     }
 
     public void setUpgradeCost(int upgradeCost) {
-        this.upgradeCost = upgradeCost;
+        this.upgradeCost.set(upgradeCost);
     }
 
     public void setSpriteIndex(int spriteIndex) {
         this.spriteIndex = spriteIndex;
     }
 
+    public void setRange(int range) {
+        this.range.set(range);
+    }
+
+    public void setDamage(int damage) {
+        this.damage.set(damage);
+    }
+
+    public void setReloadSpeed(int reloadSpeed) {
+        this.reloadSpeed.set(reloadSpeed);
+    }
+
+    public void setTilePane(Pane tilePane) {
+        this.tilePane = tilePane;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setMovingPrice(int movingPrice) {
+        this.movingPrice.set(movingPrice);
+    }
+
+    public void setShowingRange(boolean showingRange) {
+        this.showingRange.set(showingRange);
+    }
+
     //OTHER METHODS
     public void upgrade(Player p){
-        if (p.getFlop() >= this.upgradeCost){
-            p.setFlop(p.getFlop() - this.upgradeCost);
+        if (p.getFlop() >= this.upgradeCost.get() && this.level.get() <= 10){
+            p.setFlop(p.getFlop() - this.upgradeCost.get());
             this.level.setValue(this.getLevel().get() + 1);
-            System.out.println("J'ai amélioré la tour");
-        }else{
-            System.out.println("Pas assez d'argent");
+            this.range.setValue(this.range.getValue() + 5);
+            this.reloadSpeed.setValue(this.reloadSpeed.getValue() - 1);
+            this.damage.setValue(this.damage.getValue() + 1);
+            setUpgradeCost((int) (this.upgradeCost.get() * 1.2));
         }
     }
-    public Ennemy detect(ObservableList<Ennemy> ennemis ){
+    public Ennemy detect(ObservableList<Ennemy> ennemis){
         for (Ennemy m : ennemis) {
-            if ((this.getY()-range<=m.getY() && m.getY()<= this.getY()+range) && (this.getX()-range<=m.getX() && m.getX() <= this.getX()+range)){
+            if ((this.getY()-range.get()<=m.getY() && m.getY()<= this.getY()+range.get()) && (this.getX()-range.get()<=m.getX() && m.getX() <= this.getX()+range.get())){
                 return m;
             }
         }

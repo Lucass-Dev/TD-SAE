@@ -49,9 +49,17 @@ public class LevelController implements Initializable {
     private int cursorIndex = 0; //0 for none
     private boolean isMovingTower=  false;
     private Tower movingTower;
+    private Tower showedTower;
+
+    //Variables du Timer
+    int s;
+    int m;
+    int h;
 
 
     //FXML
+    @FXML
+    Pane helpPopup;
     @FXML
     TilePane tilePane;
     @FXML
@@ -74,6 +82,9 @@ public class LevelController implements Initializable {
         setCursor(Cursor.DEFAULT);
         this.estFini = false;
 
+        this.s = 0;
+        this.m = 0;
+        this.timeLabel.setText("0h0m0s");
 
         this.towerShopVbox.setOnMouseClicked(mouseEvent -> {
             EventTarget target = mouseEvent.getTarget();
@@ -117,34 +128,30 @@ public class LevelController implements Initializable {
             }
         });
         this.levelPane.setOnMouseClicked(mouseEvent -> {
-
             if (this.towerMenu.getChildren().size() > 0) {
                 for (int i = towerMenu.getChildren().size() - 1; i >= 0; i--) {
                     towerMenu.getChildren().remove(i);
                 }
+                showedTower.setShowingRange(false);
             }
             ImageView imageView = (ImageView) mouseEvent.getTarget();
             String imageViewId = imageView.getId();
-            System.out.println(imageViewId);
-
-            Tower t = null;
             if (imageViewId != null) {
-                t = this.level.getTower(imageViewId);
+                showedTower = this.level.getTower(imageViewId);
                 try {
-                    this.levelVue.printTowerMenu(t, this.towerMenu);
+                    this.levelVue.createTowerMenu(showedTower, this.towerMenu);
+                    showedTower.setShowingRange(true);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
-
-
         });
     }
 
     public void createLevel() {
+        this.helpPopup.setVisible(false);
         this.towerMenu.getChildren().remove(this.playButton);
         this.player = this.LDT.getPlayer();
-
         int mapIndex = this.LDT.getMapIndex();
         this.level = new Level("test", this.levelPane);
         this.level.setPlayer(this.LDT.getPlayer());
@@ -153,21 +160,14 @@ public class LevelController implements Initializable {
             ArrayList<ArrayList<Integer>> map = this.level.createMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map"+mapIndex+".csv", tilePane);
             this.level.setTileMap(map);
             this.level.setTravelingMap(this.level.getTileMap());
-
             ListChangeListener<Ennemy> ennemyListChangeListener = new ListObsEnnemy(levelPane);
             this.level.getEnnemies().addListener(ennemyListChangeListener);
-
             ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane);
             this.level.getPlacedTower().addListener(towerListChangeListener);
-
             ListChangeListener<Projectile> projectileListChangeListener = new ListeObsProjectile(levelPane);
             this.level.getProjectiles().addListener(projectileListChangeListener);
-
             this.levelVue = new LevelVue(this.level, this.tilePane, this.levelPane, this);
-            //this.levelVue = new LevelVue();/*this.level, this.tilePane, this.levelPane*/
             this.levelVue.createShopMenu(towerShopVbox);
-
-
             //Sout pour le tableau 2D des tuiles et de la version chemin tarversable
           /*  for (ArrayList<Integer> arrayList: this.level.getTileMap()) {
                 System.out.println(arrayList);
@@ -176,7 +176,6 @@ public class LevelController implements Initializable {
             for (ArrayList<Integer> arrayList: this.level.getTravelingMap()) {
                 System.out.println(arrayList);
             }*/
-
             this.levelVue.createATH(this.player, athHbox);
             //Quand tout est parametré comme il faut j'initialise la gameloop
             initAnimation();
@@ -198,13 +197,13 @@ public class LevelController implements Initializable {
 
         this.estFini = false;
         this.gameLoop = new Timeline();
-        temps = 0 ;
         nbTours = 1 ;
         this.gameLoop.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(
                 // on définit le FPS (nbre de frame par seconde)
                 //min 0.017
-                Duration.seconds(0.017),
+                //0.02 = 50 FPS
+                Duration.seconds(0.02),
                 // on définit ce qui se passe à chaque frame
                 // c'est un eventHandler d'ou le lambda
                 (ev ->{
@@ -213,15 +212,14 @@ public class LevelController implements Initializable {
                         gameLoop.stop();
                     }
                     else{
-
                         this.level.doTurn(nbTours);
-                        level.tourAgir(nbTours);
-                        level.animationProjectiles(nbTours);
+                        this.level.tourAgir(nbTours);
+                        this.level.animationProjectiles(nbTours);
+                        if (nbTours%50 == 0){
+                            refreshTimer();
+                        }
                         nbTours++ ;
-
                     }
-
-                    temps++;
                 })
         );
         gameLoop.getKeyFrames().add(kf);
@@ -246,5 +244,19 @@ public class LevelController implements Initializable {
 
     public void setMovingTower(Tower t){
         this.movingTower = t;
+    }
+
+    public void refreshTimer(){
+        this.s ++;
+        if (s == 60){
+            s = 0;
+            m++;
+        }
+        if (m == 60){
+            m = 0;
+            h++;
+        }
+
+        this.timeLabel.setText(this.h+"h"+this.m+"m"+this.s+"s");
     }
 }
