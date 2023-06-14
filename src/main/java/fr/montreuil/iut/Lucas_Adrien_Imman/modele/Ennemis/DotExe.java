@@ -6,8 +6,11 @@ import javafx.scene.layout.Pane;
 
 public class DotExe extends Ennemy {
     public DotExe(int x, int y, Pane levelPane, Level level, Player player) {
-        super(x, y, levelPane, level, 5, 100, player, 1, 100,50,20);
+        super(x, y, levelPane, level, 5, 100, player, 1, 100,50,20,1);
     }
 
 
+    public DotExe(int x, int y) {
+        super(x,y);
+    }
 }

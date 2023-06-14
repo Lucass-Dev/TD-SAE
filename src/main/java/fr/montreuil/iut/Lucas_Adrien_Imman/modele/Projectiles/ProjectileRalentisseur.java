@@ -18,7 +18,7 @@ public class ProjectileRalentisseur extends Projectile {
         }
     }
     public   boolean cibleAtteint() {
-        int range = 16 ;
+        int range = 75 ;
         return ((this.getY()-range<=e.getY() && e.getY()<= this.getY()+range) && (this.getX()-range<=e.getX() && e.getX() <= this.getX()+range)) ;
     }
 

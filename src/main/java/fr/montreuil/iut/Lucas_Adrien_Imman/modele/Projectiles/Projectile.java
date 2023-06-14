@@ -14,7 +14,6 @@ public abstract class Projectile {
 
 
 
-
     public Projectile(int x , int y , Ennemy e){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
@@ -23,6 +22,9 @@ public abstract class Projectile {
         compteur++;
     }
 
+    public Ennemy getE() {
+        return e;
+    }
 
     public boolean isOnBound(){
         return this.getX() >640  && this.getY() >640;

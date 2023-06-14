@@ -310,7 +310,7 @@ public class Level {
                         p = new ProjectileDegatsBrut(t.getX() + 16, t.getY() + 16, e1);
                     }
                     else if (t instanceof NordVPN) {
-                        p = new ProjectilePoison(t.getX() + 16, t.getY() + 16, e1);
+                        p = new ProjectilePoison(t.getX() + 16, t.getY() + 16, e2);
 
                     }
                     else if (t instanceof InternetExplorer) {
@@ -327,9 +327,7 @@ public class Level {
             }
 
            else {
-                for (int n = ennemiesDansLaZone.size() - 1; n >= 0; n--) {
-                    ennemiesDansLaZone.get(n).resetSpped();
-                }
+
 
             }
         }
@@ -354,14 +352,26 @@ public class Level {
         }
         for (int j = projectiles.size() - 1; j >= 0; j--) {
             Projectile p = projectiles.get(j);
-            if(p instanceof ProjectileDegatsBrut) {
+            if(p instanceof ProjectileDegatsBrut ) {
                 if (p.cibleAtteint() || p.isOnBound()) {
                     projectiles.remove(p);
                 }
             }
+            if(p instanceof ProjectilePoison ) {
+                if ((p.cibleAtteint() || p.isOnBound()) && !(p.getE() instanceof  Kamikaze)) {
+                   this.actualWave.add(new Kamikaze(p.getE().getX(),p.getE().getY(),levelPane,this,this.player));
+                    projectiles.remove(p);
+                }
+            }
+
+
             if(p instanceof ProjectileRalentisseur){
                 if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0) {
                     projectiles.remove(p);
+                    for (int n = ennemiesDansLaZone.size() - 1; n >= 0; n--) {
+                        System.out.println("fffffffffffffffffffffffffffff");
+                        ennemiesDansLaZone.get(n).resetSpped();
+                    }
                 }
             }
 
