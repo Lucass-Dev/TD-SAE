@@ -37,6 +37,8 @@ public class Level {
     private Pane levelPane;
     private int waveSize;
     private int nbActeurs;
+    private int cpt ;
+
 
 
     public Level(String name, Pane levelPane) {
@@ -261,7 +263,7 @@ public class Level {
         setActualWaveNumber(actualWaveNumber.get() + 1);
     }
 
-    public boolean doTurn(int nbTours) {
+    public void doTurn(int nbTours) {
         if (actualWave.size() == 0 && ennemies.size() == 0) {
             createWave(this.waveSize);
             this.waveSize += actualWaveNumber.get() * difficulty / 3;
@@ -279,7 +281,7 @@ public class Level {
                 }
             }
         }
-        return this.player.isDead();
+        this.player.isDead();
     }
 
     public void tourAgir(int nbTours) {
@@ -291,7 +293,8 @@ public class Level {
                 for (int j = ennemiesDansLaZone.size() - 1; j >= 0; j--) {
                     Ennemy detectedEnnemy = ennemiesDansLaZone.get(j);
                     Ennemy firstDetect = ennemiesDansLaZone.get(0);
-                    Projectile p = null;
+
+                    Projectile p  = null;
 
                     if (t instanceof TaskKiller) {
                         p = new ProjectileDegatsBrut(t.getX() + 16, t.getY() + 16, firstDetect);
@@ -300,8 +303,8 @@ public class Level {
                         p = new ProjectileDegatsBrut(t.getX() + 16, t.getY() + 16, detectedEnnemy);
                     }
                     else if (t instanceof PDFConverter) {
-                        if((p.getE() instanceof  Archive))
-                        p = new ProjectileDotSH(t.getX() + 16, t.getY() + 16, firstDetect);
+                        if(firstDetect instanceof Archive)
+                            p = new ProjectileDotSH(t.getX() + 16, t.getY() + 16, firstDetect);
                     }
                     else if (t instanceof InternetExplorer) {
                         p = new ProjectileRalentisseur(t.getX() + 16, t.getY() + 16, detectedEnnemy);
@@ -309,12 +312,13 @@ public class Level {
                     else if (t instanceof NordVPN) {
                         p = new ProjectileKnockBack(t.getX() + 16, t.getY() + 16, firstDetect);
                     }
-                    else if (t instanceof Demineur) { //ff
-                        p = new ProjectilePoison(t.getX() + 16, t.getY() + 16, firstDetect);
+                    else if (t instanceof Demineur) {
+                        if((!(firstDetect instanceof DotExe) &&  !(firstDetect instanceof Virus) && !(firstDetect instanceof DotSH)))
+                            p = new ProjectileDotSH(t.getX() + 16, t.getY() + 16, firstDetect);
                     }
 
                     ennemiesDansLaZone.remove(detectedEnnemy);
-                    if (nbTours % t.getDelais() == 0) {
+                    if (nbTours % t.getDelais() == 0 && p != null) {
                         projectiles.add(p);
 
                     }
@@ -335,6 +339,7 @@ public class Level {
 
 
     public void animationProjectiles(int nbT) {
+
         for (Projectile p : projectiles) {
 
 
@@ -345,38 +350,36 @@ public class Level {
             }
 
             else if (p instanceof ProjectileDotSH) {
-
-                 {
+                cpt = 0 ;
+                {
                     p.moveProjectile();
                     p.agitSurLaCible();
                 }
             }
-        /*    else if (p instanceof ProjectilePoison){
-                int d = 0 ;
-             do{
-                    if(nbT%50==0){
-                        p.agitSurLaCible();
-                        d++;
-                    }
-
-                }while (d<5);
-            }*/
         }
 
         for (int j = projectiles.size() - 1; j >= 0; j--) {
             Projectile p = projectiles.get(j);
 
-            if(p instanceof ProjectileDegatsBrut || p instanceof ProjectilePoison || p instanceof  ProjectileKnockBack) {
+            if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
                 if (p.cibleAtteint() || p.isOnBound()) {
                     projectiles.remove(p);
                 }
             }
+
             else if(p instanceof ProjectileDotSH) {
+
                 if ((p.cibleAtteint() || p.isOnBound())) {
-                    this.ennemies.add(new DotSH(p.getE().getX(),p.getE().getY(),levelPane,this,this.player));
                     projectiles.remove(p);
+                 cpt ++ ;
+                    System.out.println(cpt);
+                 if(cpt == 3) {
+                     ennemies.remove(p.getE());
+                     this.ennemies.add(new DotSH(p.getE().getX(), p.getE().getY(), levelPane, this, this.player));
+                 }
                 }
             }
+
             else if(p instanceof ProjectileRalentisseur){
                 if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0) {
                     projectiles.remove(p);

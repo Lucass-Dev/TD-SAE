@@ -31,16 +31,10 @@ public class ProjectileVue {
                 circle = new Circle(60);
                 circle.setFill(Color.BLUE);
                 circle.setOpacity(0.2);
-            }else if(newProjectile instanceof ProjectilePoison){
-                circle = new Circle(10);
-                int proba1 = ((int) ((Math.random() * 2)));
-                if (proba1 == 0)
-                    circle.setFill(Color.VIOLET);
-                else
-                    circle.setFill(Color.BROWN);
-            }else if(newProjectile instanceof ProjectileKnockBack){
+            }
+            else if(newProjectile instanceof ProjectileKnockBack){
                 circle = new Circle(5);
-             circle.setFill(Color.VIOLET);
+                circle.setFill(Color.VIOLET);
             }
             circle.translateXProperty().bind(newProjectile.xProperty());
             circle.translateYProperty().bind(newProjectile.yProperty());

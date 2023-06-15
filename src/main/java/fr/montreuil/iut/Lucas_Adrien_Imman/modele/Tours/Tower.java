@@ -165,7 +165,7 @@ abstract public class Tower{
     }
     public ArrayList<Ennemy> detect(ObservableList<Ennemy> ennemis){
         for (Ennemy m : ennemis) {
-            if (this.getY()-range<=m.getY() && m.getY()<= this.getY()+range && this.getX()-range<=m.getX() && m.getX() <= this.getX()+range){
+            if ((this.getY()+16)-range<=m.getY() && m.getY()<= (this.getY()+16)+range && (this.getX()+16)-range<=m.getX() && m.getX() <= (this.getX()+16)+range){
                 ennemieDetecte.add(m);
             }
         }

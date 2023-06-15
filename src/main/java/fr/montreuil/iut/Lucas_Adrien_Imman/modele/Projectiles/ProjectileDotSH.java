@@ -10,7 +10,7 @@ public class ProjectileDotSH extends Projectile {
 
     public void agitSurLaCible() {
         if (cibleAtteint()) {
-            getE().reductionPv(100);
+            getE().reductionPv(1);
         }
     }
 

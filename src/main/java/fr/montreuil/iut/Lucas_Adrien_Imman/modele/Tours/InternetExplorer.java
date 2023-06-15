@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class InternetExplorer extends Tower {
 
     public InternetExplorer(int x, int y){
-        super(x, y, "Internet Explorer", 100, 325, 475, 100, 125, 3,50);
+        super(x, y, "Internet Explorer", 100, 325, 475, 90, 125, 3,50);
 
 
     }
