@@ -34,4 +34,21 @@ public class PopupVue {
         popup.show(Main.stg);
 
     }
+
+    public void scamPopup(){
+        Popup popup = new Popup();
+        Button closingButton = new Button("Close");
+        popup.setWidth(Main.stg.getWidth());
+        popup.setHeight(Main.stg.getHeight());
+        Label lb = new Label();
+        lb.setMinWidth(popup.getWidth());
+        lb.setMinHeight(popup.getHeight());
+        lb.setBackground(Background.fill(Color.WHEAT));
+        popup.getContent().add(lb);
+        popup.getContent().add(closingButton);
+        popup.show(Main.stg);
+        closingButton.setOnAction(e -> {
+            popup.hide();
+        });
+    }
 }

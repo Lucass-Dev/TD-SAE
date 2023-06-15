@@ -73,19 +73,19 @@ public class LevelVue {
         }
 
     }
-    public void createATH(Player p, HBox location) {
+    public void createATH(Player p, HBox location) throws IOException {
         this.bv.createBar(location, Color.RED, "Life", p.lifeProperty(), p.maxlifeProperty(), "lifebarPane", true, false);
         this.bv.createBar(location, Color.CADETBLUE, "RAM", p.ramProperty(), p.maxRAMProperty(), "rambarPane", true, false);
 
         HBox flopHBox = new HBox();
-        //flopHBox.getChildren().add(new ImageView(new Image()));
+        flopHBox.getChildren().add(new ImageView(new Image(Main.class.getResource("graphics/logo/Flops.png").openStream())));
         Label flopLabel = new Label();
-        flopLabel.textProperty().bind(p.flopProperty().asString());
+        flopLabel.textProperty().bind(Bindings.createStringBinding(() -> "\tFlops : " + p.getFlop(), p.flopProperty()));
         flopHBox.getChildren().add(flopLabel);
+        flopLabel.setAlignment(Pos.CENTER);
 
         location.getChildren().add(flopHBox);
     }
-
     public void createTowerMenu(Tower tower, Pane location) throws IOException {
         HBox hbox = new HBox();
         VBox towerPresentation = new VBox();
@@ -122,12 +122,26 @@ public class LevelVue {
                 System.out.println("Can't move Tower");
             }
         });
+        Button sell = new Button("Sell Tower");
+        sell.setOnAction(e -> {
+            this.level.sellTower(tower);
+            removeTowerMenu(location);
+        });
         VBox stats = tv.stats(tower);
+        Label sellingPrice = new Label();
+        sellingPrice.textProperty().bind(Bindings.createStringBinding(() -> "Selling price : " + tower.getSellingPrice(), tower.sellingPriceProperty()));
+        stats.getChildren().add(sellingPrice);
 
 
         hbox.getChildren().add(upgradeButton);
         hbox.getChildren().add(moveButton);
+        hbox.getChildren().add(sell);
         hbox.getChildren().add(stats);
         location.getChildren().add(hbox);
+    }
+    public void removeTowerMenu(Pane location){
+        for (int i = location.getChildren().size()-1; i >= 0; i--) {
+            location.getChildren().remove(i);
+        }
     }
 }

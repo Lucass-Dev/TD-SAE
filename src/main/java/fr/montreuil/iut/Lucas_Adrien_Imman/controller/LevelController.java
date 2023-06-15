@@ -6,6 +6,7 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tower;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.LevelVue;
+import fr.montreuil.iut.Lucas_Adrien_Imman.vue.TowerVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
@@ -88,18 +89,14 @@ public class LevelController implements Initializable {
 
         this.towerShopVbox.setOnMouseClicked(mouseEvent -> {
             EventTarget target = mouseEvent.getTarget();
-            ImageView targetedTowerIV = new ImageView();
-            String[] stringId = new String[2];
-            if (target instanceof HBox) {
-                HBox targetedTowerHB = (HBox) mouseEvent.getTarget();
-                targetedTowerIV = (ImageView) targetedTowerHB.getChildren().get(0);
-                stringId = targetedTowerHB.getId().split("_");
-            } else if (target instanceof ImageView) {
+            if (target instanceof ImageView){
+                ImageView targetedTowerIV ;
+                String[] stringId;
                 targetedTowerIV = (ImageView) target;
                 stringId = targetedTowerIV.getParent().getId().split("_");
+                cursorIndex = Integer.parseInt(stringId[stringId.length - 1]);
+                setCursor(targetedTowerIV.getImage());
             }
-            cursorIndex = Integer.parseInt(stringId[stringId.length - 1]);
-            setCursor(targetedTowerIV.getImage());
         });
         this.towerShopVbox.setOnMouseEntered(mouseEvent -> {
             setCursor(Cursor.DEFAULT);
@@ -129,20 +126,22 @@ public class LevelController implements Initializable {
         });
         this.levelPane.setOnMouseClicked(mouseEvent -> {
             if (this.towerMenu.getChildren().size() > 0) {
-                for (int i = towerMenu.getChildren().size() - 1; i >= 0; i--) {
-                    towerMenu.getChildren().remove(i);
-                }
+                this.levelVue.removeTowerMenu(this.towerMenu);
                 showedTower.setShowingRange(false);
             }
-            ImageView imageView = (ImageView) mouseEvent.getTarget();
-            String imageViewId = imageView.getId();
-            if (imageViewId != null) {
-                showedTower = this.level.getTower(imageViewId);
-                try {
-                    this.levelVue.createTowerMenu(showedTower, this.towerMenu);
-                    showedTower.setShowingRange(true);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+            if (mouseEvent.getTarget() instanceof ImageView){
+                ImageView imageView = (ImageView) mouseEvent.getTarget();
+
+                String imageViewId = imageView.getId();
+                System.out.println(imageViewId);
+                if (imageViewId != null) {
+                    showedTower = this.level.getTower(imageViewId);
+                    try {
+                        this.levelVue.createTowerMenu(showedTower, this.towerMenu);
+                        showedTower.setShowingRange(true);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         });
@@ -176,7 +175,11 @@ public class LevelController implements Initializable {
             for (ArrayList<Integer> arrayList: this.level.getTravelingMap()) {
                 System.out.println(arrayList);
             }*/
-            this.levelVue.createATH(this.player, athHbox);
+            try {
+                this.levelVue.createATH(this.player, athHbox);
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
             //Quand tout est parametré comme il faut j'initialise la gameloop
             initAnimation();
             gameLoop.play();
@@ -215,6 +218,13 @@ public class LevelController implements Initializable {
                         this.level.doTurn(nbTours);
                         this.level.tourAgir(nbTours);
                         this.level.animationProjectiles(nbTours);
+                        /*
+                        if (this.level.getActualWaveNumber()%5 == 0 && this.level.getActualWaveNumber() != 0){
+                            this.player.setMaxRAM(this.player.getMaxRAM()+10);
+                            this.player.setRam(this.player.getRam() + 10);
+                        }
+
+                         */
                         if (nbTours%50 == 0){
                             refreshTimer();
                         }

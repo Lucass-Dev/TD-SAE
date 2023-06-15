@@ -24,6 +24,7 @@ abstract public class Tower{
     public static int compteur = 0;
     private SimpleIntegerProperty movingPrice;
     private SimpleBooleanProperty showingRange;
+    private SimpleIntegerProperty sellingPrice;
 
     public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex, int damage, int reloadSpeed){
         this.x = new SimpleIntegerProperty(x);
@@ -41,10 +42,19 @@ abstract public class Tower{
         this.damage = new SimpleIntegerProperty(damage);
         this.reloadSpeed = new SimpleIntegerProperty(reloadSpeed);
         this.showingRange = new SimpleBooleanProperty(false);
+        this.sellingPrice = new SimpleIntegerProperty((int) (this.flopPrice*0.75));
     }
 
     //GETTER
 
+
+    public int getSellingPrice() {
+        return sellingPrice.get();
+    }
+
+    public SimpleIntegerProperty sellingPriceProperty() {
+        return sellingPrice;
+    }
 
     public boolean isShowingRange() {
         return showingRange.get();
@@ -203,6 +213,10 @@ abstract public class Tower{
         this.showingRange.set(showingRange);
     }
 
+    public void setSellingPrice(int sellingPrice) {
+        this.sellingPrice.set(sellingPrice);
+    }
+
     //OTHER METHODS
     public void upgrade(Player p){
         if (p.getFlop() >= this.upgradeCost.get() && this.level.get() <= 10){
@@ -212,6 +226,7 @@ abstract public class Tower{
             this.reloadSpeed.setValue(this.reloadSpeed.getValue() - 1);
             this.damage.setValue(this.damage.getValue() + 1);
             setUpgradeCost((int) (this.upgradeCost.get() * 1.2));
+            setSellingPrice((int) (this.sellingPrice.get() * 1.2));
         }
     }
     public Ennemy detect(ObservableList<Ennemy> ennemis){

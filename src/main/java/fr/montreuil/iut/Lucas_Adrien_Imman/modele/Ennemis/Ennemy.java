@@ -18,11 +18,12 @@ public abstract class Ennemy {
     private int spriteIndex;
     private SimpleIntegerProperty maxLife;
     private int damage ;
+    private int reward;
 
     //direction stands for the cardinal direction with an int value : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
 
-    public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife , int damage){
+    public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife , int damage, int reward){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.levelPane = levelPane;
@@ -36,6 +37,7 @@ public abstract class Ennemy {
         compteur++;
         this.player = player ;
         this.damage = damage ;
+        this.reward = reward;
     }
 
     public abstract void doDamage();
@@ -250,5 +252,17 @@ public abstract class Ennemy {
 
     public Pane getLevelPane() {
         return levelPane;
+    }
+
+    public void giveReward(){
+        this.player.setFlop(this.player.getFlop() + this.reward);
+    }
+
+    public void giveRamReward(){
+        int i = (int) (Math.random()*(100-1) + 1);
+        if (i == 32){
+            int reward = (int) (Math.random()*(15-1) + 1);
+            this.player.setRam(this.player.getRam()+ reward);
+        }
     }
 }

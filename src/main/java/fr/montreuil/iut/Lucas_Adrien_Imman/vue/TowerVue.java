@@ -43,6 +43,8 @@ public class TowerVue {
         c.radiusProperty().bind(tower.rangeProperty());
         c.setOpacity(0.4);
         c.setFill(Color.GREY);
+        c.setId("c"+ tower.getId());
+        System.out.println(c.getId());
         levelPane.getChildren().add(c);
     }
 

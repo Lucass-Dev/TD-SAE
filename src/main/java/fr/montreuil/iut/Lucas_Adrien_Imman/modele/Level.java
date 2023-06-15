@@ -1,23 +1,20 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
-import fr.montreuil.iut.Lucas_Adrien_Imman.vue.PopupVue;
-import javafx.beans.property.SimpleIntegerProperty;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.ProjectileDegatsBrut;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.ProjectilePoison;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.ProjectileRalentisseur;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
+import fr.montreuil.iut.Lucas_Adrien_Imman.vue.PopupVue;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 
 import java.io.File;
@@ -279,6 +276,7 @@ public class Level {
     }
 
     public boolean doTurn(int nbTours){
+
         if (actualWave.size() == 0 && ennemies.size() == 0){
             createWave(this.waveSize);
             this.waveSize += actualWaveNumber.get()*difficulty/3;
@@ -295,6 +293,7 @@ public class Level {
                     ennemies.remove(e);
                 } else if (e.estMort()) {
                     e.die();
+                    e.giveReward();
                     ennemies.remove(e);
                 }
             }
@@ -335,8 +334,6 @@ public class Level {
     public boolean verifProgression(){
         return player.isDead();
     }
-
-
 
     public void animationProjectiles(int nbT){
         for (Projectile p : projectiles){
@@ -455,31 +452,20 @@ public class Level {
     }
 
     public void poison(){
-        if (this.poisoning && this.poisonTicks < 3 && this.nbTours - this.startPoisoning >= poisoningDelay){
+        if (this.poisoning && this.poisonTicks < 4 && this.nbTours - this.startPoisoning >= poisoningDelay){
             this.player.setLife(this.player.getLife() - poisonedAmount);
             this.startPoisoning = this.nbTours;
             poisonTicks++;
-            if (poisonTicks == 2){
+            if (poisonTicks == 3){
                 poisonTicks = 0;
                 poisoning = false;
             }
         }
     }
 
-    public void scamPopup(){
-        Popup popup = new Popup();
-        Button closingButton = new Button("Close");
-        popup.setWidth(Main.stg.getWidth());
-        popup.setHeight(Main.stg.getHeight());
-        Label lb = new Label();
-        lb.setMinWidth(popup.getWidth());
-        lb.setMinHeight(popup.getHeight());
-        lb.setBackground(Background.fill(Color.WHEAT));
-        popup.getContent().add(lb);
-        popup.getContent().add(closingButton);
-        popup.show(Main.stg);
-        closingButton.setOnAction(e -> {
-            popup.hide();
-        });
+    public void sellTower(Tower t){
+        this.player.setFlop(this.player.getFlop() + t.getSellingPrice());
+        this.player.setRam(this.player.getRam()+t.getRamPrice());
+        this.placedTower.remove(t);
     }
 }

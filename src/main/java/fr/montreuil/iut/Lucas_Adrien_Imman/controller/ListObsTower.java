@@ -36,8 +36,7 @@ public class ListObsTower implements ListChangeListener<Tower> {
 
             for(Tower oldTower : c.getRemoved()){
                 levelpane.getChildren().remove(levelpane.lookup("#"+oldTower.getId()));
-                player.setRam(player.getRam()+oldTower.getRamPrice());
-                player.setFlop(player.getFlop()+oldTower.getFlopPrice());
+                levelpane.getChildren().remove(levelpane.lookup("#c"+oldTower.getId()));
             }
 
         }
