@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public abstract class Projectile {
     private IntegerProperty x , y ;
-    protected Ennemy e ;
+    private Ennemy e ;
     private String id;
     public static int compteur=0;
     private int delais ;

@@ -159,18 +159,9 @@ public class LevelController implements Initializable {
             this.levelVue.createShopMenu(towerShopVbox);
 
 
-            //Sout pour le tableau 2D des tuiles et de la version chemin tarversable
-          /*  for (ArrayList<Integer> arrayList: this.level.getTileMap()) {
-                System.out.println(arrayList);
-            }
-            System.out.println();
-            for (ArrayList<Integer> arrayList: this.level.getTravelingMap()) {
-                System.out.println(arrayList);
-            }*/
-
             this.levelVue.createATH(this.player, athHbox);
             //Quand tout est parametré comme il faut j'initialise la gameloop
-            initAnimation();
+           initAnimation();
             gameLoop.play();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -204,13 +195,8 @@ public class LevelController implements Initializable {
                         gameLoop.stop();
                     }
                     else{
-
-                        this.level.doTurn(nbTours);
-                        level.tourAgir(nbTours);
-                        level.animationProjectiles(nbTours);
-                        level.flopGain();
+                        this.level.startLevel(nbTours);
                         nbTours++ ;
-
                     }
 
                     temps++;

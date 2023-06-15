@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class TowerVue {
 
-    private Pane levelPane;
+    private final Pane levelPane;
     private ImageView imageView;
 
     public TowerVue(Pane levelPane){

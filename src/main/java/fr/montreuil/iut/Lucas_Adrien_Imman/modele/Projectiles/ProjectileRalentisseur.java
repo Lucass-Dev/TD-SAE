@@ -14,11 +14,12 @@ public class ProjectileRalentisseur extends Projectile {
     @Override
     public void agitSurLaCible() {
         if (!cibleAtteint()){
-            e.setSpeed(1);
+            getE().setSpeed(1);
         }
     }
     public   boolean cibleAtteint() {
         int range = 75 ;
+        Ennemy e = getE() ;
         return ((this.getY()-range<=e.getY() && e.getY()<= this.getY()+range) && (this.getX()-range<=e.getX() && e.getX() <= this.getX()+range)) ;
     }
 

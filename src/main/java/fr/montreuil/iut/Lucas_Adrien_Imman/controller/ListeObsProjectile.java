@@ -5,6 +5,8 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.vue.ProjectileVue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;
 
+import java.io.IOException;
+
 
 public class ListeObsProjectile implements ListChangeListener<Projectile> {
     private Pane levelpane;
@@ -20,12 +22,15 @@ public class ListeObsProjectile implements ListChangeListener<Projectile> {
         while (c.next()) {
             for (Projectile newProjectile : c.getAddedSubList()) {
                 ProjectileVue projectileVue = new ProjectileVue(levelpane);
-                projectileVue.projectileSprite(newProjectile);
+                try {
+                    projectileVue.projectileSprite(newProjectile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             }
 
             for (Projectile oldProjectile : c.getRemoved()) {
-                System.out.println(oldProjectile.getId());
                 levelpane.getChildren().remove(levelpane.lookup("#" + oldProjectile.getId()));
             }
         }
