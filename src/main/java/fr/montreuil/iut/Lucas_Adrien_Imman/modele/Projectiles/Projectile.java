@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public abstract class Projectile {
     private IntegerProperty x , y ;
-    protected Ennemy e ;
+    protected Ennemy ennemy;
     private String id;
     public static int compteur=0;
     private int delais ;
@@ -15,10 +15,10 @@ public abstract class Projectile {
 
 
 
-    public Projectile(int x , int y , Ennemy e){
+    public Projectile(int x , int y , Ennemy ennemy){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
-        this.e = e;
+        this.ennemy = ennemy;
         this.id= "P" + compteur;
         compteur++;
     }
@@ -60,12 +60,12 @@ public abstract class Projectile {
 
     public   boolean cibleAtteint() {
         int range = 16 ;
-        return ((this.getY()-range<=e.getY() && e.getY()<= this.getY()+range) && (this.getX()-range<=e.getX() && e.getX() <= this.getX()+range)) ;
+        return ((this.getY()-range <= ennemy.getY() && ennemy.getY()<= this.getY()+range) && (this.getX()-range<= ennemy.getX() && ennemy.getX() <= this.getX()+range)) ;
     }
 
     public void moveProjectile() {
-        double  posX = e.getX() - this.getX() ;
-        double  posY = e.getY() - this.getY() ;
+        double  posX = ennemy.getX() - this.getX() ;
+        double  posY = ennemy.getY() - this.getY() ;
         double dirX, dirY;
 
         double totalDis = Math.sqrt(posX * posX + posY * posY);

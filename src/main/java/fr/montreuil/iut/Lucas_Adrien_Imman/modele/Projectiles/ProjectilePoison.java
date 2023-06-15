@@ -10,7 +10,7 @@ public class ProjectilePoison extends Projectile {
 
     public int agitSurLaCible() {
         if(cibleAtteint())
-            e.reductionPv(10);
+            ennemy.reductionPv(10);
         return 0;
     }
 
