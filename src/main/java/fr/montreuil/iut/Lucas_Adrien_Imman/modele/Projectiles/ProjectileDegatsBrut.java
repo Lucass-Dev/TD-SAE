@@ -13,7 +13,7 @@ public class ProjectileDegatsBrut extends Projectile {
     @Override
     public int agitSurLaCible() {
         if(cibleAtteint())
-        ennemy.reductionPv(10);
+        getEnnemy().reductionPv(10);
         return 0;
     }
 

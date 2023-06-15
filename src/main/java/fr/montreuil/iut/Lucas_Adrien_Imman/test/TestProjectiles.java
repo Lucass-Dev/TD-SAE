@@ -24,7 +24,7 @@ public class TestProjectiles {
         Archive a1 = new Archive(235,351,levelPane,level, player);
         ProjectileDegatsBrut p1 = new ProjectileDegatsBrut(235,351,a1);
 
-        assertTrue (p1.isOnBound(),"le projectile est bie sur le terrain");
+        assertTrue (p1.isOnBound(),"le projectile est bien sur le terrain");
 
         ProjectileDegatsBrut p2 = new ProjectileDegatsBrut(102,605,a1);
 

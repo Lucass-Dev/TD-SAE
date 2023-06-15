@@ -13,9 +13,9 @@ public class ProjectileRalentisseur extends Projectile {
 
     @Override
     public int agitSurLaCible() {
-       int speed =  ennemy.getSpeed() ;
+       int speed =  getEnnemy().getSpeed() ;
         if (!cibleAtteint()){
-            ennemy.setSpeed(1);
+            getEnnemy().setSpeed(1);
         }
             return speed ;
     }

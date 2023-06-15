@@ -7,13 +7,14 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public abstract class Projectile {
     private IntegerProperty x , y ;
-    protected Ennemy ennemy;
+    private Ennemy ennemy;
     private String id;
     public static int compteur=0;
     private int delais ;
 
 
-
+//@0x26a1ab54
+    //
 
     public Projectile(int x , int y , Ennemy ennemy){
         this.x = new SimpleIntegerProperty(x);
@@ -79,6 +80,10 @@ public abstract class Projectile {
 
         setX((int) newPosX);
         setY((int) newPosY);
+    }
+
+    public Ennemy getEnnemy(){
+        return ennemy;
     }
 
 
