@@ -19,12 +19,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class MenuController implements Initializable {
+
+    private int difficulty;
 
     //BUTTONS
     @FXML
@@ -52,6 +53,7 @@ public class MenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.difficulty = 1;
         mapNameLabel.setText("Map n° 1");
         usernameLabel.setText("Lucasss");
 
@@ -78,31 +80,48 @@ public class MenuController implements Initializable {
 
         LevelController levelController = fxmlLoader.getController();
         Player p = new Player();
-        sendData(levelController, mapIndex, "mapName", p);
+        sendData(levelController, mapIndex, "mapName", p, this.difficulty);
+        System.out.println(this.difficulty);
     }
 
     public void changeDifficulty(Event e) throws FileNotFoundException {
         Button sourceButton = (Button) e.getSource();
         String sourceID = sourceButton.getId();
-        System.out.println(sourceID);
 
         if (sourceID.equals("nextDifficultyButton")){
             switch (difficultyLabel.getText()){
                 default -> System.out.println("Error !");
-                case "Easy" -> difficultyLabel.setText("Medium");
-                case "Medium" -> difficultyLabel.setText("Hard");
-                case "Hard" -> difficultyLabel.setText("Easy");
+                case "Easy" -> {
+                    difficultyLabel.setText("Medium");
+                    this.difficulty = 2;
+                }
+                case "Medium" -> {
+                    difficultyLabel.setText("Hard");
+                    this.difficulty = 3;
+                }
+                case "Hard" -> {
+                    difficultyLabel.setText("Easy");
+                    this.difficulty = 1;
+                }
             }
         }else if (sourceID.equals("previousDifficultyButton")){
             switch (difficultyLabel.getText()){
                 default -> System.out.println("Error !");
-                case "Easy" -> difficultyLabel.setText("Hard");
-                case "Medium" -> difficultyLabel.setText("Easy");
-                case "Hard" -> difficultyLabel.setText("Medium");
+                case "Easy" -> {
+                    difficultyLabel.setText("Hard");
+                    this.difficulty = 3;
+                }
+                case "Medium" -> {
+                    difficultyLabel.setText("Easy");
+                    this.difficulty = 1;
+                }
+                case "Hard" -> {
+                    difficultyLabel.setText("Medium");
+                    this.difficulty = 2;
+                }
             }
         }
         String[] mapNameSplitted = mapNameLabel.getText().split(" ");
-        System.out.println(Arrays.toString(mapNameSplitted));
         setScores(difficultyLabel.getText(), Integer.parseInt(mapNameSplitted[mapNameSplitted.length-1])-1);
     }
 
@@ -170,8 +189,8 @@ public class MenuController implements Initializable {
         }
     }
 
-    public void sendData(LevelController levelController, int mapIndex, String mapName, Player player){
-        LevelDataTransit LDT = new LevelDataTransit(mapIndex, mapName, player);
+    public void sendData(LevelController levelController, int mapIndex, String mapName, Player player, int difficulty){
+        LevelDataTransit LDT = new LevelDataTransit(mapIndex, mapName, player, difficulty);
         levelController.setLDT(LDT);
     }
 }

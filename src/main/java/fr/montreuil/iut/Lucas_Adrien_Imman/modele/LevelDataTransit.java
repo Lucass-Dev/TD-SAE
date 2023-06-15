@@ -2,13 +2,15 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 public class LevelDataTransit {
     private int mapIndex;
+    private int difficulty;
     private String mapName;
     private Player player;
 
-    public LevelDataTransit(int mapIndex, String mapName, Player player) {
+    public LevelDataTransit(int mapIndex, String mapName, Player player, int difficulty) {
         this.mapIndex = mapIndex;
         this.mapName = mapName;
         this.player = player;
+        this.difficulty = difficulty;
     }
 
     public LevelDataTransit(){}
@@ -25,7 +27,11 @@ public class LevelDataTransit {
         return mapName;
     }
 
-   @Override
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    @Override
     public String toString() {
         return getMapIndex() + getMapName();
     }

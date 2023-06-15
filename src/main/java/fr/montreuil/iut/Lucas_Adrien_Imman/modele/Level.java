@@ -67,7 +67,6 @@ public class Level {
         this.endTilePos = new int[2];
         this.actualWave = new ArrayList<>();
         this.waveSize = 3;
-        this.difficulty = 1;
         this.actualWaveNumber = new SimpleIntegerProperty(0);
         this.projectiles = FXCollections.observableArrayList();
         this.nbActeurs = 4;
@@ -404,6 +403,10 @@ public class Level {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
     }
 
     public void nextWave() {

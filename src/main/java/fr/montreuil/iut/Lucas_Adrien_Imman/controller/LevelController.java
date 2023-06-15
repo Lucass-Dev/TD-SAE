@@ -154,6 +154,7 @@ public class LevelController implements Initializable {
         int mapIndex = this.LDT.getMapIndex();
         this.level = new Level("test", this.levelPane);
         this.level.setPlayer(this.LDT.getPlayer());
+        this.level.setDifficulty(this.LDT.getDifficulty());
         this.waveLabel.textProperty().bind(this.level.actualWaveNumberProperty().asString());
         try {
             ArrayList<ArrayList<Integer>> map = this.level.createMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map"+mapIndex+".csv", tilePane);
