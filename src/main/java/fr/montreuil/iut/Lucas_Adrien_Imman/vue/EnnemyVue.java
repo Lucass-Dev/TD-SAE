@@ -30,7 +30,7 @@ public class EnnemyVue {
         LevelVue lv = new LevelVue();
         HBox life = new HBox();
         lv.createBar(life, Color.RED, "", newEnnemy.lifeProperty(), newEnnemy.maxLifeProperty(), "lifeBar", 5, 100, false);
-        //this.image = new ImageView(new Image(Main.class.getResource("graphics/enemy/"+newEnnemy.getSpriteIndex()+".png").openStream()));
+        this.image = new ImageView(new Image(Main.class.getResource("graphics/enemy/"+newEnnemy.getSpriteIndex()+".png").openStream()));
 
 
         this.ennemy.translateXProperty().bind(newEnnemy.xProperty());

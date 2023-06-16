@@ -39,7 +39,9 @@ public abstract class Ennemy {
     }
 
     public void doDamage(){
+        int[] pos = new int[2];
         if(isOnObjective()){
+            System.out.println(this.level.getTileValue(pos));
             player.lifeReduction(damage);
         }
     }

@@ -14,11 +14,19 @@ public class TestEnnemy {
     private Level level;
     private Player player;
 
+    public TestEnnemy(){
+        this.levelPane = new Pane();
+        this.level = new Level("0", levelPane);
+        this.player = new Player();
+        this.levelPane.setMaxWidth(640);
+        this.levelPane.setMaxHeight(640);
+    }
+
 
     @Test
     void doDamage(){
         player = new Player();
-        Archive a1 = new Archive(250,250, levelPane, level, player);
+        Archive a1 = new Archive(557,62, levelPane, level, player);
 
         a1.doDamage();
         assertEquals(80,player.getLife());
@@ -30,7 +38,7 @@ public class TestEnnemy {
     @Test
     void onBound(){
         player = new Player();
-        Archive a1 = new Archive(250,250, levelPane, level, player);
+        Archive a1 = new Archive(630,630, levelPane, level, player);
 
         assertTrue(a1.isOnBound(), "ennemi sur le terrain");
 

@@ -15,12 +15,18 @@ public class TestProjectiles {
     private Level level;
     private Player player;
 
+    public TestProjectiles(){
+        this.levelPane = new Pane();
+        this.level = new Level("level", levelPane);
+        this.player = new Player();
+    }
+
 
 
     @Test
     void onBound(){
         Archive a1 = new Archive(235,351,levelPane,level, player);
-        ProjectileDegatsBrut p1 = new ProjectileDegatsBrut(235,351,a1);
+        ProjectileDegatsBrut p1 = new ProjectileDegatsBrut(750,800,a1);
 
         assertTrue (p1.isOnBound(),"le projectile est bien sur le terrain");
 
