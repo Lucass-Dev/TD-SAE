@@ -239,34 +239,34 @@ public class Level {
         for (int i = 0; i < size; i++) {
             switch ((int) ((Math.random() * (6 - 1)) + 1)){
                 case 1 -> {
-                    this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.startDirection));
+                    this.actualWave.add(new DotSH(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
                 }
                 case 2 -> {
                     if (this.actualWaveNumber.get() <= 5){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.startDirection));
+                        this.actualWave.add(new DotSH(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
                     }else{
-                        this.actualWave.add(new Archive(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.startDirection));
+                        this.actualWave.add(new Archive(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
                     }
                 }
                 case 3 -> {
                     if (this.actualWaveNumber.get() <= 10){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.startDirection));
+                        this.actualWave.add(new DotSH(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
                     }else{
-                        this.actualWave.add(new Virus(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.startDirection));
+                        this.actualWave.add(new Virus(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
                     }
                 }
                 case 4 -> {
                     if (this.actualWaveNumber.get() <= 15){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.startDirection));
+                        this.actualWave.add(new DotSH(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
                     }else{
-                        this.actualWave.add(new Scam(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.startDirection));
+                        this.actualWave.add(new Scam(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
                     }
                 }
                 case 5 -> {
                     if (this.actualWaveNumber.get()<= 20){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.startDirection));
+                        this.actualWave.add(new DotSH(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
                     }else{
-                        this.actualWave.add(new DotExe(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.startDirection));
+                        this.actualWave.add(new DotExe(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
                     }
                 }
             }
@@ -477,11 +477,12 @@ public class Level {
     }
 
     public int getStartDirection(){
-        int startTile = this.tileMap.get(startTilePos[1]).get(startTilePos[0]);
+        int startTile = this.tileMap.get(startTilePos[0]).get(startTilePos[1]);
+        System.out.println(startTile);
         int direction = 0;
         if (startTile == 13){
             direction = 4;
-        }else if (startTile == 15){
+        }else if (startTile == 14){
             direction = 3;
         }else if (startTile == 12){
             direction = 2;

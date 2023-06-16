@@ -175,12 +175,10 @@ public class LevelController implements Initializable {
             this.levelVue = new LevelVue(this.level, this.tilePane, this.levelPane, this);
             this.levelVue.createShopMenu(towerShopVbox);
             //Sout pour le tableau 2D des tuiles et de la version chemin tarversable
-          /*  for (ArrayList<Integer> arrayList: this.level.getTileMap()) {
+            for (ArrayList<Integer> arrayList: this.level.getTileMap()) {
                 System.out.println(arrayList);
             }
             System.out.println();
-
-           */
             for (ArrayList<Integer> arrayList: this.level.getTravelingMap()) {
                 System.out.println(arrayList);
             }
