@@ -241,21 +241,11 @@ public class LevelController implements Initializable {
                         Main.stg.setScene(nS);
                     }
                     else{
-                        this.level.doTurn(nbTours);
-                        this.level.tourAgir(nbTours);
-                        this.level.animationProjectiles(nbTours);
-                        /*
-                        if (this.level.getActualWaveNumber()%5 == 0 && this.level.getActualWaveNumber() != 0){
-                            this.player.setMaxRAM(this.player.getMaxRAM()+10);
-                            this.player.setRam(this.player.getRam() + 10);
-                        }
-
-                         */
-                        if (nbTours%50 == 0){
-                            refreshTimer();
-                        }
+                        this.level.startLevel(nbTours);
                         nbTours++ ;
                     }
+
+                    temps++;
                 })
         );
         gameLoop.getKeyFrames().add(kf);

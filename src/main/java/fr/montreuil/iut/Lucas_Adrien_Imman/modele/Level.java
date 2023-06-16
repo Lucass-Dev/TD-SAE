@@ -2,12 +2,11 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.ProjectileDegatsBrut;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.ProjectilePoison;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.ProjectileRalentisseur;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.PopupVue;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,7 +32,8 @@ public class Level {
     private ArrayList<ArrayList<Integer>> travelingMap;
     private ObservableList<Tower> placedTower;
     private ObservableList<Ennemy> ennemies;
-    private ObservableList<Projectile> projectiles ;
+    private ArrayList<Ennemy> ennemiesDansLaZone ;
+    private ObservableList<Projectile> projectiles;
 
     private int[] startTilePos;
     private int[] endTilePos;
@@ -41,6 +41,8 @@ public class Level {
     private int waveSize;
     private int nbActeurs ;
     private int startDirection;
+    private int cpt ;
+
 
     //For freezing ram state
     private boolean freezingRam;
@@ -60,6 +62,7 @@ public class Level {
         this.levelName = name;
         this.tileMap = new ArrayList<>();
         this.travelingMap = new ArrayList<>();
+        this.ennemiesDansLaZone = new ArrayList<>();
         this.placedTower = FXCollections.observableArrayList();
         this.ennemies = FXCollections.observableArrayList();
         this.startTilePos = new int[2];
@@ -77,7 +80,14 @@ public class Level {
         this.poisonedAmount = 0;
     }
 
-    public ArrayList<ArrayList<Integer>> tileMapToTraveling(ArrayList<ArrayList<Integer>> tileMap){
+    public void startLevel(int nbTours){
+        doTurn(nbTours);
+        tourAgir(nbTours);
+        animationProjectiles(nbTours);
+        flopGain();
+    }
+
+    public ArrayList<ArrayList<Integer>> tileMapToTraveling(ArrayList<ArrayList<Integer>> tileMap) {
         ArrayList<ArrayList<Integer>> traveling = new ArrayList<>();
 
         int index = 0;
@@ -234,44 +244,48 @@ public class Level {
 
     }
 
+    public void setActualWaveNumber(int actualWaveNumber) {
+        this.actualWaveNumber.set(actualWaveNumber);
+    }
+
     public void createWave(int size){
         this.startDirection = getStartDirection();
         for (int i = 0; i < size; i++) {
             switch ((int) ((Math.random() * (6 - 1)) + 1)){
                 case 1 -> {
-                    this.actualWave.add(new DotSH(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
+                    this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                 }
                 case 2 -> {
-                    if (this.actualWaveNumber.get() <= 5){
-                        this.actualWave.add(new DotSH(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
+                    if (this.actualWaveNumber <= 5){
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }else{
-                        this.actualWave.add(new Archive(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
+                        this.actualWave.add(new Archive(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }
                 }
                 case 3 -> {
-                    if (this.actualWaveNumber.get() <= 10){
-                        this.actualWave.add(new DotSH(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
+                    if (this.actualWaveNumber <= 10){
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }else{
-                        this.actualWave.add(new Virus(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
+                        this.actualWave.add(new Virus(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }
                 }
                 case 4 -> {
-                    if (this.actualWaveNumber.get() <= 15){
-                        this.actualWave.add(new DotSH(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
+                    if (this.actualWaveNumber <= 15){
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }else{
-                        this.actualWave.add(new Scam(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
+                        this.actualWave.add(new Scam(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }
                 }
                 case 5 -> {
-                    if (this.actualWaveNumber.get()<= 20){
-                        this.actualWave.add(new DotSH(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
+                    if (this.actualWaveNumber <= 20){
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }else{
-                        this.actualWave.add(new DotExe(startTilePos[1]*32 +16, startTilePos[0]*32 +16, levelPane, this, this.player, this.startDirection));
+                        this.actualWave.add(new DotExe(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
                     }
                 }
             }
         }
-        this.actualWaveNumber.set(this.actualWaveNumber.get()+1);
+        setActualWaveNumber(actualWaveNumber.get() + 1);
     }
 
     public boolean doTurn(int nbTours){
@@ -287,7 +301,7 @@ public class Level {
             for (int i = ennemies.size()-1; i>=0 ; i--) {
                 Ennemy e = ennemies.get(i);
                 e.move();
-                if (e.isOnObjective() || !e.isOnBound()){
+                if (e.isOnObjective() || !e.isOnBound()) {
                     e.doDamage();
                     ennemies.remove(e);
                 } else if (e.estMort()) {
@@ -304,68 +318,95 @@ public class Level {
     }
 
     public void tourAgir(int nbTours) {
-        for (int i = 0; i < placedTower.size(); i++) {
+        for (int i =  placedTower.size() - 1 ; i>=0 ; i--) {
             Tower t = placedTower.get(i);
-            Ennemy e = t.detect(ennemies);
-            if (e != null) {
-                Projectile p = null;
-                int delais = 0;
-                if (t instanceof TaskKiller) {
-                    p = new ProjectileDegatsBrut(t.getX()+16, t.getY()+16, e);
-                    delais = 20;
-                } else if (t instanceof NordVPN) {
-                    p = new ProjectilePoison(t.getX()+16, t.getY()+16, e);
-                    delais = 70;
-                }
-                if (t instanceof InternetExplorer) {
-                    p = new ProjectileRalentisseur(t.getX()+16, t.getY()+16, e);
-                    delais = 2 ;
-                }
-                if (nbTours % delais == 0) {
-                    projectiles.add(p);
+            ennemiesDansLaZone = t.detect(ennemies);
+
+            if(ennemiesDansLaZone.size()!=0){
+                for (int j = ennemiesDansLaZone.size() - 1; j >= 0; j--) {
+                    Ennemy detectedEnnemy = ennemiesDansLaZone.get(j);
+                    Ennemy firstDetect = ennemiesDansLaZone.get(0);
+
+                    Projectile p  = null;
+
+                    if (t instanceof TaskKiller) {
+                        p = new ProjectileDegatsBrut(t.getX() + 16, t.getY() + 16, firstDetect);
+                    }
+                    else if (t instanceof CCleaner) {
+                        p = new ZoneElectrique(t.getX() + 16, t.getY() + 16, detectedEnnemy);
+                    }
+                    else if (t instanceof PDFConverter) {
+                        if(firstDetect instanceof Archive)
+                            p = new ProjectileDotSH(t.getX() + 16, t.getY() + 16, firstDetect);
+                    }
+                    else if (t instanceof InternetExplorer) {
+                        p = new ZoneRalentisseur(t.getX() + 16, t.getY() + 16, detectedEnnemy);
+                    }
+                    else if (t instanceof NordVPN) {
+                        p = new ProjectileKnockBack(t.getX() + 16, t.getY() + 16, firstDetect);
+                    }
+                    else if (t instanceof Demineur) {
+                        if((!(firstDetect instanceof DotExe) &&  !(firstDetect instanceof Virus) && !(firstDetect instanceof DotSH)))
+                            p = new ProjectileDotSH(t.getX() + 16, t.getY() + 16, firstDetect);
+                    }
+
+                    ennemiesDansLaZone.remove(detectedEnnemy);
+                    if (nbTours % t.getDelais() == 0 && p != null) {
+                        projectiles.add(p);
+
+                    }
                 }
             }
 
-
+            else {
+                for (int n = ennemies.size() - 1; n >= 0; n--) {
+                    ennemies.get(n).resetSpped();
+                }
+            }
         }
     }
 
-    public boolean verifProgression(){
+    public boolean verifProgression() {
         return player.isDead();
     }
 
-    public void animationProjectiles(int nbT){
-        for (Projectile p : projectiles){
-            p.moveProjectile();
-            if(p instanceof ProjectileDegatsBrut){
+
+    public void animationProjectiles(int nbT) {
+
+        for (Projectile p : projectiles) {
+                p.placement();
                 p.agitSurLaCible();
-            }
-            else if (p instanceof ProjectileRalentisseur){
-                    p.agitSurLaCible();
-
-
-            }
-            else if (p instanceof ProjectilePoison){
-            if(nbT %100 == 0){
-                    p.agitSurLaCible();
-
-                }
-
-
-
-            }
-
-
         }
-        for (int j = projectiles.size()-1 ; j>=0;j--) {
+
+        for (int j = projectiles.size() - 1; j >= 0; j--) {
             Projectile p = projectiles.get(j);
-            if(p.cibleAtteint() || p.isOnBound() ) {
-                projectiles.remove(p);
 
+            if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
+                if (p.cibleAtteint() || p.isOnBound()) {
+                    projectiles.remove(p);
+                }
+            }
 
+            else if(p instanceof ProjectileDotSH) {
+
+                if ((p.cibleAtteint() || p.isOnBound())) {
+                    projectiles.remove(p);
+                 cpt ++ ;
+                    System.out.println(cpt);
+                 if(cpt == 3) {
+                     ennemies.remove(p.getEnnemyCible());
+                     this.ennemies.add(new DotSH(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player));
+                     cpt = 0 ;
+                 }
+                }
+            }
+
+            else if(p instanceof ZoneRalentisseur || p instanceof ZoneElectrique){
+                if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().estMort()) {
+                    projectiles.remove(p);
+                }
             }
         }
-
     }
 
     public int[] getStartTilePos() {
@@ -490,6 +531,15 @@ public class Level {
             direction = 1;
         }
         return direction;
+    }
+
+    public void flopGain() {
+        for (int i = ennemies.size() - 1; i >= 0; i--) {
+            Ennemy e = ennemies.get(i);
+            if (e.estMort()) {
+                player.setFlop(player.getFlop() + (e.getDropRate()* (int)(actualWaveNumber.getValue()*0.5)));
+            }
+        }
     }
 
 }

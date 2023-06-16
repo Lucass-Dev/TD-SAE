@@ -8,6 +8,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
+
 abstract public class Tower{
     private SimpleIntegerProperty x, y;
     private SimpleIntegerProperty range;
@@ -25,6 +27,8 @@ abstract public class Tower{
     private SimpleIntegerProperty movingPrice;
     private SimpleBooleanProperty showingRange;
     private SimpleIntegerProperty sellingPrice;
+    private int delais ;
+    private ArrayList<Ennemy> ennemieDetecte ;
 
     public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex, int damage, int reloadSpeed){
         this.x = new SimpleIntegerProperty(x);
@@ -43,10 +47,18 @@ abstract public class Tower{
         this.reloadSpeed = new SimpleIntegerProperty(reloadSpeed);
         this.showingRange = new SimpleBooleanProperty(false);
         this.sellingPrice = new SimpleIntegerProperty((int) (this.flopPrice*0.75));
+        this.delais = delais ;
+        this.ennemieDetecte = new ArrayList<>() ;
     }
 
     //GETTER
+    public int getDelais() {
+        return this.delais;
+    }
 
+    public void setDelais(int delais) {
+        this.delais = delais;
+    }
 
     public int getSellingPrice() {
         return sellingPrice.get();
@@ -229,12 +241,12 @@ abstract public class Tower{
             setSellingPrice((int) (this.sellingPrice.get() * 1.2));
         }
     }
-    public Ennemy detect(ObservableList<Ennemy> ennemis){
+    public ArrayList<Ennemy> detect(ObservableList<Ennemy> ennemis){
         for (Ennemy m : ennemis) {
-            if ((this.getY()-range.get()<=m.getY() && m.getY()<= this.getY()+range.get()) && (this.getX()-range.get()<=m.getX() && m.getX() <= this.getX()+range.get())){
-                return m;
+            if ((this.getY()+16)-range<=m.getY() && m.getY()<= (this.getY()+16)+range && (this.getX()+16)-range<=m.getX() && m.getX() <= (this.getX()+16)+range){
+                ennemieDetecte.add(m);
             }
         }
-        return null;
+        return ennemieDetecte ;
     }
 }

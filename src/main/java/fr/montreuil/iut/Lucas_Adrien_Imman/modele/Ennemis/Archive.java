@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 
 public class Archive extends Ennemy{
     public Archive(int x, int y, Pane levelPane, Level level, Player player, int startDirection) {
-        super(x, y, levelPane, level, 1, 20, player, 3, 20,0, 3, startDirection);
+        super(x, y, levelPane, level, 1, 20, player, 3, 20,0, 3, startDirection, 30,3);
     }
 
     @Override

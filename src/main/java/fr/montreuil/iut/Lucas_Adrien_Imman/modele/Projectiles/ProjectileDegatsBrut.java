@@ -5,16 +5,15 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 public class ProjectileDegatsBrut extends Projectile {
 
 
-    public ProjectileDegatsBrut(int x , int y , Ennemy e){
-     super(x,y,e);
+    public ProjectileDegatsBrut(int x , int y , Ennemy ennemyCible){
+     super(x,y,ennemyCible);
 
     }
 
     @Override
-    public int agitSurLaCible() {
+    public void agitSurLaCible() {
         if(cibleAtteint())
-        e.reductionPv(10);
-        return 0;
+        getEnnemyCible().reductionPv(10);
     }
 
 

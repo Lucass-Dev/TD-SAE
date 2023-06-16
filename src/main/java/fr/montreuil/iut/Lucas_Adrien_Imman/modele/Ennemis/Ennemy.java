@@ -18,12 +18,14 @@ public abstract class Ennemy {
     private int spriteIndex;
     private SimpleIntegerProperty maxLife;
     private int damage ;
-    private int reward;
+    private int dropRate ;
+    private int initialSpeed ;
+
 
     //direction stands for the cardinal direction with an int value : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
 
-    public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife , int damage, int reward, int startDirection){
+    public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife , int damage, int startDirection , int dropeRate , int initialSpeed){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.levelPane = levelPane;
@@ -37,11 +39,24 @@ public abstract class Ennemy {
         compteur++;
         this.player = player ;
         this.damage = damage ;
-        this.reward = reward;
+        this.dropRate = dropeRate ;
+        this.initialSpeed = initialSpeed ;
     }
 
     public abstract void doDamage();
     public abstract void die();
+
+    public void resetSpped(){
+        setSpeed(this.initialSpeed);
+    }
+
+    public int getDropRate() {
+        return dropRate;
+    }
+
+    public void setDropRate(int dropRate) {
+        this.dropRate = dropRate;
+    }
 
     public boolean isCentered(){
         int[] center;
@@ -251,17 +266,5 @@ public abstract class Ennemy {
 
     public Pane getLevelPane() {
         return levelPane;
-    }
-
-    public void giveReward(){
-        this.player.setFlop(this.player.getFlop() + this.reward);
-    }
-
-    public void giveRamReward(){
-        int i = (int) (Math.random()*(100-1) + 1);
-        if (i == 32){
-            int reward = (int) (Math.random()*(15-1) + 1);
-            this.player.setRam(this.player.getRam()+ reward);
-        }
     }
 }

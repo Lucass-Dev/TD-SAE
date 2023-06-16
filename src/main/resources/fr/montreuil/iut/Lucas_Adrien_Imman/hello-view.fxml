@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.TilePane?>
 
-
-<BorderPane prefHeight="327.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.montreuil.iut.Lucas_Adrien_Imman.ACO.Controller">
+<BorderPane prefHeight="327.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.montreuil.iut.Lucas_Adrien_Imman.ACO.Controller">
     <center>
         <Pane fx:id="paneTerrain">
             <children>
@@ -17,4 +19,7 @@
             </children>
         </Pane>
     </center>
+   <left>
+      <Label text="Label" BorderPane.alignment="CENTER" />
+   </left>
 </BorderPane>

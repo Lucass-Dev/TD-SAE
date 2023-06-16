@@ -4,7 +4,7 @@ public class CCleaner extends Tower {
 
 
     public CCleaner(int x, int y){
-        super(x, y, "CCleaner", 100, 100, 150, 100, 150, 1, 10, 50);
+        super(x, y, "CCleaner", 100, 100, 150, 100, 150, 1,50);
     }
 
 

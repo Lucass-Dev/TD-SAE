@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 
 public class Scam extends Ennemy{
     public Scam(int x, int y, Pane levelPane, Level level, Player player, int startDirection) {
-        super(x, y, levelPane, level, 3, 10, player, 6, 10,0, 40, startDirection);
+        super(x, y, levelPane, level, 3, 10, player, 6, 10,0, 40, startDirection, 20, 5);
     }
 
     @Override

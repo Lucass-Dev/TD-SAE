@@ -59,6 +59,8 @@ public class LevelVue {
                 totalTower++;
             }
         }
+
+
         for (int i = 0; i < totalTower; i++) {
             HBox newShopItem = new HBox();
             newShopItem.setPadding(new Insets(8));
