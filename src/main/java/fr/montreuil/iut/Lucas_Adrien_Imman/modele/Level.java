@@ -63,7 +63,7 @@ public class Level {
         this.endTilePos = new int[2];
         this.actualWave = new ArrayList<>();
         this.waveSize = 3;
-        this.actualWaveNumber = new SimpleIntegerProperty(0);
+        this.actualWaveNumber = new SimpleIntegerProperty(6);
         this.projectiles = FXCollections.observableArrayList();
         this.nbActeurs = 4;
         this.freezingDelay = 350;
@@ -244,43 +244,7 @@ public class Level {
         this.placedTower.remove(t);
     }
 
-    public void bulletTurn(int nbT) {
 
-        for (Projectile p : projectiles) {   //déplacement des projectiles et agit sur la cible
-            p.placement();
-            p.agitSurLaCible();
-        }
-
-        for (int j = projectiles.size() - 1; j >= 0; j--) {//enleve les projectile par rapport aux conditions
-            Projectile p = projectiles.get(j);
-
-            if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
-                if (p.cibleAtteint() || p.isOnBound()) {
-                    projectiles.remove(p);
-                }
-            }
-
-            else if(p instanceof ProjectileDotSH) {
-
-                if ((p.cibleAtteint() || p.isOnBound())) {
-                    projectiles.remove(p);
-                    cpt ++ ;
-                    System.out.println(cpt);
-                    if(cpt == 3) {
-                        ennemies.remove(p.getEnnemyCible());
-                        this.ennemies.add(new DotSH(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, this.getStartDirection()));
-                        cpt = 0 ;
-                    }
-                }
-            }
-
-            else if(p instanceof ZoneRalentisseur || p instanceof ZoneElectrique){
-                if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
-                    projectiles.remove(p);
-                }
-            }
-        }
-    }
 
     public boolean checkProgression() {
         return player.isDead();
@@ -305,8 +269,9 @@ public class Level {
                         p = new ZoneElectrique(t.getX() + 16, t.getY() + 16, detectedEnnemy);
                     }
                     else if (t instanceof PDFConverter) {
-                        if(firstDetect instanceof Archive)
+                        if(firstDetect instanceof Archive) {
                             p = new ProjectileDotSH(t.getX() + 16, t.getY() + 16, firstDetect);
+                        }
                     }
                     else if (t instanceof InternetExplorer) {
                         p = new ZoneRalentisseur(t.getX() + 16, t.getY() + 16, detectedEnnemy);
@@ -334,13 +299,48 @@ public class Level {
             }
         }
     }
+    public void bulletTurn(int nbT) {
+
+        for (Projectile p : projectiles) {   //déplacement des projectiles et agit sur la cible
+            p.placement();
+            p.agitSurLaCible();
+        }
+
+        for (int j = projectiles.size() - 1; j >= 0; j--) {//enleve les projectile par rapport aux conditions
+            Projectile p = projectiles.get(j);
+
+            if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
+                if (p.cibleAtteint() || p.isOnBound()) {
+                    projectiles.remove(p);
+                }
+            }
+
+            else if (p instanceof ProjectileDotSH) {
+                if (p.cibleAtteint()) {
+                    projectiles.remove(p);
+                    cpt++;
+                    System.out.println("tour  " + cpt);
+                    if (cpt == 3) {
+                        ennemies.remove(p.getEnnemyCible());
+                        this.ennemies.add(new DotSH(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, this.getStartDirection()));
+                        cpt = 0;
+                    }
+                }
+            }
+
+            else if(p instanceof ZoneRalentisseur || p instanceof ZoneElectrique){
+                if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
+                    projectiles.remove(p);
+                }
+            }
+        }
+    }
 
     public boolean enemiesTurn(int nbTours){
 
         if (actualWave.size() == 0 && ennemies.size() == 0){
             createWave(this.waveSize);
             this.waveSize += actualWaveNumber.get()*difficulty/3;
-            //nextWave();
         }else if (nbTours % 20 == 0 && actualWave.size() != 0){
             this.ennemies.add(this.actualWave.remove(0));
         }
