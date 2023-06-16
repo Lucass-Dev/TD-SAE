@@ -30,7 +30,7 @@ abstract public class Tower{
     private int delais ;
     private ArrayList<Ennemy> ennemieDetecte ;
 
-    public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex, int damage, int reloadSpeed){
+    public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex, int damage, int reloadSpeed, int delais){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.spriteIndex = spriteIndex;
@@ -243,7 +243,7 @@ abstract public class Tower{
     }
     public ArrayList<Ennemy> detect(ObservableList<Ennemy> ennemis){
         for (Ennemy m : ennemis) {
-            if ((this.getY()+16)-range<=m.getY() && m.getY()<= (this.getY()+16)+range && (this.getX()+16)-range<=m.getX() && m.getX() <= (this.getX()+16)+range){
+            if ((this.getY()+16)-range.get()<=m.getY() && m.getY()<= (this.getY()+16)+range.get() && (this.getX()+16)-range.get()<=m.getX() && m.getX() <= (this.getX()+16)+range.get()){
                 ennemieDetecte.add(m);
             }
         }

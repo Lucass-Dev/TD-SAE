@@ -6,8 +6,6 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.PopupVue;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
@@ -253,34 +251,34 @@ public class Level {
         for (int i = 0; i < size; i++) {
             switch ((int) ((Math.random() * (6 - 1)) + 1)){
                 case 1 -> {
-                    this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
+                    this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
                 }
                 case 2 -> {
-                    if (this.actualWaveNumber <= 5){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
+                    if (this.actualWaveNumber.get() <= 5){
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
                     }else{
-                        this.actualWave.add(new Archive(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
+                        this.actualWave.add(new Archive(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
                     }
                 }
                 case 3 -> {
-                    if (this.actualWaveNumber <= 10){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
+                    if (this.actualWaveNumber.get() <= 10){
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
                     }else{
-                        this.actualWave.add(new Virus(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
+                        this.actualWave.add(new Virus(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
                     }
                 }
                 case 4 -> {
-                    if (this.actualWaveNumber <= 15){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
+                    if (this.actualWaveNumber.get() <= 15){
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
                     }else{
-                        this.actualWave.add(new Scam(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
+                        this.actualWave.add(new Scam(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
                     }
                 }
                 case 5 -> {
-                    if (this.actualWaveNumber <= 20){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
+                    if (this.actualWaveNumber.get() <= 20){
+                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
                     }else{
-                        this.actualWave.add(new DotExe(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player));
+                        this.actualWave.add(new DotExe(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
                     }
                 }
             }
@@ -306,7 +304,6 @@ public class Level {
                     ennemies.remove(e);
                 } else if (e.estMort()) {
                     e.die();
-                    e.giveReward();
                     ennemies.remove(e);
                 }
             }
@@ -395,7 +392,7 @@ public class Level {
                     System.out.println(cpt);
                  if(cpt == 3) {
                      ennemies.remove(p.getEnnemyCible());
-                     this.ennemies.add(new DotSH(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player));
+                     this.ennemies.add(new DotSH(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, this.getStartDirection()));
                      cpt = 0 ;
                  }
                 }

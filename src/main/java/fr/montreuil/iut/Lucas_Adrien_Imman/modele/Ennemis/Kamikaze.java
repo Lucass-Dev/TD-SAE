@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 
 public class Kamikaze extends Ennemy {
     public Kamikaze(int x, int y, Pane levelPane, Level level, Player player, int startDirection) {
-        super(x, y, levelPane, level, 4, 30, player, 2, 30,35, 0, startDirection, 25, 2);
+        super(x, y, levelPane, level, 4, 30, player, 2, 30,35, startDirection, 25, 2);
     }
 
 

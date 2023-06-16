@@ -4,6 +4,6 @@ public class NordVPN extends Tower {
 
 
     public NordVPN(int x, int y){
-        super(x, y, "Task Killer", 100, 500, 600, 100, 300, 4, 10, 50);
+        super(x, y, "Task Killer", 100, 500, 600, 100, 300, 4, 10, 50, 50);
     }
 }

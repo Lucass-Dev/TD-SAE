@@ -59,7 +59,7 @@
         </HBox>
       <Button fx:id="previousMapButton" mnemonicParsing="false" onAction="#changeMapPreview" text="⬅️" GridPane.rowIndex="1" />
       <Button fx:id="nextMapButton" mnemonicParsing="false" onAction="#changeMapPreview" text="➡️ " GridPane.columnIndex="2" GridPane.rowIndex="1" />
-          <Button fx:id="playButton" mnemonicParsing="false" onAction="#loadLevel" text="Change Scene" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+          <Button fx:id="playButton" mnemonicParsing="false" onAction="#loadLevel" text="Play" GridPane.columnIndex="2" GridPane.rowIndex="2" />
       <ImageView fx:id="previewMapImage" fitHeight="130.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <image>
             <Image url="@graphics/map_preview/0.jpeg" />
