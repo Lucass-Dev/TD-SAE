@@ -12,7 +12,7 @@ public class DotSH extends Ennemy{
     @Override
     public void doDamage(){
         if(isOnObjective()){
-            this.getPlayer().lifeReduction(this.getDamage());
+            this.getPlayer().looseLife(this.getDamage());
         }
     }
 

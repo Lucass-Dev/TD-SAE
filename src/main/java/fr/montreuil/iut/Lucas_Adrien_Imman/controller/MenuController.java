@@ -58,6 +58,7 @@ public class MenuController implements Initializable {
         this.difficulty = 1;
         mapNameLabel.setText("Map n° 1");
 
+        //Ce try catch est pour la méthode setScores de la classe Level parce que l'on essaye de trouver un fichier
         try {
             setScores(0);
         } catch (FileNotFoundException e) {
@@ -77,8 +78,8 @@ public class MenuController implements Initializable {
         Scene nS= new Scene(root, 1040, 900);
 
         Main.stg.setScene(nS);
-        //Main.stg.setFullScreen(true);
 
+        //On récupère le nouveau contrôleur pour transiter des données entre les 2 contrôleurs
         LevelController levelController = fxmlLoader.getController();
         Player p = new Player(this.username.getText());
         sendData(levelController, mapIndex, "mapName", p, this.difficulty);
@@ -188,6 +189,9 @@ public class MenuController implements Initializable {
         }
     }
 
+    /**
+     *Créer un objet LDT (LevelDataTransit) pour le passer en attribut à un niveau
+     **/
     public void sendData(LevelController levelController, int mapIndex, String mapName, Player player, int difficulty){
         LevelDataTransit LDT = new LevelDataTransit(mapIndex, mapName, player, difficulty, username.getText());
         levelController.setLDT(LDT);

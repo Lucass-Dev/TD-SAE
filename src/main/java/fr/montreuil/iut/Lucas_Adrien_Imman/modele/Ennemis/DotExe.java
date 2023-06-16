@@ -12,7 +12,8 @@ public class DotExe extends Ennemy {
     @Override
     public void doDamage(){
         if(isOnObjective()){
-            this.getPlayer().lifeReduction(this.getDamage());
+            this.getPlayer().looseLife(this.getDamage());
+            //Enlève un tour aléatoire
             if (this.getLevel().getPlacedTower().size() != 0){
                 int max = this.getLevel().getPlacedTower().size();
                 int rand = (int) (Math.random() * (max-1) + 1);

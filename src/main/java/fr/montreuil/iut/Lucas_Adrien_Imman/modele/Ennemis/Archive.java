@@ -12,12 +12,13 @@ public class Archive extends Ennemy{
     @Override
     public void doDamage(){
         if(isOnObjective()){
-            this.getPlayer().lifeReduction(this.getDamage());
+            this.getPlayer().looseLife(this.getDamage());
         }
     }
 
     @Override
     public void die(){
+        //Fait apparaître plusieurs DotSH qand il est tué par des tours
         for (int i = 0; i < 3; i++) {
             Ennemy e = new DotSH(this.getX(), this.getY(), this.getLevelPane(), this.getLevel(), this.getPlayer(), this.getDirection());
             e.setDirection(this.getDirection());

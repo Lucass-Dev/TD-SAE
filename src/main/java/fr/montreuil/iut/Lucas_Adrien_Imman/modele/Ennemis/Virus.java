@@ -13,7 +13,7 @@ public class Virus extends Ennemy{
     @Override
     public void doDamage(){
         if(isOnObjective()){
-            this.getPlayer().lifeReduction(this.getDamage());
+            this.getPlayer().looseLife(this.getDamage());
             int rand = (int)((Math.random() * (3 - 1)) + 1);
             System.out.println(rand);
             if (rand == 1){
