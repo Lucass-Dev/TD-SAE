@@ -22,20 +22,12 @@ public class Player {
         this.username = username;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public int getMaxRAM() {
         return maxRAM.get();
     }
 
     public IntegerProperty maxRAMProperty() {
         return maxRAM;
-    }
-
-    public int getMaxlife() {
-        return maxlife.get();
     }
 
     public IntegerProperty maxlifeProperty() {
@@ -46,7 +38,7 @@ public class Player {
         return life.get();
     }
 
-    public void lifeReduction(int l){
+    public void looseLife(int l){
         if(life.getValue()-l>=0)
             setLife(life.getValue()-l);
         else
@@ -77,10 +69,6 @@ public class Player {
         }
     }
 
-    public void setMaxRAM(int i){
-        this.maxRAM.set(this.maxRAM.get()+i);
-    }
-
     public int getFlop() {
         return flop.get();
     }
@@ -91,10 +79,6 @@ public class Player {
 
     public void setFlop(int flop) {
         this.flop.set(flop);
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public boolean isDead(){

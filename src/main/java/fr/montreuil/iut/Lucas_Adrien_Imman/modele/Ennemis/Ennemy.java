@@ -22,7 +22,7 @@ public abstract class Ennemy {
     private int initialSpeed ;
 
 
-    //direction stands for the cardinal direction with an int value : 1 North 2 East 3 South 4 West 0 for nothing
+    //la direction représente une direction cardinale : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
 
     public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife , int damage, int startDirection , int dropeRate , int initialSpeed){
@@ -46,18 +46,86 @@ public abstract class Ennemy {
     public abstract void doDamage();
     public abstract void die();
 
-    public void resetSpped(){
-        setSpeed(this.initialSpeed);
+    //SETTER
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+    public void setX(int x) {
+        this.x.set(x);
     }
 
-    public int getDropRate() {
-        return dropRate;
+    public void setY(int y) {
+        this.y.set(y);
     }
 
-    public void setDropRate(int dropRate) {
-        this.dropRate = dropRate;
+    public void setLife(int life) {
+        this.life.set(life);
     }
 
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    //GETTER
+    public int getSpriteIndex() {
+        return spriteIndex;
+    }
+    public Player getPlayer() {
+        return player;
+    }
+    public int getDamage() {
+        return damage;
+    }
+    public Pane getLevelPane() {
+        return levelPane;
+    }
+    public String getId() {
+        return id;
+    }
+    public SimpleIntegerProperty lifeProperty() {
+        return life;
+    }
+    public SimpleIntegerProperty maxLifeProperty() {
+        return maxLife;
+    }
+    public int getX() {
+        return x.get();
+    }
+    public SimpleIntegerProperty xProperty() {
+        return x;
+    }
+    public int getY() {
+        return y.get();
+    }
+    public SimpleIntegerProperty yProperty() {
+        return y;
+    }
+    public SimpleIntegerProperty getLife() {
+        return life;
+    }
+    public int getSpeed() {
+        return speed;
+    }
+    public boolean isDead(){
+        return getLife().getValue()==0 ;
+    }
+    public int getDirection() {
+        return direction;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    //OTHER METHODS
+
+    public void reductionPv(int l){
+        if(life.getValue()-l>=0)
+            setLife(life.getValue()-l);
+        else
+            setLife(0);
+    }
+    //Pour savoir si l'ennemie est centré sur la tuile avec une "marge d'erreur"
     public boolean isCentered(){
         int[] center;
         int[] pos = new int[2];
@@ -71,6 +139,9 @@ public abstract class Ennemy {
 
         return pos[0] <= center[0]+3 && pos[0] >= center[0]-3 && pos[1] <= center[1]+3 && pos[1] >= center[1]-3 ;
     }
+
+    //Change la direction de l'ennemie en fonction de la valeur de la TravelingMap à ses coordonnées et en fonction de
+    // sa direction initiale
     public void move() {
         int[] pos = new int[2];
         pos[0] = this.getX()/32;
@@ -138,11 +209,9 @@ public abstract class Ennemy {
         }
 
     }
-
     public boolean isOnBound(){
         return this.getX() < this.levelPane.getWidth() && this.getY() < this.levelPane.getHeight() && this.getX() >= 0 && this.getY() >=0;
     }
-
     public boolean isOnObjective(){
         int[] pos = new int[2];
         pos[0] = this.getX()/32;
@@ -150,121 +219,11 @@ public abstract class Ennemy {
         return this.level.getTileValue(pos) == 7;
     }
 
-    public void setDirection(int direction) {
-        this.direction = direction;
+    public void resetSpped(){
+        setSpeed(this.initialSpeed);
     }
 
-    public int getDirection() {
-        return direction;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public Pane getTilePane() {
-        return levelPane;
-    }
-
-    public int getX() {
-        return x.get();
-    }
-
-    public SimpleIntegerProperty xProperty() {
-        return x;
-    }
-
-    public int getY() {
-        return y.get();
-    }
-
-    public SimpleIntegerProperty yProperty() {
-        return y;
-    }
-
-    public SimpleIntegerProperty getLife() {
-        return life;
-    }
-    public int getLifeValue(){
-        return life.getValue();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public boolean estMort(){
-        return getLife().getValue()==0 ;
-    }
-
-    public void setX(int x) {
-        this.x.set(x);
-    }
-
-    public void setY(int y) {
-        this.y.set(y);
-    }
-
-    public void setLife(int life) {
-        this.life.set(life);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public SimpleIntegerProperty lifeProperty() {
-        return life;
-    }
-
-    public int getMaxLife() {
-        return maxLife.get();
-    }
-
-    public SimpleIntegerProperty maxLifeProperty() {
-        return maxLife;
-    }
-
-    public void reductionPv(int l){
-        if(life.getValue()-l>=0)
-            setLife(life.getValue()-l);
-        else
-            setLife(0);
-    }
-
-    public void reductionSpeed(int s){
-        if(speed-s>=0)
-            setSpeed(speed-=s);
-    }
-    public int getSpriteIndex() {
-        return spriteIndex;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public int getDamage() {
-        return damage;
-    }
-
-    public Pane getLevelPane() {
-        return levelPane;
+    public int getDropRate() {
+        return dropRate;
     }
 }

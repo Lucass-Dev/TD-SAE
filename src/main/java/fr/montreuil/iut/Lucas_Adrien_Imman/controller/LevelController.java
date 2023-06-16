@@ -93,6 +93,7 @@ public class LevelController implements Initializable {
         this.timeLabel.setText("0h0m0s");
         this.waveLabel.setText("0");
 
+        //Change le curseur de la souris quand on clique sur les imageView résentent dans le menu d'achat à droite
         this.towerShopVbox.setOnMouseClicked(mouseEvent -> {
             EventTarget target = mouseEvent.getTarget();
             if (target instanceof ImageView){
@@ -104,9 +105,14 @@ public class LevelController implements Initializable {
                 setCursor(targetedTowerIV.getImage());
             }
         });
+
+        //Reset le curseur par défaut quand le curseur est modifé et hover le menu d'achat
         this.towerShopVbox.setOnMouseEntered(mouseEvent -> {
             setCursor(Cursor.DEFAULT);
         });
+
+        //Gère la pose de de tour en cliquant sur le tile pane
+        //Récupère la position de la souris et la trnsforme en coordonées utilisable
         this.tilePane.setOnMouseClicked(mouseEvent -> {
 
             int x = (int) mouseEvent.getX();
@@ -114,6 +120,7 @@ public class LevelController implements Initializable {
 
             int[] mousePos = this.level.getTilePos(x, y);
 
+            //Quand on bouge une tour
             if (this.isMovingTower){
                 System.out.println(mouseEvent);
                 if (this.level.validTile(mousePos)){
@@ -122,7 +129,9 @@ public class LevelController implements Initializable {
                     this.movingTower = null;
                     this.isMovingTower = false;
                 }
-            }else{
+            }
+            //Quand on veut poser une tour
+            else{
                 if (Main.stg.getScene().getCursor() != Cursor.DEFAULT && Main.stg.getScene().getCursor() != null) {
                     if (this.level.validTile(mousePos)) {
                         this.level.placeTower(x, y, cursorIndex);
@@ -130,6 +139,8 @@ public class LevelController implements Initializable {
                 }
             }
         });
+
+        //Gère l'affichage du menu de tour ou l'enlèvement de celui-ci quand on clique sur le pane ou sur une tour
         this.levelPane.setOnMouseClicked(mouseEvent -> {
             if (this.towerMenu.getChildren().size() > 0) {
                 this.levelVue.removeTowerMenu(this.towerMenu);
@@ -153,6 +164,7 @@ public class LevelController implements Initializable {
         });
     }
 
+    //Créer le niveau sur plusieurs aspects (niveau code donc modèle et niveau vue)
     public void createLevel() {
         this.helpPopup.setVisible(false);
         this.towerMenu.getChildren().remove(this.playButton);
@@ -162,6 +174,8 @@ public class LevelController implements Initializable {
         this.level.setPlayer(this.LDT.getPlayer());
         this.level.setDifficulty(this.LDT.getDifficulty());
         this.waveLabel.textProperty().bind(this.level.actualWaveNumberProperty().asString());
+
+        //Ce try catch est pour la méthode createMap de la classe Level parce que l'on essaye de trouver un fichier
         try {
             ArrayList<ArrayList<Integer>> map = this.level.createMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map"+mapIndex+".csv", tilePane);
             this.level.setTileMap(map);
@@ -174,14 +188,6 @@ public class LevelController implements Initializable {
             this.level.getProjectiles().addListener(projectileListChangeListener);
             this.levelVue = new LevelVue(this.level, this.tilePane, this.levelPane, this);
             this.levelVue.createShopMenu(towerShopVbox);
-            //Sout pour le tableau 2D des tuiles et de la version chemin tarversable
-            for (ArrayList<Integer> arrayList: this.level.getTileMap()) {
-                System.out.println(arrayList);
-            }
-            System.out.println();
-            for (ArrayList<Integer> arrayList: this.level.getTravelingMap()) {
-                System.out.println(arrayList);
-            }
             try {
                 this.levelVue.createATH(this.player, athHbox);
             }catch (IOException e){
@@ -197,10 +203,6 @@ public class LevelController implements Initializable {
 
     public void setLDT(LevelDataTransit LDT) {
         this.LDT = LDT;
-    }
-
-    public void printData() {
-        System.out.println(this.LDT.toString());
     }
 
     public void initAnimation() {
@@ -221,6 +223,7 @@ public class LevelController implements Initializable {
                         System.out.println("fini");
                         gameLoop.stop();
                         Score s = new Score(this.LDT.getDifficulty(), this.timeLabel.getText(), this.LDT.getPlayerName(), this.LDT.getMapIndex(), this.level.getActualWaveNumber());
+                        //Ce try catch est pour la méthode newBestScores de la classe Level parce que l'on essaye de trouver un fichier
                         try {
                             s.newBestScores();
                         } catch (IOException e) {
@@ -236,12 +239,15 @@ public class LevelController implements Initializable {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
+
+                        //Ensuite on change la scene pour revenir au menu principal
                         Scene nS= new Scene(root, 1040, 900);
 
                         Main.stg.setScene(nS);
                     }
                     else{
                         this.level.startLevel(nbTours);
+                        refreshTimer();
                         nbTours++ ;
                     }
 

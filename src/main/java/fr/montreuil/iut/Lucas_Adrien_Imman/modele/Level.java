@@ -8,11 +8,9 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.vue.PopupVue;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.stage.Popup;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,7 +20,6 @@ import java.util.Scanner;
 public class Level {
     private int nbTours;
     private Player player;
-    private String levelName;
     private int difficulty;
     private SimpleIntegerProperty actualWaveNumber;
     private ArrayList<Ennemy> actualWave;
@@ -55,9 +52,8 @@ public class Level {
     private int poisonedAmount;
     private int poisonTicks;
 
-    public Level(String name, Pane levelPane){
+    public Level(Pane levelPane){
         this.levelPane = levelPane;
-        this.levelName = name;
         this.tileMap = new ArrayList<>();
         this.travelingMap = new ArrayList<>();
         this.ennemiesDansLaZone = new ArrayList<>();
@@ -208,9 +204,7 @@ public class Level {
     }
 
     public void placeTower(int x , int y, int index){
-        int[] pos = new int[2];
-        pos[0] = x/32;
-        pos[1] = y/32;
+        int[] pos = getTilePos(x, y);
         Tower t = null;
         switch(index){
             case 0 -> {
@@ -302,7 +296,7 @@ public class Level {
                 if (e.isOnObjective() || !e.isOnBound()) {
                     e.doDamage();
                     ennemies.remove(e);
-                } else if (e.estMort()) {
+                } else if (e.isDead()) {
                     e.die();
                     ennemies.remove(e);
                 }
@@ -367,7 +361,6 @@ public class Level {
         return player.isDead();
     }
 
-
     public void animationProjectiles(int nbT) {
 
         for (Projectile p : projectiles) {   //déplacement des projectiles et agit sur la cible
@@ -399,34 +392,28 @@ public class Level {
             }
 
             else if(p instanceof ZoneRalentisseur || p instanceof ZoneElectrique){
-                if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().estMort()) {
+                if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
                     projectiles.remove(p);
                 }
             }
         }
     }
 
-    public int[] getStartTilePos() {
-        return startTilePos;
-    }
-
-    public int[] getEndTilePos() {
-        return endTilePos;
-    }
-
+    /***
+     * Donne la valeur de la position dans la Traveling Map
+     */
     public int getTileValue(int[] pos) {
         return this.getTravelingMap().get(pos[1]).get(pos[0]);
     }
 
+    /**
+     *Obliger de diviser par 32 pour la convertir en index d'ArrayList
+     */
     public int[] getTilePos(int x, int y){
         int[] pos = new int[2];
         pos[0] = x/32;
         pos[1] = y/32;
         return pos;
-    }
-
-    public int getDifficulty() {
-        return difficulty;
     }
 
     public Player getPlayer() {
@@ -449,19 +436,6 @@ public class Level {
 
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
-    }
-
-    public void nextWave() {
-        int timer = 5;
-        Popup nextWavePopup = new Popup();
-        Label nextWaveLabel = new Label();
-
-        nextWavePopup.getContent().add(nextWaveLabel);
-        nextWavePopup.show(Main.stg, Main.stg.getHeight()/2, Main.stg.getWidth()/2);
-        for (int i = timer; i > 0; i--) {
-            nextWaveLabel.setText("New wave in "+ i);
-        }
-        nextWavePopup.hide();
     }
 
     public void freezeRam(int amount){
@@ -514,6 +488,9 @@ public class Level {
         this.placedTower.remove(t);
     }
 
+    /**
+     *Renvoie une position cardinal (cf Enemy) par rapport à la position de départ dans la travelingMap
+     */
     public int getStartDirection(){
         int startTile = this.tileMap.get(startTilePos[0]).get(startTilePos[1]);
         System.out.println(startTile);
@@ -533,7 +510,7 @@ public class Level {
     public void flopGain() {// système de récompense par rapport aux type d'ennemi , et au nombre de vague
         for (int i = ennemies.size() - 1; i >= 0; i--) {
             Ennemy e = ennemies.get(i);
-            if (e.estMort()) {
+            if (e.isDead()) {
                 player.setFlop(player.getFlop() + (e.getDropRate()* (int)(actualWaveNumber.getValue()*0.5)));
             }
         }

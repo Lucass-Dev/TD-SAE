@@ -24,6 +24,10 @@ public class Score {
         this.challengerWave = challengerWave;
     }
 
+    /**
+     *Récupère le fichier correspondant à ses attributs puis vérifie à l'aide des appels de méthodes  isBetterWave et
+     * isBetterTime si le score de l'utilisateur est meilleur puis le place dans le fichiers des meilleurs score
+     */
     public void newBestScores() throws IOException {
         this.file = new File("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/scores/map"+this.mapindex+"/"+diificulty);
         Scanner sc = new Scanner(this.file);
