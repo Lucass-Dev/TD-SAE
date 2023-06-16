@@ -215,7 +215,11 @@ public class Level {
             Ennemy e = ennemies.get(i);
             if (e.isDead()) {
                 player.setFlop(player.getFlop() + (e.getDropRate()* (int)(actualWaveNumber.getValue()*0.5)));
+                player.setRam(player.getRam() + (int)(actualWaveNumber.getValue()*0.2));
             }
+
+
+
         }
     }
 

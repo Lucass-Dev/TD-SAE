@@ -16,9 +16,9 @@ public class Player {
     public Player(String username) {
         this.life = new SimpleIntegerProperty(100) ;
         this.maxlife = new SimpleIntegerProperty(100);
-        this.ram =  new SimpleIntegerProperty(1000000);
+        this.ram =  new SimpleIntegerProperty(1000);
         this.maxRAM = new SimpleIntegerProperty(1000);
-        this.flop = new SimpleIntegerProperty(5000);
+        this.flop = new SimpleIntegerProperty(500);
         this.username = username;
     }
 
