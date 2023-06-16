@@ -20,7 +20,7 @@ public class TestProjectiles {
 
 
     @Test
-    void surTerrain(){
+    void onBound(){
         Archive a1 = new Archive(235,351,levelPane,level, player);
         ProjectileDegatsBrut p1 = new ProjectileDegatsBrut(235,351,a1);
 
@@ -34,7 +34,7 @@ public class TestProjectiles {
     }
 
     @Test
-    void surCible(){
+    void onTarget(){
         Archive a2 = new Archive(235,351,levelPane,level, player);
         ProjectileDegatsBrut p1 = new ProjectileDegatsBrut(235,351,a2);
 
