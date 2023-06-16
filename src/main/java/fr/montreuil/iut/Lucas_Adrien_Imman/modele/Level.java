@@ -63,7 +63,7 @@ public class Level {
         this.endTilePos = new int[2];
         this.actualWave = new ArrayList<>();
         this.waveSize = 3;
-        this.actualWaveNumber = new SimpleIntegerProperty(15);
+        this.actualWaveNumber = new SimpleIntegerProperty(0);
         this.projectiles = FXCollections.observableArrayList();
         this.nbActeurs = 4;
         this.freezingDelay = 350;
