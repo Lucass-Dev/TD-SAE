@@ -1,12 +1,14 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.LevelDataTransit;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Score;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tower;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.LevelVue;
-import fr.montreuil.iut.Lucas_Adrien_Imman.vue.TowerVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
@@ -19,6 +21,7 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
