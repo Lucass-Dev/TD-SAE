@@ -7,9 +7,6 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.*;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tower;
-import javafx.beans.property.IntegerProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,8 +29,6 @@ public class LevelVue {
     private Tower[] reference;
     private TowerVue tv;
     private BarVue bv;
-
-    public LevelVue(){}
 
     public LevelVue(Level level, Pane tilePane, Pane levelPane, LevelController levelController){
         this.level = level;

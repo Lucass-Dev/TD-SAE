@@ -64,10 +64,6 @@ public class ProjectileVue {
             levelPane.getChildren().add(imageView);
         }
     }
-
-    public Circle getCircle(){
-        return this.circle;
-    }
 }
 
 

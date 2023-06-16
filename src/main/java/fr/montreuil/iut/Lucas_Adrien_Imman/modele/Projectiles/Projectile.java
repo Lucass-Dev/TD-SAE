@@ -21,12 +21,12 @@ public abstract class Projectile {
         compteur++;
     }
 
-    public Ennemy getEnnemyCible() {
-        return ennemyCible;
-    }
+    public abstract void agitSurLaCible();
 
-    public boolean isOnBound(){
-        return this.getX() >640  && this.getY() >640;
+
+    //GETTER
+    public int getY() {
+        return y.get();
     }
 
     public String getId() {
@@ -41,29 +41,25 @@ public abstract class Projectile {
         return x;
     }
 
-    public void setX(int x) {
-        this.x.set(x);
-    }
-
-    public int getY() {
-        return y.get();
-    }
 
     public IntegerProperty yProperty() {
         return y;
+    }
+
+    //SETTER
+    public Ennemy getEnnemyCible() {
+        return ennemyCible;
     }
 
     public void setY(int y) {
         this.y.set(y);
     }
 
-    public abstract void agitSurLaCible();
-
-    public   boolean cibleAtteint() { //return true si la projectile a atteint la (x et y cible ) cible
-        int range = 16 ;
-        return ((this.getY()-range<= ennemyCible.getY() && ennemyCible.getY()<= this.getY()+range) && (this.getX()-range<= ennemyCible.getX() && ennemyCible.getX() <= this.getX()+range)) ;
+    public void setX(int x) {
+        this.x.set(x);
     }
 
+    //OTHER METHODS
     public void placement() { // déplacement de projectiles vers la cible
         double  posX = ennemyCible.getX() - this.getX() ;
         double  posY = ennemyCible.getY() - this.getY() ;
@@ -82,6 +78,12 @@ public abstract class Projectile {
         setY((int) newPosY);
     }
 
+    public   boolean cibleAtteint() { //return true si la projectile a atteint la (x et y cible ) cible
+        int range = 16 ;
+        return ((this.getY()-range<= ennemyCible.getY() && ennemyCible.getY()<= this.getY()+range) && (this.getX()-range<= ennemyCible.getX() && ennemyCible.getX() <= this.getX()+range)) ;
+    }
 
-
+    public boolean isOnBound(){
+        return this.getX() >640  && this.getY() >640;
+    }
 }

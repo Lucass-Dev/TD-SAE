@@ -219,7 +219,7 @@ public class LevelController implements Initializable {
                 // on définit ce qui se passe à chaque frame
                 // c'est un eventHandler d'ou le lambda
                 (ev ->{
-                    if(estFini || level.verifProgression()){
+                    if(estFini || level.checkProgression()){
                         System.out.println("fini");
                         gameLoop.stop();
                         Score s = new Score(this.LDT.getDifficulty(), this.timeLabel.getText(), this.LDT.getPlayerName(), this.LDT.getMapIndex(), this.level.getActualWaveNumber());

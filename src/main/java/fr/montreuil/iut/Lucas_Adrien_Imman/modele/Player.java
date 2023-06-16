@@ -14,12 +14,50 @@ public class Player {
 
 
     public Player(String username) {
-        this.life = new SimpleIntegerProperty(1) ;
+        this.life = new SimpleIntegerProperty(100) ;
         this.maxlife = new SimpleIntegerProperty(100);
-        this.ram =  new SimpleIntegerProperty(10000);
-        this.maxRAM = new SimpleIntegerProperty(10000);
+        this.ram =  new SimpleIntegerProperty(1000);
+        this.maxRAM = new SimpleIntegerProperty(1000);
         this.flop = new SimpleIntegerProperty(500);
         this.username = username;
+    }
+
+    //OTHER METHODS
+
+    public boolean isDead(){
+        return getLife() == 0;
+    }
+
+    public void looseLife(int l){
+        if(life.getValue()-l>=0)
+            setLife(life.getValue()-l);
+        else
+            setLife(0);
+    }
+
+
+    //GETTER
+    public int getLife() {
+        return life.get();
+    }
+
+    public IntegerProperty lifeProperty() {
+        return life;
+    }
+
+    public int getFlop() {
+        return flop.get();
+    }
+
+    public IntegerProperty flopProperty() {
+        return flop;
+    }
+    public int getRam() {
+        return ram.get();
+    }
+
+    public IntegerProperty ramProperty() {
+        return ram;
     }
 
     public int getMaxRAM() {
@@ -34,31 +72,10 @@ public class Player {
         return maxlife;
     }
 
-    public int getLife() {
-        return life.get();
-    }
-
-    public void looseLife(int l){
-        if(life.getValue()-l>=0)
-            setLife(life.getValue()-l);
-        else
-            setLife(0);
-    }
-
-    public IntegerProperty lifeProperty() {
-        return life;
-    }
+    //SETTER
 
     public void setLife(int life) {
         this.life.set(life);
-    }
-
-    public int getRam() {
-        return ram.get();
-    }
-
-    public IntegerProperty ramProperty() {
-        return ram;
     }
 
     public void setRam(int ram) {
@@ -69,21 +86,7 @@ public class Player {
         }
     }
 
-    public int getFlop() {
-        return flop.get();
-    }
-
-    public IntegerProperty flopProperty() {
-        return flop;
-    }
-
     public void setFlop(int flop) {
         this.flop.set(flop);
     }
-
-    public boolean isDead(){
-        return getLife() == 0;
-    }
-
-
 }
