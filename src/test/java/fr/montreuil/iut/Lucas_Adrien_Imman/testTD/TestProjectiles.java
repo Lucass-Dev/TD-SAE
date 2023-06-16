@@ -1,13 +1,11 @@
-package fr.montreuil.iut.Lucas_Adrien_Imman.test;
+package fr.montreuil.iut.Lucas_Adrien_Imman.testTD;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Archive;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.ProjectileDegatsBrut;
 import javafx.scene.layout.Pane;
 
