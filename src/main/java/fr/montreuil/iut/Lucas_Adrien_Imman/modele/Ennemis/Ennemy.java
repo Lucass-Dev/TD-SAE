@@ -122,7 +122,6 @@ public abstract class Ennemy {
         else if(this.getDirection() == 4){
             this.setX(this.getX()-this.getSpeed());
         }
-
     }
 
     public boolean isOnBound(){
