@@ -16,7 +16,6 @@
          <children>
             <Button fx:id="playButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#createLevel" text="Commencer à Jouer !" />
          </children>
-
       </Pane>
    </bottom>
    <top>

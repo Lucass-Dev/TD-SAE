@@ -56,7 +56,6 @@ public abstract class Ennemy {
 
         return pos[0] <= center[0]+3 && pos[0] >= center[0]-3 && pos[1] <= center[1]+3 && pos[1] >= center[1]-3 ;
     }
-
     public void move() {
         int[] pos = new int[2];
         pos[0] = this.getX()/32;
