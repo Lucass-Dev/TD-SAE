@@ -170,7 +170,7 @@ public class LevelController implements Initializable {
         this.towerMenu.getChildren().remove(this.playButton);
         this.player = this.LDT.getPlayer();
         int mapIndex = this.LDT.getMapIndex();
-        this.level = new Level("test", this.levelPane);
+        this.level = new Level(this.levelPane);
         this.level.setPlayer(this.LDT.getPlayer());
         this.level.setDifficulty(this.LDT.getDifficulty());
         this.waveLabel.textProperty().bind(this.level.actualWaveNumberProperty().asString());
@@ -247,7 +247,9 @@ public class LevelController implements Initializable {
                     }
                     else{
                         this.level.startLevel(nbTours);
-                        refreshTimer();
+                        if (nbTours%50 == 0){
+                            refreshTimer();
+                        }
                         nbTours++ ;
                     }
 

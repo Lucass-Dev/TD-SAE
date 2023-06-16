@@ -3,6 +3,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.LevelDataTransit;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
+import fr.montreuil.iut.Lucas_Adrien_Imman.vue.PopupVue;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -68,21 +69,28 @@ public class MenuController implements Initializable {
 
     public void loadLevel() throws IOException {
 
-        String[] level = mapNameLabel.getText().split(" ");
-        int mapIndex = Integer.parseInt(level[level.length-1])-1;
+        if (!Objects.equals(username.getText(), "")){
+            String[] level = mapNameLabel.getText().split(" ");
+            int mapIndex = Integer.parseInt(level[level.length-1])-1;
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("map.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("map.fxml"));
 
 
-        Parent root = fxmlLoader.load();
-        Scene nS= new Scene(root, 1040, 900);
+            Parent root = fxmlLoader.load();
+            Scene nS= new Scene(root, 1040, 900);
 
-        Main.stg.setScene(nS);
+            Main.stg.setScene(nS);
 
-        //On récupère le nouveau contrôleur pour transiter des données entre les 2 contrôleurs
-        LevelController levelController = fxmlLoader.getController();
-        Player p = new Player(this.username.getText());
-        sendData(levelController, mapIndex, "mapName", p, this.difficulty);
+            //On récupère le nouveau contrôleur pour transiter des données entre les 2 contrôleurs
+            LevelController levelController = fxmlLoader.getController();
+            Player p = new Player(this.username.getText());
+            sendData(levelController, mapIndex, "mapName", p, this.difficulty);
+        }else{
+            PopupVue popupVue = new PopupVue();
+            popupVue.createTemporaryPopup("Username required");
+        }
+
+
     }
 
     public void changeDifficulty(Event e) throws FileNotFoundException {
