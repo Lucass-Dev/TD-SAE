@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -39,8 +40,6 @@ public class MenuController implements Initializable {
     @FXML
     Label mapNameLabel;
     @FXML
-    Label usernameLabel;
-    @FXML
     Label difficultyLabel;
 
     //VBOX
@@ -51,14 +50,16 @@ public class MenuController implements Initializable {
     @FXML
     VBox wavesVbox;
 
+    @FXML
+    TextField username;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.difficulty = 1;
         mapNameLabel.setText("Map n° 1");
-        usernameLabel.setText("Lucasss");
 
         try {
-            setScores("easy", 0);
+            setScores(0);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -79,9 +80,8 @@ public class MenuController implements Initializable {
         //Main.stg.setFullScreen(true);
 
         LevelController levelController = fxmlLoader.getController();
-        Player p = new Player();
+        Player p = new Player(this.username.getText());
         sendData(levelController, mapIndex, "mapName", p, this.difficulty);
-        System.out.println(this.difficulty);
     }
 
     public void changeDifficulty(Event e) throws FileNotFoundException {
@@ -122,7 +122,7 @@ public class MenuController implements Initializable {
             }
         }
         String[] mapNameSplitted = mapNameLabel.getText().split(" ");
-        setScores(difficultyLabel.getText(), Integer.parseInt(mapNameSplitted[mapNameSplitted.length-1])-1);
+        setScores(Integer.parseInt(mapNameSplitted[mapNameSplitted.length-1])-1);
     }
 
     public void changeMapPreview(Event e) throws FileNotFoundException {
@@ -169,17 +169,16 @@ public class MenuController implements Initializable {
             mapNameLabel.setText(mapName);
         }
 
-        setScores(difficultyLabel.getText().toLowerCase(), actualMap);
+        setScores(actualMap);
 
     }
 
-    public void setScores(String difficulty, int mapIndex) throws FileNotFoundException {
+    public void setScores(int mapIndex) throws FileNotFoundException {
         usernamesVbox.getChildren().clear();
         timesVbox.getChildren().clear();
         wavesVbox.getChildren().clear();
         String[] line;
-        File f = new File("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/scores/map"+mapIndex+"/"+difficulty);
-        System.out.println(f.getPath());
+        File f = new File("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/scores/map"+mapIndex+"/"+this.difficulty);
         Scanner sc = new Scanner(f);
         while (sc.hasNextLine()){
             line = sc.nextLine().split("/");
@@ -190,7 +189,7 @@ public class MenuController implements Initializable {
     }
 
     public void sendData(LevelController levelController, int mapIndex, String mapName, Player player, int difficulty){
-        LevelDataTransit LDT = new LevelDataTransit(mapIndex, mapName, player, difficulty);
+        LevelDataTransit LDT = new LevelDataTransit(mapIndex, mapName, player, difficulty, username.getText());
         levelController.setLDT(LDT);
     }
 }

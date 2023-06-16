@@ -12,9 +12,12 @@ import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventTarget;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -86,6 +89,7 @@ public class LevelController implements Initializable {
         this.s = 0;
         this.m = 0;
         this.timeLabel.setText("0h0m0s");
+        this.waveLabel.setText("0");
 
         this.towerShopVbox.setOnMouseClicked(mouseEvent -> {
             EventTarget target = mouseEvent.getTarget();
@@ -173,9 +177,11 @@ public class LevelController implements Initializable {
                 System.out.println(arrayList);
             }
             System.out.println();
+
+           */
             for (ArrayList<Integer> arrayList: this.level.getTravelingMap()) {
                 System.out.println(arrayList);
-            }*/
+            }
             try {
                 this.levelVue.createATH(this.player, athHbox);
             }catch (IOException e){
@@ -211,9 +217,28 @@ public class LevelController implements Initializable {
                 // on définit ce qui se passe à chaque frame
                 // c'est un eventHandler d'ou le lambda
                 (ev ->{
-                    if(estFini /*|| level.verifProgression()*/){
+                    if(estFini || level.verifProgression()){
                         System.out.println("fini");
                         gameLoop.stop();
+                        Score s = new Score(this.LDT.getDifficulty(), this.timeLabel.getText(), this.LDT.getPlayerName(), this.LDT.getMapIndex(), this.level.getActualWaveNumber());
+                        try {
+                            s.newBestScores();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu.fxml"));
+
+
+                        Parent root = null;
+                        try {
+                            root = fxmlLoader.load();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        Scene nS= new Scene(root, 1040, 900);
+
+                        Main.stg.setScene(nS);
                     }
                     else{
                         this.level.doTurn(nbTours);

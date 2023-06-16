@@ -6,8 +6,8 @@ import javafx.scene.layout.Pane;
 
 public class Virus extends Ennemy{
 
-    public Virus(int x, int y, Pane levelPane, Level level, Player player) {
-        super(x, y, levelPane, level, 2, 50, player, 4, 50,1, 15);
+    public Virus(int x, int y, Pane levelPane, Level level, Player player, int startDirection) {
+        super(x, y, levelPane, level, 2, 50, player, 4, 50,1, 15, startDirection);
     }
 
     @Override

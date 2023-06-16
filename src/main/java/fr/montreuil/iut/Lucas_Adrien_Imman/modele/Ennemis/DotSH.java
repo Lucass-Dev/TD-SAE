@@ -5,8 +5,8 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.scene.layout.Pane;
 
 public class DotSH extends Ennemy{
-    public DotSH(int x, int y, Pane levelPane, Level level, Player player) {
-        super(x, y, levelPane, level, 0, 30, player, 7, 30, 0, 1);
+    public DotSH(int x, int y, Pane levelPane, Level level, Player player, int startDirection) {
+        super(x, y, levelPane, level, 0, 30, player, 3, 30, 1, 1, startDirection);
     }
 
     @Override

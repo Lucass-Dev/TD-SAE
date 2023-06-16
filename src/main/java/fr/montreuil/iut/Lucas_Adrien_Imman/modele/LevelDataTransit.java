@@ -5,12 +5,14 @@ public class LevelDataTransit {
     private int difficulty;
     private String mapName;
     private Player player;
+    private String playerName;
 
-    public LevelDataTransit(int mapIndex, String mapName, Player player, int difficulty) {
+    public LevelDataTransit(int mapIndex, String mapName, Player player, int difficulty, String playerName) {
         this.mapIndex = mapIndex;
         this.mapName = mapName;
         this.player = player;
         this.difficulty = difficulty;
+        this.playerName = playerName;
     }
 
     public LevelDataTransit(){}
@@ -29,6 +31,10 @@ public class LevelDataTransit {
 
     public int getDifficulty() {
         return difficulty;
+    }
+
+    public String getPlayerName() {
+        return playerName;
     }
 
     @Override

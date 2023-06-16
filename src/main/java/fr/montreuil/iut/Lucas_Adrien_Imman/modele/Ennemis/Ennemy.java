@@ -23,12 +23,12 @@ public abstract class Ennemy {
     //direction stands for the cardinal direction with an int value : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
 
-    public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife , int damage, int reward){
+    public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife , int damage, int reward, int startDirection){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.levelPane = levelPane;
         this.level = level;
-        this.direction = 4;
+        this.direction = startDirection;
         this.speed = speed;
         this.life = new SimpleIntegerProperty(life);
         this.maxLife = new SimpleIntegerProperty(maxLife);

@@ -16,7 +16,7 @@ public class Main extends Application {
         stg = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 640, 640);
-        stage.setTitle("Carte");
+        stage.setTitle("Files Attack !!!");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

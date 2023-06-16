@@ -10,14 +10,20 @@ public class Player {
     private IntegerProperty flop;
     private IntegerProperty maxlife;
     private IntegerProperty maxRAM;
+    private String username;
 
 
-    public Player() {
-        this.life = new SimpleIntegerProperty(100) ;
+    public Player(String username) {
+        this.life = new SimpleIntegerProperty(1) ;
         this.maxlife = new SimpleIntegerProperty(100);
         this.ram =  new SimpleIntegerProperty(10000);
         this.maxRAM = new SimpleIntegerProperty(10000);
         this.flop = new SimpleIntegerProperty(500);
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public int getMaxRAM() {
@@ -85,6 +91,10 @@ public class Player {
 
     public void setFlop(int flop) {
         this.flop.set(flop);
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public boolean isDead(){
