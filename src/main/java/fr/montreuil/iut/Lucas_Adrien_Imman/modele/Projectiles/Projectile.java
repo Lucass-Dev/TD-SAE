@@ -7,23 +7,22 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public abstract class Projectile {
     private IntegerProperty x , y ;
-    private Ennemy e ;
+    private Ennemy ennemyCible;
     private String id;
     public static int compteur=0;
-    private int delais ;
 
 
 
-    public Projectile(int x , int y , Ennemy e){
+    public Projectile(int x , int y , Ennemy ennemyCible){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
-        this.e = e;
+        this.ennemyCible = ennemyCible;
         this.id= "P" + compteur;
         compteur++;
     }
 
-    public Ennemy getE() {
-        return e;
+    public Ennemy getEnnemyCible() {
+        return ennemyCible;
     }
 
     public boolean isOnBound(){
@@ -62,12 +61,12 @@ public abstract class Projectile {
 
     public   boolean cibleAtteint() {
         int range = 16 ;
-        return ((this.getY()-range<=e.getY() && e.getY()<= this.getY()+range) && (this.getX()-range<=e.getX() && e.getX() <= this.getX()+range)) ;
+        return ((this.getY()-range<= ennemyCible.getY() && ennemyCible.getY()<= this.getY()+range) && (this.getX()-range<= ennemyCible.getX() && ennemyCible.getX() <= this.getX()+range)) ;
     }
 
-    public void moveProjectile() {
-        double  posX = e.getX() - this.getX() ;
-        double  posY = e.getY() - this.getY() ;
+    public void placement() { // déplacement des projectiles vers la cible
+        double  posX = ennemyCible.getX() - this.getX() ;
+        double  posY = ennemyCible.getY() - this.getY() ;
         double dirX, dirY;
 
         double totalDis = Math.sqrt(posX * posX + posY * posY);

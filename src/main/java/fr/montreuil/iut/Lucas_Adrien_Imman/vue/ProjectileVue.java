@@ -9,7 +9,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class ProjectileVue {
     private final Pane levelPane;
@@ -24,21 +23,34 @@ public class ProjectileVue {
     public void projectileSprite(Projectile newProjectile) throws IOException {
 
         if (!(newProjectile instanceof ProjectileDegatsBrut)) {
+
             if (newProjectile instanceof ProjectileDotSH) {
                 circle = new Circle(3);
                 circle.setFill(Color.BLACK);
-            } else if (newProjectile instanceof ProjectileRalentisseur) {
+            } else if (newProjectile instanceof ZoneRalentisseur) {
                 circle = new Circle(60);
                 circle.setFill(Color.BLUE);
+                circle.setOpacity(0.2);
+            }
+            else if (newProjectile instanceof ZoneElectrique) {
+                circle = new Circle(70);
+                circle.setFill(Color.BLANCHEDALMOND);
+                int proba1 = (int) (Math.random() * 2);
+                if(proba1%2==0){
+                    circle.setFill(Color.AZURE);
+                    circle.setOpacity(0.3);
+                }
                 circle.setOpacity(0.2);
             }
             else if(newProjectile instanceof ProjectileKnockBack){
                 circle = new Circle(5);
                 circle.setFill(Color.VIOLET);
             }
+
             circle.translateXProperty().bind(newProjectile.xProperty());
             circle.translateYProperty().bind(newProjectile.yProperty());
             circle.setId(newProjectile.getId());
+
             levelPane.getChildren().add(circle);
         }
         else {
@@ -51,6 +63,10 @@ public class ProjectileVue {
             imageView.setId(newProjectile.getId());
             levelPane.getChildren().add(imageView);
         }
+    }
+
+    public Circle getCircle(){
+        return this.circle;
     }
 }
 

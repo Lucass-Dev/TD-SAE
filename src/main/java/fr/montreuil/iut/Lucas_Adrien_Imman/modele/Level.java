@@ -299,15 +299,15 @@ public class Level {
                     if (t instanceof TaskKiller) {
                         p = new ProjectileDegatsBrut(t.getX() + 16, t.getY() + 16, firstDetect);
                     }
-                    else if (t instanceof CCleaner) { //ff
-                        p = new ProjectileDegatsBrut(t.getX() + 16, t.getY() + 16, detectedEnnemy);
+                    else if (t instanceof CCleaner) {
+                        p = new ZoneElectrique(t.getX() + 16, t.getY() + 16, detectedEnnemy);
                     }
                     else if (t instanceof PDFConverter) {
                         if(firstDetect instanceof Archive)
                             p = new ProjectileDotSH(t.getX() + 16, t.getY() + 16, firstDetect);
                     }
                     else if (t instanceof InternetExplorer) {
-                        p = new ProjectileRalentisseur(t.getX() + 16, t.getY() + 16, detectedEnnemy);
+                        p = new ZoneRalentisseur(t.getX() + 16, t.getY() + 16, detectedEnnemy);
                     }
                     else if (t instanceof NordVPN) {
                         p = new ProjectileKnockBack(t.getX() + 16, t.getY() + 16, firstDetect);
@@ -341,21 +341,8 @@ public class Level {
     public void animationProjectiles(int nbT) {
 
         for (Projectile p : projectiles) {
-
-
-            if (p instanceof ProjectileDegatsBrut || p instanceof  ProjectileRalentisseur || p instanceof  ProjectileKnockBack) {
-                p.moveProjectile();
+                p.placement();
                 p.agitSurLaCible();
-
-            }
-
-            else if (p instanceof ProjectileDotSH) {
-                cpt = 0 ;
-                {
-                    p.moveProjectile();
-                    p.agitSurLaCible();
-                }
-            }
         }
 
         for (int j = projectiles.size() - 1; j >= 0; j--) {
@@ -374,14 +361,15 @@ public class Level {
                  cpt ++ ;
                     System.out.println(cpt);
                  if(cpt == 3) {
-                     ennemies.remove(p.getE());
-                     this.ennemies.add(new DotSH(p.getE().getX(), p.getE().getY(), levelPane, this, this.player));
+                     ennemies.remove(p.getEnnemyCible());
+                     this.ennemies.add(new DotSH(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player));
+                     cpt = 0 ;
                  }
                 }
             }
 
-            else if(p instanceof ProjectileRalentisseur){
-                if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0) {
+            else if(p instanceof ZoneRalentisseur || p instanceof ZoneElectrique){
+                if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().estMort()) {
                     projectiles.remove(p);
                 }
             }

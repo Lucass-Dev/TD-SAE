@@ -4,6 +4,7 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.ProjectileVue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 
@@ -31,6 +32,7 @@ public class ListeObsProjectile implements ListChangeListener<Projectile> {
             }
 
             for (Projectile oldProjectile : c.getRemoved()) {
+
                 levelpane.getChildren().remove(levelpane.lookup("#" + oldProjectile.getId()));
             }
         }
