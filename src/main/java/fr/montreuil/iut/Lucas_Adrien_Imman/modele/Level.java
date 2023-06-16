@@ -63,7 +63,7 @@ public class Level {
         this.endTilePos = new int[2];
         this.actualWave = new ArrayList<>();
         this.waveSize = 3;
-        this.actualWaveNumber = new SimpleIntegerProperty(6);
+        this.actualWaveNumber = new SimpleIntegerProperty(15);
         this.projectiles = FXCollections.observableArrayList();
         this.nbActeurs = 4;
         this.freezingDelay = 350;
@@ -269,7 +269,7 @@ public class Level {
                         p = new ZoneElectrique(t.getX() + 16, t.getY() + 16, detectedEnnemy);
                     }
                     else if (t instanceof PDFConverter) {
-                        if(firstDetect instanceof Archive) {
+                        if(firstDetect instanceof DotExe) {
                             p = new ProjectileDotSH(t.getX() + 16, t.getY() + 16, firstDetect);
                         }
                     }
@@ -299,14 +299,14 @@ public class Level {
             }
         }
     }
-    public void bulletTurn(int nbT) {
+    public void bulletTurn() {
 
         for (Projectile p : projectiles) {   //déplacement des projectiles et agit sur la cible
             p.placement();
             p.agitSurLaCible();
         }
 
-        for (int j = projectiles.size() - 1; j >= 0; j--) {//enleve les projectile par rapport aux conditions
+        for (int j = projectiles.size() - 1; j >= 0; j--) {//enleve les projectiles/zones  par rapport aux conditions
             Projectile p = projectiles.get(j);
 
             if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
@@ -319,7 +319,6 @@ public class Level {
                 if (p.cibleAtteint()) {
                     projectiles.remove(p);
                     cpt++;
-                    System.out.println("tour  " + cpt);
                     if (cpt == 3) {
                         ennemies.remove(p.getEnnemyCible());
                         this.ennemies.add(new DotSH(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, this.getStartDirection()));
@@ -443,7 +442,7 @@ public class Level {
     public void startLevel(int nbTours){
         enemiesTurn(nbTours);
         towerTurn(nbTours);
-        bulletTurn(nbTours);
+        bulletTurn();
         flopGain();
     }
 
