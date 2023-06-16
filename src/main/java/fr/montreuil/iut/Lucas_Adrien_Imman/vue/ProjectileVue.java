@@ -22,7 +22,7 @@ public class ProjectileVue {
 
     public void projectileSprite(Projectile newProjectile) throws IOException {
 
-        if (!(newProjectile instanceof ProjectileDegatsBrut)) {
+        if (!(newProjectile instanceof ProjectileDegatsBrut)) { // cree les sprites correspondant
 
             if (newProjectile instanceof ProjectileDotSH) {
                 circle = new Circle(3);

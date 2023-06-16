@@ -12,7 +12,7 @@ public class ZoneRalentisseur extends Projectile {
     }
 
     @Override
-    public void agitSurLaCible() {
+    public void agitSurLaCible() { //si un cible est détecté , sa vitesse sera réduite
         if (cibleAtteint()){
             getEnnemyCible().setSpeed(1);
         }

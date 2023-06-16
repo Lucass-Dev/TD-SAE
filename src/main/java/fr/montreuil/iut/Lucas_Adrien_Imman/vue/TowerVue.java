@@ -25,7 +25,7 @@ public class TowerVue {
         this.levelPane = levelPane;
     }
 
-    public void createTowerSprite(Tower newTower) throws IOException {
+    public void createTowerSprite(Tower newTower) throws IOException { // cree le sprite correspondant avec le index
         this.imageView = new ImageView(new Image(Main.class.getResource("graphics/tower/"+newTower.getSpriteIndex()+".png").openStream()));
         this.imageView.setPickOnBounds(true);
         this.imageView.setId(String.valueOf(newTower.getId()));

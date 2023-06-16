@@ -295,7 +295,7 @@ public class Level {
         }else if (nbTours % 20 == 0 && actualWave.size() != 0){
             this.ennemies.add(this.actualWave.remove(0));
         }
-        if (this.ennemies.size() > 0){
+        if (this.ennemies.size() > 0){ //fait déplacer les ennemis , les enleve de la liste  si ils ont atteint l'objectif , ou il sont en dehors de la map  ou s'il sont morts
             for (int i = ennemies.size()-1; i>=0 ; i--) {
                 Ennemy e = ennemies.get(i);
                 e.move();
@@ -317,7 +317,7 @@ public class Level {
     public void tourAgir(int nbTours) {
         for (int i =  placedTower.size() - 1 ; i>=0 ; i--) {
             Tower t = placedTower.get(i);
-            ennemiesDansLaZone = t.detect(ennemies);
+            ennemiesDansLaZone = t.detect(ennemies); //liste des ennemies détectés
 
             if(ennemiesDansLaZone.size()!=0){
                 for (int j = ennemiesDansLaZone.size() - 1; j >= 0; j--) {
@@ -326,7 +326,7 @@ public class Level {
 
                     Projectile p  = null;
 
-                    if (t instanceof TaskKiller) {
+                    if (t instanceof TaskKiller) { // ajoute au liste des projectiles le projectile correspondant au tour
                         p = new ProjectileDegatsBrut(t.getX() + 16, t.getY() + 16, firstDetect);
                     }
                     else if (t instanceof CCleaner) {
@@ -348,7 +348,7 @@ public class Level {
                     }
 
                     ennemiesDansLaZone.remove(detectedEnnemy);
-                    if (nbTours % t.getDelais() == 0 && p != null) {
+                    if (nbTours % t.getDelais() == 0 && p != null) {//le délais attaque
                         projectiles.add(p);
 
                     }
@@ -370,12 +370,12 @@ public class Level {
 
     public void animationProjectiles(int nbT) {
 
-        for (Projectile p : projectiles) {
+        for (Projectile p : projectiles) {   //déplacement des projectiles et agit sur la cible
                 p.placement();
                 p.agitSurLaCible();
         }
 
-        for (int j = projectiles.size() - 1; j >= 0; j--) {
+        for (int j = projectiles.size() - 1; j >= 0; j--) {//enleve les projectile par rapport aux conditions
             Projectile p = projectiles.get(j);
 
             if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
@@ -530,7 +530,7 @@ public class Level {
         return direction;
     }
 
-    public void flopGain() {
+    public void flopGain() {// système de récompense par rapport aux type d'ennemi , et au nombre de vague
         for (int i = ennemies.size() - 1; i >= 0; i--) {
             Ennemy e = ennemies.get(i);
             if (e.estMort()) {

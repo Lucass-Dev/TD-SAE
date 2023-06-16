@@ -241,7 +241,7 @@ abstract public class Tower{
             setSellingPrice((int) (this.sellingPrice.get() * 1.2));
         }
     }
-    public ArrayList<Ennemy> detect(ObservableList<Ennemy> ennemis){
+    public ArrayList<Ennemy> detect(ObservableList<Ennemy> ennemis){ // detecte l'ennemi qui a une range donné en paramétre | ex :(this.getX()+16) = prend le centre la tour (+16 pour obtenir le milieu)
         for (Ennemy m : ennemis) {
             if ((this.getY()+16)-range.get()<=m.getY() && m.getY()<= (this.getY()+16)+range.get() && (this.getX()+16)-range.get()<=m.getX() && m.getX() <= (this.getX()+16)+range.get()){
                 ennemieDetecte.add(m);

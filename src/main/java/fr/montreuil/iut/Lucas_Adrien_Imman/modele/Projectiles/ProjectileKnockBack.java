@@ -9,7 +9,7 @@ public class ProjectileKnockBack extends Projectile{
 
     @Override
     public void agitSurLaCible() {
-        int knockBack = 2;
+        int knockBack = 2; //fait reculer l'ennemi ciblé de 2 pixel par rapport a sa direction actuel
         Ennemy e = getEnnemyCible() ;
         if(e.isCentered()){
             if(e.getDirection()==2){

@@ -59,12 +59,12 @@ public abstract class Projectile {
 
     public abstract void agitSurLaCible();
 
-    public   boolean cibleAtteint() {
+    public   boolean cibleAtteint() { //return true si la projectile a atteint la (x et y cible ) cible
         int range = 16 ;
         return ((this.getY()-range<= ennemyCible.getY() && ennemyCible.getY()<= this.getY()+range) && (this.getX()-range<= ennemyCible.getX() && ennemyCible.getX() <= this.getX()+range)) ;
     }
 
-    public void placement() { // déplacement des projectiles vers la cible
+    public void placement() { // déplacement de projectiles vers la cible
         double  posX = ennemyCible.getX() - this.getX() ;
         double  posY = ennemyCible.getY() - this.getY() ;
         double dirX, dirY;
