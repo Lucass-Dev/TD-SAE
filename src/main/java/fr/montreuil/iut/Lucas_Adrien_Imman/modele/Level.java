@@ -244,8 +244,6 @@ public class Level {
         this.placedTower.remove(t);
     }
 
-
-
     public boolean checkProgression() {
         return player.isDead();
     }
@@ -280,8 +278,8 @@ public class Level {
                         p = new ProjectileKnockBack(t.getX() + 16, t.getY() + 16, firstDetect);
                     }
                     else if (t instanceof Demineur) {
-                        if((!(firstDetect instanceof DotExe) &&  !(firstDetect instanceof Virus) && !(firstDetect instanceof DotSH)))
-                            p = new ProjectileDotSH(t.getX() + 16, t.getY() + 16, firstDetect);
+                        if((!(firstDetect instanceof DotExe) &&  !(firstDetect instanceof Virus) && !(firstDetect instanceof Scam) && !(firstDetect instanceof Kamikaze)))
+                            p = new ProjectileKamikaze(t.getX() + 16, t.getY() + 16, firstDetect);
                     }
 
                     ennemiesDansLaZone.remove(detectedEnnemy);
@@ -327,6 +325,22 @@ public class Level {
                 }
             }
 
+            else if(p instanceof ProjectileKamikaze) {
+
+                if ((p.cibleAtteint() || p.isOnBound())) {
+                    projectiles.remove(p);
+                    cpt ++ ;
+                    System.out.println(cpt);
+                    if(cpt == 3) {
+                        ennemies.remove(p.getEnnemyCible());
+                        this.ennemies.add(new Kamikaze(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, p.getEnnemyCible().getOppositeDirection()));
+                        cpt = 0 ;
+                    }
+                }
+            }
+
+
+
             else if(p instanceof ZoneRalentisseur || p instanceof ZoneElectrique){
                 if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
                     projectiles.remove(p);
@@ -347,13 +361,24 @@ public class Level {
             for (int i = ennemies.size()-1; i>=0 ; i--) {
                 Ennemy e = ennemies.get(i);
                 e.move();
-                if (e.isOnObjective() || !e.isOnBound()) {
-                    e.doDamage();
-                    ennemies.remove(e);
-                } else if (e.isDead()) {
-                    e.die();
-                    ennemies.remove(e);
+                if (e instanceof Kamikaze){
+                    if (getTileValue(getTilePos(e.getX(), e.getY())) == 6){
+                        ennemies.remove(e);
+                    }
+                    Ennemy newEnemy = e.isTouching(ennemies);
+                    if (e.isTouching(ennemies) != null){
+                        newEnemy.setLife(newEnemy.getLife().get()-e.getDamage());
+                    }
+                }else{
+                    if (e.isOnObjective() || !e.isOnBound()) {
+                        e.doDamage();
+                        ennemies.remove(e);
+                    } else if (e.isDead()) {
+                        e.die();
+                        ennemies.remove(e);
+                    }
                 }
+
             }
         }
         this.nbTours = nbTours;

@@ -27,7 +27,10 @@ public class ProjectileVue {
             if (newProjectile instanceof ProjectileDotSH) {
                 circle = new Circle(3);
                 circle.setFill(Color.BLACK);
-            } else if (newProjectile instanceof ZoneRalentisseur) {
+            }else if(newProjectile instanceof  ProjectileKamikaze){
+                circle = new Circle(3);
+                circle.setFill(Color.RED);
+            }else if (newProjectile instanceof ZoneRalentisseur) {
                 circle = new Circle(60);
                 circle.setFill(Color.BLUE);
                 circle.setOpacity(0.2);

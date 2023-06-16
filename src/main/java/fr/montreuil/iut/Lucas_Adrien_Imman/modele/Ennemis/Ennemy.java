@@ -3,6 +3,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
 
 public abstract class Ennemy {
@@ -112,12 +113,36 @@ public abstract class Ennemy {
     public int getDirection() {
         return direction;
     }
-
     public Level getLevel() {
         return level;
     }
+    public int getOppositeDirection(){
+        if (this.direction == 1){
+            return 3;
+        }else if (this.direction == 2){
+            return 4;
+        }else if (this.direction == 3){
+            return 1;
+        }else if (this.direction == 4){
+            return 2;
+        }
+
+        return 0;
+    }
 
     //OTHER METHODS
+
+    public Ennemy isTouching(ObservableList<Ennemy> ennemies){
+        for (Ennemy e: ennemies) {
+
+                if (this.getX() < e.getX() +8 && this.getX() > e.getX() -8 && this.getY() < e.getY() +8 && this.getY() < e.getY() -8){
+                    System.out.println("je tpuche");
+                    return e;
+                }
+
+        }
+        return null;
+    }
 
     public void reductionPv(int l){
         if(life.getValue()-l>=0)
