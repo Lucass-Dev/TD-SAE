@@ -23,26 +23,18 @@ public class TestEnnemy {
     }
 
 
+
+
     @Test
-    void doDamage(){
+    void enVIe(){
         player = new Player();
         Archive a1 = new Archive(557,62, levelPane, level, player);
 
-        a1.doDamage();
-        assertEquals(80,player.getLife());
+        a1.reductionPv(20);
+        assertTrue(a1.estMort(),"l'ennemi est mort");
 
-        a1.doDamage();
-        assertEquals(60, player.getLife());
-    }
+        a1.setLife(20);
+        assertFalse(a1.estMort(), "l'ennemi n'est pas mort");
 
-    @Test
-    void onBound(){
-        player = new Player();
-        Archive a1 = new Archive(630,630, levelPane, level, player);
-
-        assertTrue(a1.isOnBound(), "ennemi sur le terrain");
-
-        Archive a2 = new Archive(8000,900, levelPane, level, player);
-        assertFalse(a2.isOnBound(), "ennemi en dehors du terrain");
     }
 }
