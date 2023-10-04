@@ -30,12 +30,13 @@ public class Level {
     private ArrayList<Ennemy> ennemiesDansLaZone ;
     private ObservableList<Projectile> projectiles;
 
+    private Waves waves;
+
     private int[] startTilePos;
     private int[] endTilePos;
     private Pane levelPane;
     private int waveSize;
     private int nbActeurs ;
-    private int startDirection;
     private int cpt ;
 
 
@@ -62,6 +63,7 @@ public class Level {
         this.startTilePos = new int[2];
         this.endTilePos = new int[2];
         this.actualWave = new ArrayList<>();
+        this.waves = new Waves();
         this.waveSize = 3;
         this.actualWaveNumber = new SimpleIntegerProperty(0);
         this.projectiles = FXCollections.observableArrayList();
@@ -92,13 +94,9 @@ public class Level {
         return projectiles ;
     }
 
-    public int getActualWaveNumber() {
-        return actualWaveNumber.get();
-    }
 
-    public SimpleIntegerProperty actualWaveNumberProperty() {
-        return actualWaveNumber;
-    }
+
+
 
     public ArrayList<ArrayList<Integer>> getTravelingMap() {
         return travelingMap;
@@ -151,29 +149,10 @@ public class Level {
         return t;
     }
 
-    /**
-     *Renvoie une position cardinal (cf Enemy) par rapport à la position de départ dans la travelingMap
-     */
-    public int getStartDirection(){
-        int startTile = this.tileMap.get(startTilePos[0]).get(startTilePos[1]);
-        System.out.println(startTile);
-        int direction = 0;
-        if (startTile == 13){
-            direction = 4;
-        }else if (startTile == 14){
-            direction = 3;
-        }else if (startTile == 12){
-            direction = 2;
-        }else if (startTile == 11){
-            direction = 1;
-        }
-        return direction;
-    }
+
 
     //SETTER
-    public void setActualWaveNumber(int actualWaveNumber) {
-        this.actualWaveNumber.set(actualWaveNumber);
-    }
+
 
     public void setPlayer(Player player) {
         this.player = player;
@@ -183,13 +162,7 @@ public class Level {
         this.difficulty = difficulty;
     }
 
-    public void setTileMap(ArrayList<ArrayList<Integer>> tileMap) {
-        this.tileMap = tileMap;
-    }
 
-    public void setTravelingMap(ArrayList<ArrayList<Integer>> tileMap){
-        this.travelingMap = tileMapToTraveling(this.tileMap);
-    }
 
     //OTHER METHODS
 
@@ -323,7 +296,7 @@ public class Level {
                     cpt++;
                     if (cpt == 3) {
                         ennemies.remove(p.getEnnemyCible());
-                        this.ennemies.add(new DotSH(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, this.getStartDirection()));
+                        this.ennemies.add(new DotSH(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, this.waves.getStartDirection()));
                         cpt = 0;
                     }
                 }
@@ -356,7 +329,7 @@ public class Level {
     public boolean enemiesTurn(int nbTours){
 
         if (actualWave.size() == 0 && ennemies.size() == 0){
-            createWave(this.waveSize);
+            this.waves.createWave(this.waveSize, this);
             this.waveSize += actualWaveNumber.get()*difficulty/3;
         }else if (nbTours % 20 == 0 && actualWave.size() != 0){
             this.ennemies.add(this.actualWave.remove(0));
@@ -391,45 +364,7 @@ public class Level {
         return this.player.isDead();
     }
 
-    public void createWave(int size){
-        this.startDirection = getStartDirection();
-        for (int i = 0; i < size; i++) {
-            switch ((int) ((Math.random() * (6 - 1)) + 1)){
-                case 1 -> {
-                    this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
-                }
-                case 2 -> {
-                    if (this.actualWaveNumber.get() <= 5){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
-                    }else{
-                        this.actualWave.add(new Archive(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
-                    }
-                }
-                case 3 -> {
-                    if (this.actualWaveNumber.get() <= 10){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
-                    }else{
-                        this.actualWave.add(new Virus(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
-                    }
-                }
-                case 4 -> {
-                    if (this.actualWaveNumber.get() <= 15){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
-                    }else{
-                        this.actualWave.add(new Scam(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
-                    }
-                }
-                case 5 -> {
-                    if (this.actualWaveNumber.get() <= 20){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
-                    }else{
-                        this.actualWave.add(new DotExe(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
-                    }
-                }
-            }
-        }
-        setActualWaveNumber(actualWaveNumber.get() + 1);
-    }
+
 
     public void placeTower(int x , int y, int index){
         int[] pos = getTilePos(x, y);
@@ -483,39 +418,7 @@ public class Level {
         this.placedTower.add(tower);
     }
 
-    public ArrayList<ArrayList<Integer>> tileMapToTraveling(ArrayList<ArrayList<Integer>> tileMap) {
-        ArrayList<ArrayList<Integer>> traveling = new ArrayList<>();
 
-        int index = 0;
-        for (ArrayList<Integer>  a: tileMap) {
-            traveling.add(new ArrayList<>());
-            for (Integer i : a) {
-                if (i == 10){
-                    traveling.get(index).add(0);
-                } else if (i == 6) {
-                    traveling.get(index).add(2);
-                }else if (i == 7) {
-                    traveling.get(index).add(3);
-                }else if (i == 8) {
-                    traveling.get(index).add(4);
-                }else if (i == 9) {
-                    traveling.get(index).add(5);
-                } else if (i == 11 || i == 12 || i == 13 || i == 14) {
-                    traveling.get(index).add(6);
-                    startTilePos[0] = index;
-                    startTilePos[1] = traveling.get(index).size()-1;
-                }else if (i == 1 || i == 2 || i == 4 || i == 5) {
-                    traveling.get(index).add(7);
-                    endTilePos[0] = index;
-                    endTilePos[1] = traveling.get(index).size()-1;
-                } else{
-                    traveling.get(index).add(1);
-                }
-            }
-            index++;
-        }
-        return traveling;
-    }
 
     public ArrayList<ArrayList<Integer>> createMap(String path, Pane pane) throws FileNotFoundException {
         File f = new File(path);
@@ -547,5 +450,9 @@ public class Level {
             }
         }
         return map;
+    }
+
+    public Waves getWaves(){
+        return this.waves;
     }
 }

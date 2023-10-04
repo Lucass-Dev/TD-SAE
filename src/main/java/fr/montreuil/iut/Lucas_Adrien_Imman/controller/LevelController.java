@@ -173,13 +173,13 @@ public class LevelController implements Initializable {
         this.level = new Level(this.levelPane);
         this.level.setPlayer(this.LDT.getPlayer());
         this.level.setDifficulty(this.LDT.getDifficulty());
-        this.waveLabel.textProperty().bind(this.level.actualWaveNumberProperty().asString());
+        this.waveLabel.textProperty().bind(this.level.getWaves().actualWaveNumberProperty().asString());
 
         //Ce try catch est pour la méthode createMap de la classe Level parce que l'on essaye de trouver un fichier
         try {
             ArrayList<ArrayList<Integer>> map = this.level.createMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map"+mapIndex+".csv", tilePane);
-            this.level.setTileMap(map);
-            this.level.setTravelingMap(this.level.getTileMap());
+            this.level.getWaves().setTileMap(map);
+            this.level.getWaves().setTravelingMap(this.level.getTileMap());
             ListChangeListener<Ennemy> ennemyListChangeListener = new ListObsEnnemy(levelPane);
             this.level.getEnnemies().addListener(ennemyListChangeListener);
             ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane, player);
@@ -222,7 +222,7 @@ public class LevelController implements Initializable {
                     if(estFini || level.checkProgression()){
                         System.out.println("fini");
                         gameLoop.stop();
-                        Score s = new Score(this.LDT.getDifficulty(), this.timeLabel.getText(), this.LDT.getPlayerName(), this.LDT.getMapIndex(), this.level.getActualWaveNumber());
+                        Score s = new Score(this.LDT.getDifficulty(), this.timeLabel.getText(), this.LDT.getPlayerName(), this.LDT.getMapIndex(), this.level.getWaves().getActualWaveNumber());
                         //Ce try catch est pour la méthode newBestScores de la classe Level parce que l'on essaye de trouver un fichier
                         try {
                             s.newBestScores();
