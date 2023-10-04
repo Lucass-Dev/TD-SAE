@@ -16,6 +16,8 @@ module fr.montreuil.iut.Lucas_Adrien_Imman {
     opens fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis to javafx.fxml;
     exports fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles;
     opens fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles to javafx.fxml;
+    exports fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement;
+    opens fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement to javafx.fxml;
 
 
 }
