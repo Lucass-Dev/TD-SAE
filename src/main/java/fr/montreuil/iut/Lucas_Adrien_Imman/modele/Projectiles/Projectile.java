@@ -1,11 +1,12 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 
-public abstract class Projectile {
+public abstract class Projectile extends Deplaçable {
     private IntegerProperty x , y ;
     private Ennemy ennemyCible;
     private String id;

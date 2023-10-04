@@ -517,6 +517,7 @@ public class Level {
         return traveling;
     }
 
+
     public ArrayList<ArrayList<Integer>> createMap(String path, Pane pane) throws FileNotFoundException {
         File f = new File(path);
 

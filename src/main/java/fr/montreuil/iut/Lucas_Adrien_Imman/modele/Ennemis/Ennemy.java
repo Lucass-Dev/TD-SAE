@@ -1,12 +1,13 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
 
-public abstract class Ennemy {
+public abstract class Ennemy extends Deplaçable {
     private String id;
     private Pane levelPane;
     private Level level;

@@ -1,5 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.Acteur;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.beans.property.IntegerProperty;
@@ -10,7 +11,7 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
-abstract public class Tower{
+abstract public class Tower extends Acteur {
     private SimpleIntegerProperty x, y;
     private SimpleIntegerProperty range;
     private SimpleIntegerProperty damage;
