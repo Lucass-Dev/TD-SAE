@@ -12,23 +12,27 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
 abstract public class Tower extends Acteur {
+
     private SimpleIntegerProperty x, y;
+    private String name;
+    public static int compteur = 0;
+    private String id;
+    private int spriteIndex;
+
     private SimpleIntegerProperty range;
     private SimpleIntegerProperty damage;
     private SimpleIntegerProperty reloadSpeed;
-    private int flopPrice;
-    private int ramPrice;
-    private String name;
-    private SimpleIntegerProperty level;
     private SimpleIntegerProperty upgradeCost;
-    private Pane tilePane;
-    private int spriteIndex;
-    private String id;
-    public static int compteur = 0;
     private SimpleIntegerProperty movingPrice;
     private SimpleBooleanProperty showingRange;
     private SimpleIntegerProperty sellingPrice;
+    private int flopPrice;
+    private int ramPrice;
+
+    private SimpleIntegerProperty level;
+    private Pane tilePane;
     private int delais ;
+
     private ArrayList<Ennemy> ennemieDetecte ;
 
     public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex, int damage, int reloadSpeed, int delais){

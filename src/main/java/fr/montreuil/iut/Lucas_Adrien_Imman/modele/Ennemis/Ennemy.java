@@ -8,24 +8,30 @@ import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
 
 public abstract class Ennemy extends Deplaçable {
+
+    private SimpleIntegerProperty x, y; //Acteur
+    private String name;
+    public static int compteur=0;
     private String id;
+    private int spriteIndex;
+
     private Pane levelPane;
     private Level level;
-    private SimpleIntegerProperty x, y;
-    private SimpleIntegerProperty life;
-    private String name;
-    private int speed;
-    public static int compteur=0;
     Player player ;
-    private int spriteIndex;
-    private SimpleIntegerProperty maxLife;
+
+    private SimpleIntegerProperty life;
+    private int speed;
     private int damage ;
-    private int dropRate ;
     private int initialSpeed ;
-
-
+    private SimpleIntegerProperty maxLife;
     //la direction représente une direction cardinale : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
+
+    private int dropRate ;
+
+
+
+
 
     public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife , int damage, int startDirection , int dropeRate , int initialSpeed){
         this.x = new SimpleIntegerProperty(x);
