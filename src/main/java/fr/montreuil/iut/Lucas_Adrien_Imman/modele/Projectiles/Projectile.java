@@ -7,57 +7,16 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 
 public abstract class Projectile extends Deplaçable {
-    private IntegerProperty x , y ;
+
     private Ennemy ennemyCible;
-    private String id;
-    public static int compteur=0;
-
-
-
     public Projectile(int x , int y , Ennemy ennemyCible){
-        this.x = new SimpleIntegerProperty(x);
-        this.y = new SimpleIntegerProperty(y);
+        super(x,y,"P" + compteur);
         this.ennemyCible = ennemyCible;
-        this.id= "P" + compteur;
-        compteur++;
     }
-
     public abstract void agitSurLaCible();
 
-
-    //GETTER
-    public int getY() {
-        return y.get();
-    }
-
-    public String getId() {
-        return id ;
-    }
-
-    public int getX() {
-        return x.get();
-    }
-
-    public IntegerProperty xProperty() {
-        return x;
-    }
-
-
-    public IntegerProperty yProperty() {
-        return y;
-    }
-
-    //SETTER
     public Ennemy getEnnemyCible() {
         return ennemyCible;
-    }
-
-    public void setY(int y) {
-        this.y.set(y);
-    }
-
-    public void setX(int x) {
-        this.x.set(x);
     }
 
     //OTHER METHODS

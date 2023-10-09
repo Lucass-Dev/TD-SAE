@@ -9,10 +9,7 @@ import javafx.scene.layout.Pane;
 
 public abstract class Ennemy extends Deplaçable {
 
-    private SimpleIntegerProperty x, y; //Acteur
-    private String name;
-    public static int compteur=0;
-    private String id;
+
     private int spriteIndex;
 
     private Pane levelPane;
@@ -30,12 +27,9 @@ public abstract class Ennemy extends Deplaçable {
     private int dropRate ;
 
 
-
-
-
     public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife , int damage, int startDirection , int dropeRate , int initialSpeed){
-        this.x = new SimpleIntegerProperty(x);
-        this.y = new SimpleIntegerProperty(y);
+        super(x,y,"E" + compteur);
+
         this.levelPane = levelPane;
         this.level = level;
         this.direction = startDirection;
@@ -43,13 +37,12 @@ public abstract class Ennemy extends Deplaçable {
         this.life = new SimpleIntegerProperty(life);
         this.maxLife = new SimpleIntegerProperty(maxLife);
         this.spriteIndex = spriteIndex;
-        this.id= "E" + compteur;
-        compteur++;
         this.player = player ;
         this.damage = damage ;
         this.dropRate = dropeRate ;
         this.initialSpeed = initialSpeed ;
     }
+
 
     public abstract void doDamage();
     public abstract void die();
@@ -57,13 +50,6 @@ public abstract class Ennemy extends Deplaçable {
     //SETTER
     public void setDirection(int direction) {
         this.direction = direction;
-    }
-    public void setX(int x) {
-        this.x.set(x);
-    }
-
-    public void setY(int y) {
-        this.y.set(y);
     }
 
     public void setLife(int life) {
@@ -87,27 +73,13 @@ public abstract class Ennemy extends Deplaçable {
     public Pane getLevelPane() {
         return levelPane;
     }
-    public String getId() {
-        return id;
-    }
     public SimpleIntegerProperty lifeProperty() {
         return life;
     }
     public SimpleIntegerProperty maxLifeProperty() {
         return maxLife;
     }
-    public int getX() {
-        return x.get();
-    }
-    public SimpleIntegerProperty xProperty() {
-        return x;
-    }
-    public int getY() {
-        return y.get();
-    }
-    public SimpleIntegerProperty yProperty() {
-        return y;
-    }
+
     public SimpleIntegerProperty getLife() {
         return life;
     }

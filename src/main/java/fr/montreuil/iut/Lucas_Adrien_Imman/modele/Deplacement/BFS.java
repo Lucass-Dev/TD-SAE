@@ -1,3 +1,4 @@
+/*
 ppackage fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
@@ -81,3 +82,4 @@ public class BFS implements ModeDeplacement {
     }
 }
 
+*/

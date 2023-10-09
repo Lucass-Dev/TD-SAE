@@ -13,12 +13,11 @@ import java.util.ArrayList;
 
 abstract public class Tower extends Acteur {
 
-    private SimpleIntegerProperty x, y;
-    private String name;
-    public static int compteur = 0;
-    private String id;
+
     private int spriteIndex;
 
+
+    private String name ;
     private SimpleIntegerProperty range;
     private SimpleIntegerProperty damage;
     private SimpleIntegerProperty reloadSpeed;
@@ -36,11 +35,9 @@ abstract public class Tower extends Acteur {
     private ArrayList<Ennemy> ennemieDetecte ;
 
     public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex, int damage, int reloadSpeed, int delais){
-        this.x = new SimpleIntegerProperty(x);
-        this.y = new SimpleIntegerProperty(y);
+
+        super(x,y,"T"+compteur);
         this.spriteIndex = spriteIndex;
-        this.id = "T"+compteur;
-        compteur++;
         this.name = name;
         this.level =  new SimpleIntegerProperty(1);
         this.movingPrice = new SimpleIntegerProperty(movingPrice);
@@ -81,10 +78,6 @@ abstract public class Tower extends Acteur {
         return showingRange;
     }
 
-    public String getId() {
-        return id;
-    }
-
     public int getFlopPrice() {
         return flopPrice;
     }
@@ -93,32 +86,12 @@ abstract public class Tower extends Acteur {
         return ramPrice;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public SimpleIntegerProperty getLevel() {
         return level;
     }
 
     public int getUpgradeCost() {
         return upgradeCost.get();
-    }
-
-    public int getX() {
-        return x.get();
-    }
-
-    public IntegerProperty xProperty() {
-        return x;
-    }
-
-    public int getY() {
-        return y.get();
-    }
-
-    public IntegerProperty yProperty() {
-        return y;
     }
 
     public SimpleIntegerProperty levelProperty() {
@@ -169,14 +142,6 @@ abstract public class Tower extends Acteur {
         return upgradeCost;
     }
 
-    //SETTER
-    public void setX(int x) {
-        this.x.set(x);
-    }
-
-    public void setY(int y) {
-        this.y.set(y);
-    }
 
     public void setFlopPrice(int flopPrice) {
         this.flopPrice = flopPrice;
@@ -186,6 +151,9 @@ abstract public class Tower extends Acteur {
         this.ramPrice = ramPrice;
     }
 
+    public String getName() {
+        return name;
+    }
     public void setName(String name) {
         this.name = name;
     }
@@ -216,10 +184,6 @@ abstract public class Tower extends Acteur {
 
     public void setTilePane(Pane tilePane) {
         this.tilePane = tilePane;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public void setMovingPrice(int movingPrice) {
