@@ -146,7 +146,7 @@ public abstract class Ennemy extends Deplaçable {
 
     //Change la direction de l'ennemie en fonction de la valeur de la TravelingMap à ses coordonnées et en fonction de
     // sa direction initiale
-    public void move() {
+    public void algoDeplacement() {
         int[] pos = new int[2];
         pos[0] = this.getX()/32;
         pos[1] = this.getY()/32;
@@ -222,12 +222,13 @@ public abstract class Ennemy extends Deplaçable {
         pos[1] = this.getY()/32;
         return this.level.getTileValue(pos) == 7;
     }
-
     public void resetSpped(){
         setSpeed(this.initialSpeed);
     }
-
     public int getDropRate() {
         return dropRate;
     }
+
+
+
 }

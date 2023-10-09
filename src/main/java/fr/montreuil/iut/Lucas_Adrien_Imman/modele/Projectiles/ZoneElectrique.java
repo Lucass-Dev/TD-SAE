@@ -10,19 +10,19 @@ public class ZoneElectrique extends Projectile{
 
     @Override
     public void agitSurLaCible() {//si un cible est détecté , il perdera  x pv envoyé en parametre
-        if (cibleAtteint()){
+        if (isOnObjective()){
             getEnnemyCible().reductionPv(1);
         }
     }
 
     @Override
-    public   boolean cibleAtteint() {
+    public   boolean isOnObjective() {
         int range = 80 ;
         Ennemy ennemyCible = getEnnemyCible() ;
         return ((this.getY()-range<=ennemyCible.getY() && ennemyCible.getY()<= this.getY()+range) && (this.getX()-range<=ennemyCible.getX() && ennemyCible.getX() <= this.getX()+range)) ;
     }
 
-    public void placement(){
+    public void algoDeplacement(){
         setX(getX());
         setY(getY());
     }

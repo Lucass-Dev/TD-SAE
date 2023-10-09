@@ -9,7 +9,7 @@ public class ProjectileDotSH extends Projectile {
 
 
     public void agitSurLaCible() {//si un cible est détecté , il perdera  x pv   envoyé en paramétre
-        if (cibleAtteint()) {
+        if (isOnObjective()) {
             getEnnemyCible().reductionPv(1);
         }
     }

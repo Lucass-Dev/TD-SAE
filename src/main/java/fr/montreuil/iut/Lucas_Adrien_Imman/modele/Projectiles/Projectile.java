@@ -2,8 +2,6 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 
 
 public abstract class Projectile extends Deplaçable {
@@ -20,7 +18,7 @@ public abstract class Projectile extends Deplaçable {
     }
 
     //OTHER METHODS
-    public void placement() { // déplacement de projectiles vers la cible
+    public void algoDeplacement() { // déplacement de projectiles vers la cible
         double  posX = ennemyCible.getX() - this.getX() ;
         double  posY = ennemyCible.getY() - this.getY() ;
         double dirX, dirY;
@@ -38,7 +36,7 @@ public abstract class Projectile extends Deplaçable {
         setY((int) newPosY);
     }
 
-    public   boolean cibleAtteint() { //return true si la projectile a atteint la (x et y cible ) cible
+    public  boolean isOnObjective() { //return true si la projectile a atteint la (x et y cible ) cible
         int range = 16 ;
         return ((this.getY()-range<= ennemyCible.getY() && ennemyCible.getY()<= this.getY()+range) && (this.getX()-range<= ennemyCible.getX() && ennemyCible.getX() <= this.getX()+range)) ;
     }
@@ -46,4 +44,5 @@ public abstract class Projectile extends Deplaçable {
     public boolean isOnBound(){
         return this.getX() >640  && this.getY() >640;
     }
+
 }

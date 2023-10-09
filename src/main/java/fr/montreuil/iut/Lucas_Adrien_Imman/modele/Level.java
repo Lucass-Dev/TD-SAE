@@ -304,7 +304,7 @@ public class Level {
     public void bulletTurn() {
 
         for (Projectile p : projectiles) {   //déplacement des projectiles et agit sur la cible
-            p.placement();
+            p.algoDeplacement();
             p.agitSurLaCible();
         }
 
@@ -312,13 +312,13 @@ public class Level {
             Projectile p = projectiles.get(j);
 
             if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
-                if (p.cibleAtteint() || p.isOnBound()) {
+                if (p.isOnObjective() || p.isOnBound()) {
                     projectiles.remove(p);
                 }
             }
 
             else if (p instanceof ProjectileDotSH) {
-                if (p.cibleAtteint()) {
+                if (p.isOnObjective()) {
                     projectiles.remove(p);
                     cpt++;
                     if (cpt == 3) {
@@ -331,7 +331,7 @@ public class Level {
 
             else if(p instanceof ProjectileKamikaze) {
 
-                if ((p.cibleAtteint() || p.isOnBound())) {
+                if ((p.isOnObjective() || p.isOnBound())) {
                     projectiles.remove(p);
                     cpt ++ ;
                     System.out.println(cpt);
@@ -346,7 +346,7 @@ public class Level {
 
 
             else if(p instanceof ZoneRalentisseur || p instanceof ZoneElectrique){
-                if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
+                if (!p.isOnObjective() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
                     projectiles.remove(p);
                 }
             }
@@ -364,7 +364,7 @@ public class Level {
         if (this.ennemies.size() > 0){ //fait déplacer les ennemis , les enleve de la liste  si ils ont atteint l'objectif , ou il sont en dehors de la map  ou s'il sont morts
             for (int i = ennemies.size()-1; i>=0 ; i--) {
                 Ennemy e = ennemies.get(i);
-                e.move();
+                e.algoDeplacement();
                 if (e instanceof Kamikaze){
                     if (getTileValue(getTilePos(e.getX(), e.getY())) == 6){
                         ennemies.remove(e);

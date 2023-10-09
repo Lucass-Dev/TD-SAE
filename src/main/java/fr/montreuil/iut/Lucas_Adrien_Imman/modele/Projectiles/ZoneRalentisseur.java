@@ -13,17 +13,17 @@ public class ZoneRalentisseur extends Projectile {
 
     @Override
     public void agitSurLaCible() { //si un cible est détecté , sa vitesse sera réduite
-        if (cibleAtteint()){
+        if (isOnObjective()){
             getEnnemyCible().setSpeed(1);
         }
     }
-    public   boolean cibleAtteint() {
+    public   boolean isOnObjective() {
         int range = 75 ;
         Ennemy ennemyCible = getEnnemyCible() ;
         return ((this.getY()-range<=ennemyCible.getY() && ennemyCible.getY()<= this.getY()+range) && (this.getX()-range<=ennemyCible.getX() && ennemyCible.getX() <= this.getX()+range)) ;
     }
 
-    public void placement(){
+    public void algoDeplacement(){
         setX(getX());
         setY(getY());
     }
