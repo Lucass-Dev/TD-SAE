@@ -54,6 +54,7 @@ public class Level {
     private int poisonTicks;
 
     public Level(Pane levelPane){
+        this.waves = new Waves();
         this.levelPane = levelPane;
         this.tileMap = new ArrayList<>();
         this.travelingMap = new ArrayList<>();
@@ -63,7 +64,6 @@ public class Level {
         this.startTilePos = new int[2];
         this.endTilePos = new int[2];
         this.actualWave = new ArrayList<>();
-        this.waves = new Waves();
         this.waveSize = 3;
         this.actualWaveNumber = new SimpleIntegerProperty(0);
         this.projectiles = FXCollections.observableArrayList();
@@ -115,7 +115,7 @@ public class Level {
     }
 
     public int getTile(int[] pos){
-        return this.travelingMap.get(pos[1]).get(pos[0]);
+        return this.waves.getTravelingMap().get(pos[1]).get(pos[0]);
     }
 
     /***
@@ -162,8 +162,6 @@ public class Level {
         this.difficulty = difficulty;
     }
 
-
-
     //OTHER METHODS
 
     public void freezeRam(int amount){
@@ -190,9 +188,6 @@ public class Level {
                 player.setFlop(player.getFlop() + (e.getDropRate()* (int)(actualWaveNumber.getValue()*0.5)));
                 player.setRam(player.getRam() + (int)(actualWaveNumber.getValue()*0.2));
             }
-
-
-
         }
     }
 
@@ -301,7 +296,6 @@ public class Level {
                     }
                 }
             }
-
             else if(p instanceof ProjectileKamikaze) {
 
                 if ((p.cibleAtteint() || p.isOnBound())) {
@@ -315,9 +309,6 @@ public class Level {
                     }
                 }
             }
-
-
-
             else if(p instanceof ZoneRalentisseur || p instanceof ZoneElectrique){
                 if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
                     projectiles.remove(p);
@@ -329,7 +320,7 @@ public class Level {
     public boolean enemiesTurn(int nbTours){
 
         if (actualWave.size() == 0 && ennemies.size() == 0){
-            this.waves.createWave(this.waveSize, this);
+            this.waves.createWave(this.waveSize, this, this.levelPane);
             this.waveSize += actualWaveNumber.get()*difficulty/3;
         }else if (nbTours % 20 == 0 && actualWave.size() != 0){
             this.ennemies.add(this.actualWave.remove(0));

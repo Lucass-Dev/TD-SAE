@@ -13,7 +13,6 @@ public class Waves {
     private ArrayList<ArrayList<Integer>> tileMap;
     private int[] startTilePos;
     private int[] endTilePos;
-    private Pane levelPane;
     private int startDirection;
     private ArrayList<ArrayList<Integer>> travelingMap;
 
@@ -25,10 +24,7 @@ public class Waves {
         this.actualWaveNumber = new SimpleIntegerProperty(0);
     }
 
-
-
-
-    public void createWave(int size, Level level){
+    public void createWave(int size, Level level, Pane levelPane){
         this.startDirection = getStartDirection();
         for (int i = 0; i < size; i++) {
             switch ((int) ((Math.random() * (6 - 1)) + 1)){
@@ -86,7 +82,7 @@ public class Waves {
      */
     public int getStartDirection(){
         int startTile = this.tileMap.get(startTilePos[0]).get(startTilePos[1]);
-        System.out.println(startTile);
+        //System.out.println(startTile);
         int direction = 0;
         if (startTile == 13){
             direction = 4;
@@ -140,5 +136,9 @@ public class Waves {
 
     public void setTravelingMap(ArrayList<ArrayList<Integer>> tileMap){
         this.travelingMap = tileMapToTraveling(this.tileMap);
+    }
+
+    public ArrayList<ArrayList<Integer>> getTravelingMap(){
+        return this.travelingMap;
     }
 }
