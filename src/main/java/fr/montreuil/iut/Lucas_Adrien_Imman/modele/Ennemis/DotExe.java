@@ -1,12 +1,12 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.scene.layout.Pane;
 
 public class DotExe extends Ennemy {
-    public DotExe(int x, int y, Pane levelPane, Level level, Player player, int startDirection) {
-        super(x, y, levelPane, level, 5, 100 , player, 1, 100,0, startDirection, 20,1);
+    public DotExe(int x, int y, Pane levelPane, Environment environment, Player player, int startDirection) {
+        super(x, y, levelPane, environment, 5, 100 , player, 1, 100,0, startDirection, 20,1);
     }
 
     @Override

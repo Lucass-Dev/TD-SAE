@@ -1,6 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
@@ -9,7 +9,7 @@ import javafx.scene.layout.Pane;
 public abstract class Ennemy {
     private String id;
     private Pane levelPane;
-    private Level level;
+    private Environment environment;
     private SimpleIntegerProperty x, y;
     private SimpleIntegerProperty life;
     private String name;
@@ -26,11 +26,11 @@ public abstract class Ennemy {
     //la direction représente une direction cardinale : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
 
-    public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife , int damage, int startDirection , int dropeRate , int initialSpeed){
+    public Ennemy(int x, int y, Pane levelPane, Environment environment, int spriteIndex, int life , Player player, int speed, int maxLife , int damage, int startDirection , int dropeRate , int initialSpeed){
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.levelPane = levelPane;
-        this.level = level;
+        this.environment = environment;
         this.direction = startDirection;
         this.speed = speed;
         this.life = new SimpleIntegerProperty(life);
@@ -113,8 +113,8 @@ public abstract class Ennemy {
     public int getDirection() {
         return direction;
     }
-    public Level getLevel() {
-        return level;
+    public Environment getLevel() {
+        return environment;
     }
     public int getOppositeDirection(){
         if (this.direction == 1){
@@ -157,7 +157,7 @@ public abstract class Ennemy {
         pos[0] = this.getX()/32;
         pos[1] = this.getY()/32;
 
-        center = this.level.getTileCenter(pos);
+        center = this.environment.getGround().getTileCenter(pos);
 
         pos[0] = this.getX();
         pos[1] = this.getY();
@@ -171,7 +171,7 @@ public abstract class Ennemy {
         int[] pos = new int[2];
         pos[0] = this.getX()/32;
         pos[1] = this.getY()/32;
-        int travelingValue = this.getLevel().getTileValue(pos);
+        int travelingValue = this.environment.getGround().getTileValue(pos);
 
         switch (travelingValue){
             case 2 -> {
@@ -241,7 +241,7 @@ public abstract class Ennemy {
         int[] pos = new int[2];
         pos[0] = this.getX()/32;
         pos[1] = this.getY()/32;
-        return this.level.getTileValue(pos) == 7;
+        return this.environment.getGround().getTileValue(pos) == 7;
     }
 
     public void resetSpped(){

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefWidth="940.0" stylesheets="@css/level.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.montreuil.iut.Lucas_Adrien_Imman.controller.LevelController">
+<BorderPane prefWidth="940.0" stylesheets="@css/environment.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.montreuil.iut.Lucas_Adrien_Imman.controller.LevelController">
    <bottom>
       <Pane fx:id="towerMenu" prefHeight="160.0" prefWidth="940.0" BorderPane.alignment="CENTER">
          <children>
