@@ -29,40 +29,64 @@ public class Waves {
         for (int i = 0; i < size; i++) {
             switch ((int) ((Math.random() * (6 - 1)) + 1)){
                 case 1 -> {
-                    this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, level, this.player, this.getStartDirection()));
+                    this.actualWave.add(createDotSH(level, levelPane));
                 }
                 case 2 -> {
                     if (this.actualWaveNumber.get() <= 5){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, level, this.player, this.getStartDirection()));
+                        this.actualWave.add(createDotSH(level, levelPane));
                     }else{
-                        this.actualWave.add(new Archive(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, level, this.player, this.getStartDirection()));
+                        this.actualWave.add(createArchive(level, levelPane));
                     }
                 }
                 case 3 -> {
                     if (this.actualWaveNumber.get() <= 10){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, level, this.player, this.getStartDirection()));
+                        this.actualWave.add(createDotSH(level, levelPane));
                     }else{
-                        this.actualWave.add(new Virus(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, level, this.player, this.getStartDirection()));
+                        this.actualWave.add(createVirus(level, levelPane));
                     }
                 }
                 case 4 -> {
                     if (this.actualWaveNumber.get() <= 15){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, level, this.player, this.getStartDirection()));
+                        this.actualWave.add(createDotSH(level, levelPane));
                     }else{
-                        this.actualWave.add(new Scam(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, level, this.player, this.getStartDirection()));
+                        this.actualWave.add(createScam(level, levelPane));
                     }
                 }
                 case 5 -> {
                     if (this.actualWaveNumber.get() <= 20){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, level, this.player, this.getStartDirection()));
+                        this.actualWave.add(createDotSH(level, levelPane));
                     }else{
-                        this.actualWave.add(new DotExe(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, level, this.player, this.getStartDirection()));
+                        this.actualWave.add(createExe(level, levelPane));
                     }
                 }
             }
         }
         setActualWaveNumber(actualWaveNumber.get() + 1);
     }
+
+    private Ennemy createExe(Level level, Pane levelPane) {
+        return new DotExe(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, level, this.player, this.getStartDirection());
+    }
+
+    public Ennemy createDotSH(Level level, Pane levelPane){
+        return new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, level, this.player, this.getStartDirection());
+    }
+
+    public Ennemy createArchive(Level level, Pane levelPane){
+        return new Archive(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, level, this.player, this.getStartDirection());
+    }
+
+
+
+    public Ennemy createScam(Level level, Pane levelPane){
+        return new Scam(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, level, this.player, this.getStartDirection());
+    }
+
+    public Ennemy createVirus(Level level, Pane levelPane){
+        return new Virus(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, level, this.player, this.getStartDirection());
+    }
+
+
 
 
     public int getActualWaveNumber() {

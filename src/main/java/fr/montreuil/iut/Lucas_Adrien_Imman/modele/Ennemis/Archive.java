@@ -22,7 +22,7 @@ public class Archive extends Ennemy{
         for (int i = 0; i < 3; i++) {
             Ennemy e = new DotSH(this.getX(), this.getY(), this.getLevelPane(), this.getLevel(), this.getPlayer(), this.getDirection());
             e.setDirection(this.getDirection());
-            this.getLevel().getEnnemies().add(e);
+            this.getLevel().getWaves().getEnnemies().add(e);
         }
     }
 }

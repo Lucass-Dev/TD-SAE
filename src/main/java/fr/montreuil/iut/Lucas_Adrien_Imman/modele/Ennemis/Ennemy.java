@@ -171,7 +171,7 @@ public abstract class Ennemy {
         int[] pos = new int[2];
         pos[0] = this.getX()/32;
         pos[1] = this.getY()/32;
-        int travelingValue = this.getLevel().getTileValue(pos);
+        int travelingValue = this.getLevel().getWaves().getTileValue(pos);
 
         switch (travelingValue){
             case 2 -> {
@@ -241,7 +241,7 @@ public abstract class Ennemy {
         int[] pos = new int[2];
         pos[0] = this.getX()/32;
         pos[1] = this.getY()/32;
-        return this.level.getTileValue(pos) == 7;
+        return this.level.getWaves().getTileValue(pos) == 7;
     }
 
     public void resetSpped(){
