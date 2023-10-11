@@ -5,7 +5,7 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.LevelDataTransit;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Score;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tower;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.LevelVue;
@@ -184,7 +184,7 @@ public class LevelController implements Initializable {
             this.level.getEnnemies().addListener(ennemyListChangeListener);
             ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane, player);
             this.level.getPlacedTower().addListener(towerListChangeListener);
-            ListChangeListener<Projectile> projectileListChangeListener = new ListeObsProjectile(levelPane);
+            ListChangeListener<EffetTour> projectileListChangeListener = new ListeObsProjectile(levelPane);
             this.level.getProjectiles().addListener(projectileListChangeListener);
             this.levelVue = new LevelVue(this.level, this.tilePane, this.levelPane, this);
             this.levelVue.createShopMenu(towerShopVbox);

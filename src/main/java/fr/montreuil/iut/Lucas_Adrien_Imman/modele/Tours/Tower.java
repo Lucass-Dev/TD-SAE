@@ -53,41 +53,16 @@ abstract public class Tower extends Acteur {
         this.ennemieDetecte = new ArrayList<>() ;
     }
 
-    //GETTER
-    public int getDelais() {
-        return this.delais;
+    public SimpleIntegerProperty movingPriceProperty() {
+        return movingPrice;
     }
 
     public void setDelais(int delais) {
         this.delais = delais;
     }
 
-    public int getSellingPrice() {
-        return sellingPrice.get();
-    }
-
-    public SimpleIntegerProperty sellingPriceProperty() {
-        return sellingPrice;
-    }
-
     public boolean isShowingRange() {
         return showingRange.get();
-    }
-
-    public SimpleBooleanProperty showingRangeProperty() {
-        return showingRange;
-    }
-
-    public int getFlopPrice() {
-        return flopPrice;
-    }
-
-    public int getRamPrice() {
-        return ramPrice;
-    }
-
-    public SimpleIntegerProperty getLevel() {
-        return level;
     }
 
     public int getUpgradeCost() {
@@ -102,46 +77,13 @@ abstract public class Tower extends Acteur {
         return tilePane;
     }
 
-    public int getMovingPrice() {
-        return movingPrice.get();
-    }
-
-    public SimpleIntegerProperty movingPriceProperty() {
-        return movingPrice;
-    }
-
-    public int getSpriteIndex() {
-        return spriteIndex;
-    }
-
-    public int getRange() {
-        return range.get();
-    }
-
-    public SimpleIntegerProperty rangeProperty() {
-        return range;
-    }
-
     public int getDamage() {
         return damage.get();
-    }
-
-    public SimpleIntegerProperty damageProperty() {
-        return damage;
     }
 
     public int getReloadSpeed() {
         return reloadSpeed.get();
     }
-
-    public SimpleIntegerProperty reloadSpeedProperty() {
-        return reloadSpeed;
-    }
-
-    public SimpleIntegerProperty upgradeCostProperty() {
-        return upgradeCost;
-    }
-
 
     public void setFlopPrice(int flopPrice) {
         this.flopPrice = flopPrice;
@@ -151,19 +93,8 @@ abstract public class Tower extends Acteur {
         this.ramPrice = ramPrice;
     }
 
-    public String getName() {
-        return name;
-    }
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setLevel(int level) {
-        this.level.set(level);
-    }
-
-    public void setUpgradeCost(int upgradeCost) {
-        this.upgradeCost.set(upgradeCost);
     }
 
     public void setSpriteIndex(int spriteIndex) {
@@ -190,14 +121,84 @@ abstract public class Tower extends Acteur {
         this.movingPrice.set(movingPrice);
     }
 
-    public void setShowingRange(boolean showingRange) {
-        this.showingRange.set(showingRange);
+
+
+    //GETTER
+    public int getDelais() {
+        return this.delais;
+    }
+
+    public int getSellingPrice() {
+        return sellingPrice.get();
+    }
+
+    public SimpleIntegerProperty sellingPriceProperty() {
+        return sellingPrice;
+    }
+
+    public SimpleBooleanProperty showingRangeProperty() {
+        return showingRange;
+    }
+
+    public int getFlopPrice() {
+        return flopPrice;
+    }
+
+    public int getRamPrice() {
+        return ramPrice;
+    }
+
+    public SimpleIntegerProperty getLevel() {
+        return level;
+    }
+
+    public int getMovingPrice() {
+        return movingPrice.get();
+    }
+
+    public int getSpriteIndex() {
+        return spriteIndex;
+    }
+
+    public int getRange() {
+        return range.get();
+    }
+
+    public SimpleIntegerProperty rangeProperty() {
+        return range;
+    }
+
+    public SimpleIntegerProperty damageProperty() {
+        return damage;
+    }
+
+    public SimpleIntegerProperty reloadSpeedProperty() {
+        return reloadSpeed;
+    }
+
+    public SimpleIntegerProperty upgradeCostProperty() {
+        return upgradeCost;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setLevel(int level) {
+        this.level.set(level);
+    }
+
+    public void setUpgradeCost(int upgradeCost) {
+        this.upgradeCost.set(upgradeCost);
     }
 
     public void setSellingPrice(int sellingPrice) {
         this.sellingPrice.set(sellingPrice);
     }
 
+    public void setShowingRange(boolean showingRange) {
+        this.showingRange.set(showingRange);
+    }
     //OTHER METHODS
     public void upgrade(Player p){
         if (p.getFlop() >= this.upgradeCost.get() && this.level.get() <= 10){
@@ -210,6 +211,7 @@ abstract public class Tower extends Acteur {
             setSellingPrice((int) (this.sellingPrice.get() * 1.2));
         }
     }
+
     public ArrayList<Ennemy> detect(ObservableList<Ennemy> ennemis){ // detecte l'ennemi qui a une range donné en paramétre | ex :(this.getX()+16) = prend le centre la tour (+16 pour obtenir le milieu)
         for (Ennemy m : ennemis) {
             if ((this.getY()+16)-range.get()<=m.getY() && m.getY()<= (this.getY()+16)+range.get() && (this.getX()+16)-range.get()<=m.getX() && m.getX() <= (this.getX()+16)+range.get()){
@@ -218,4 +220,5 @@ abstract public class Tower extends Acteur {
         }
         return ennemieDetecte ;
     }
+
 }

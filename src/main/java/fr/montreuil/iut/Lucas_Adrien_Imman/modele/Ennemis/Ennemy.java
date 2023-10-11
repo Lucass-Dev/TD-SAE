@@ -51,11 +51,9 @@ public abstract class Ennemy extends Deplaçable {
     public void setDirection(int direction) {
         this.direction = direction;
     }
-
     public void setLife(int life) {
         this.life.set(life);
     }
-
     public void setSpeed(int speed) {
         this.speed = speed;
     }
@@ -79,7 +77,6 @@ public abstract class Ennemy extends Deplaçable {
     public SimpleIntegerProperty maxLifeProperty() {
         return maxLife;
     }
-
     public SimpleIntegerProperty getLife() {
         return life;
     }
@@ -108,9 +105,11 @@ public abstract class Ennemy extends Deplaçable {
 
         return 0;
     }
+    public int getDropRate() {
+        return dropRate;
+    }
 
     //OTHER METHODS
-
     public Ennemy isTouching(ObservableList<Ennemy> ennemies){
         for (Ennemy e: ennemies) {
 
@@ -122,14 +121,15 @@ public abstract class Ennemy extends Deplaçable {
         }
         return null;
     }
-
     public void reductionPv(int l){
         if(life.getValue()-l>=0)
             setLife(life.getValue()-l);
         else
             setLife(0);
     }
+
     //Pour savoir si l'ennemie est centré sur la tuile avec une "marge d'erreur"
+
     public boolean isCentered(){
         int[] center;
         int[] pos = new int[2];
@@ -143,9 +143,14 @@ public abstract class Ennemy extends Deplaçable {
 
         return pos[0] <= center[0]+3 && pos[0] >= center[0]-3 && pos[1] <= center[1]+3 && pos[1] >= center[1]-3 ;
     }
+    public void resetSpped(){
+        setSpeed(this.initialSpeed);
+    }
+
 
     //Change la direction de l'ennemie en fonction de la valeur de la TravelingMap à ses coordonnées et en fonction de
     // sa direction initiale
+
     public void algoDeplacement() {
         int[] pos = new int[2];
         pos[0] = this.getX()/32;
@@ -222,12 +227,7 @@ public abstract class Ennemy extends Deplaçable {
         pos[1] = this.getY()/32;
         return this.level.getTileValue(pos) == 7;
     }
-    public void resetSpped(){
-        setSpeed(this.initialSpeed);
-    }
-    public int getDropRate() {
-        return dropRate;
-    }
+
 
 
 

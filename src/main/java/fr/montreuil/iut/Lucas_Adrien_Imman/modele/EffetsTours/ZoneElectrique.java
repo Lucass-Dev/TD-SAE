@@ -1,8 +1,8 @@
-package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles;
+package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
-public class ZoneElectrique extends Projectile{
+public class ZoneElectrique extends EffetTour {
 
     public ZoneElectrique(int x, int y, Ennemy ennemyCible) {
         super(x, y, ennemyCible);
@@ -22,6 +22,7 @@ public class ZoneElectrique extends Projectile{
         return ((this.getY()-range<=ennemyCible.getY() && ennemyCible.getY()<= this.getY()+range) && (this.getX()-range<=ennemyCible.getX() && ennemyCible.getX() <= this.getX()+range)) ;
     }
 
+    @Override
     public void algoDeplacement(){
         setX(getX());
         setY(getY());

@@ -1,7 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.*;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -20,7 +20,7 @@ public class ProjectileVue {
         this.levelPane = levelPane;
     }
 
-    public void projectileSprite(Projectile newProjectile) throws IOException {
+    public void projectileSprite(EffetTour newProjectile) throws IOException {
 
         if (!(newProjectile instanceof ProjectileDegatsBrut)) { // cree les sprites correspondant
 

@@ -1,23 +1,27 @@
-package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles;
+package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
 
-public abstract class Projectile extends Deplaçable {
+public abstract class EffetTour extends Deplaçable {
 
     private Ennemy ennemyCible;
-    public Projectile(int x , int y , Ennemy ennemyCible){
+
+
+    public EffetTour(int x , int y , Ennemy ennemyCible){
         super(x,y,"P" + compteur);
         this.ennemyCible = ennemyCible;
     }
+
+
     public abstract void agitSurLaCible();
+
 
     public Ennemy getEnnemyCible() {
         return ennemyCible;
     }
 
-    //OTHER METHODS
     public void algoDeplacement() { // déplacement de projectiles vers la cible
         double  posX = ennemyCible.getX() - this.getX() ;
         double  posY = ennemyCible.getY() - this.getY() ;

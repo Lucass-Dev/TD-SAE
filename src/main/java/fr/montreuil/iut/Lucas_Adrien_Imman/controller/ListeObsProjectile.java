@@ -1,15 +1,14 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.ProjectileVue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 
 
-public class ListeObsProjectile implements ListChangeListener<Projectile> {
+public class ListeObsProjectile implements ListChangeListener<EffetTour> {
     private Pane levelpane;
 
     public ListeObsProjectile(Pane levelpane) {
@@ -19,9 +18,9 @@ public class ListeObsProjectile implements ListChangeListener<Projectile> {
 
 
     @Override
-    public void onChanged(Change<? extends Projectile> c) {
+    public void onChanged(Change<? extends EffetTour> c) {
         while (c.next()) {
-            for (Projectile newProjectile : c.getAddedSubList()) {
+            for (EffetTour newProjectile : c.getAddedSubList()) {
                 ProjectileVue projectileVue = new ProjectileVue(levelpane);
                 try {
                     projectileVue.projectileSprite(newProjectile);
@@ -31,7 +30,7 @@ public class ListeObsProjectile implements ListChangeListener<Projectile> {
 
             }
 
-            for (Projectile oldProjectile : c.getRemoved()) {
+            for (EffetTour oldProjectile : c.getRemoved()) {
 
                 levelpane.getChildren().remove(levelpane.lookup("#" + oldProjectile.getId()));
             }

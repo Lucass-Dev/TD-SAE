@@ -2,7 +2,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.*;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.PopupVue;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -28,7 +28,7 @@ public class Level {
     private ObservableList<Tower> placedTower;
     private ObservableList<Ennemy> ennemies;
     private ArrayList<Ennemy> ennemiesDansLaZone ;
-    private ObservableList<Projectile> projectiles;
+    private ObservableList<EffetTour> projectiles;
 
     private int[] startTilePos;
     private int[] endTilePos;
@@ -88,7 +88,7 @@ public class Level {
         return ennemies;
     }
 
-    public ObservableList<Projectile> getProjectiles(){
+    public ObservableList<EffetTour> getProjectiles(){
         return projectiles ;
     }
 
@@ -262,7 +262,7 @@ public class Level {
                     Ennemy detectedEnnemy = ennemiesDansLaZone.get(j);
                     Ennemy firstDetect = ennemiesDansLaZone.get(0);
 
-                    Projectile p  = null;
+                    EffetTour p  = null;
 
                     if (t instanceof TaskKiller) { // ajoute au liste des projectiles le projectile correspondant au tour
                         p = new ProjectileDegatsBrut(t.getX() + 16, t.getY() + 16, firstDetect);
@@ -303,13 +303,13 @@ public class Level {
     }
     public void bulletTurn() {
 
-        for (Projectile p : projectiles) {   //déplacement des projectiles et agit sur la cible
+        for (EffetTour p : projectiles) {   //déplacement des projectiles et agit sur la cible
             p.algoDeplacement();
             p.agitSurLaCible();
         }
 
         for (int j = projectiles.size() - 1; j >= 0; j--) {//enleve les projectiles/zones  par rapport aux conditions
-            Projectile p = projectiles.get(j);
+            EffetTour p = projectiles.get(j);
 
             if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
                 if (p.isOnObjective() || p.isOnBound()) {

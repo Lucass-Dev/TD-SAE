@@ -1,9 +1,9 @@
-package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles;
+package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
-public class ProjectileDotSH extends Projectile {
-    public ProjectileDotSH(int x, int y, Ennemy ennemyCible) {
+public class ProjectileKamikaze extends EffetTour {
+    public ProjectileKamikaze(int x, int y, Ennemy ennemyCible) {
         super(x, y, ennemyCible);
     }
 
