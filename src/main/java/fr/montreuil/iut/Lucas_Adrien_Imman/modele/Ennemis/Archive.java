@@ -1,12 +1,13 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.scene.layout.Pane;
 
 public class Archive extends Ennemy{
-    public Archive(int x, int y, Pane levelPane, Level level, Player player, int startDirection) {
-        super(x, y, levelPane, level, 1, 20, player, 3, 20,0,  startDirection, 30,3);
+    public Archive(int x, int y, Pane levelPane, Level level, Player player, int startDirection, ModeDeplacement md) {
+        super(x, y, levelPane, level, 1, 20, player, 3, 20,0,  startDirection, 30,3, md);
     }
 
     @Override

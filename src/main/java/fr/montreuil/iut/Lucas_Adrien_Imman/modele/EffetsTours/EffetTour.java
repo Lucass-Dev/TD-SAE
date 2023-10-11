@@ -1,6 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Deplaçable;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
 
@@ -9,8 +10,8 @@ public abstract class EffetTour extends Deplaçable {
     private Ennemy ennemyCible;
 
 
-    public EffetTour(int x , int y , Ennemy ennemyCible){
-        super(x,y,"P" + compteur);
+    public EffetTour(int x , int y , Ennemy ennemyCible, ModeDeplacement md){
+        super(x,y,"P" + compteur, md);
         this.ennemyCible = ennemyCible;
     }
 
@@ -22,23 +23,7 @@ public abstract class EffetTour extends Deplaçable {
         return ennemyCible;
     }
 
-    public void algoDeplacement() { // déplacement de projectiles vers la cible
-        double  posX = ennemyCible.getX() - this.getX() ;
-        double  posY = ennemyCible.getY() - this.getY() ;
-        double dirX, dirY;
 
-        double totalDis = Math.sqrt(posX * posX + posY * posY);
-
-        dirX = posX  / totalDis  ;
-        dirY = posY  / totalDis ;
-
-
-        double newPosX = this.getX() + (5 * dirX);
-        double newPosY = this.getY() + (5 * dirY);
-
-        setX((int) newPosX);
-        setY((int) newPosY);
-    }
 
     public  boolean isOnObjective() { //return true si la projectile a atteint la (x et y cible ) cible
         int range = 16 ;

@@ -1,10 +1,11 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
 public class ProjectileDotSH extends EffetTour {
-    public ProjectileDotSH(int x, int y, Ennemy ennemyCible) {
-        super(x, y, ennemyCible);
+    public ProjectileDotSH(int x, int y, Ennemy ennemyCible, ModeDeplacement md) {
+        super(x, y, ennemyCible, md);
     }
 
 

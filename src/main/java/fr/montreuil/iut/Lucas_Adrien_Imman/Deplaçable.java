@@ -20,7 +20,7 @@ public abstract class Deplaçable extends Acteur {
     public void algoDeplacement() {
         modeDeplacement.seDeplacer(this);
     }
-    ;
+
 
     public abstract boolean isOnObjective();
 }
