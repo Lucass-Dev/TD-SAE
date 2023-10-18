@@ -28,7 +28,7 @@ public class Level {
     private ObservableList<Tower> placedTower;
     private ObservableList<Ennemy> ennemies;
     private ArrayList<Ennemy> ennemiesDansLaZone ;
-    private ObservableList<EffetTour> projectiles;
+    private ObservableList<Projectile> projectiles;
 
     private int[] startTilePos;
     private int[] endTilePos;
@@ -303,13 +303,13 @@ public class Level {
     }
     public void bulletTurn() {
 
-        for (EffetTour p : projectiles) {   //déplacement des projectiles et agit sur la cible
+        for (Projectile p : projectiles) {   //déplacement des projectiles et agit sur la cible
             p.algoDeplacement();
             p.agitSurLaCible();
         }
 
         for (int j = projectiles.size() - 1; j >= 0; j--) {//enleve les projectiles/zones  par rapport aux conditions
-            EffetTour p = projectiles.get(j);
+            Projectile p = projectiles.get(j);
 
             if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
                 if (p.isOnObjective() || p.isOnBound()) {
