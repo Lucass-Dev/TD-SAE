@@ -1,6 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.Deplaçable;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplaçable;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -13,7 +14,7 @@ public abstract class Ennemy extends Deplaçable {
     private int spriteIndex;
 
     private Pane levelPane;
-    private Level level;
+    private Environment environment;
     Player player ;
 
     private SimpleIntegerProperty life;
@@ -22,17 +23,17 @@ public abstract class Ennemy extends Deplaçable {
     private int initialSpeed ;
     private SimpleIntegerProperty maxLife;
     //la direction représente une direction cardinale : 1 North 2 East 3 South 4 West 0 for nothing
-    private int direction;
+    //private int direction;
 
     private int dropRate ;
 
 
-    public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife , int damage, int startDirection , int dropeRate , int initialSpeed){
+    public Ennemy(int x, int y, Pane levelPane, Environment environment, int spriteIndex, int life , Player player, int speed, int maxLife , int damage , int dropeRate , int initialSpeed){
         super(x,y,"E" + compteur);
 
         this.levelPane = levelPane;
-        this.level = level;
-        this.direction = startDirection;
+        this.environment = environment;
+      //  this.direction = startDirection;
         this.speed = speed;
         this.life = new SimpleIntegerProperty(life);
         this.maxLife = new SimpleIntegerProperty(maxLife);
@@ -48,9 +49,9 @@ public abstract class Ennemy extends Deplaçable {
     public abstract void die();
 
     //SETTER
-    public void setDirection(int direction) {
+  /*  public void setDirection(int direction) {
         this.direction = direction;
-    }
+    }*/
     public void setLife(int life) {
         this.life.set(life);
     }
@@ -86,12 +87,13 @@ public abstract class Ennemy extends Deplaçable {
     public boolean isDead(){
         return getLife().getValue()==0 ;
     }
-    public int getDirection() {
+   /* public int getDirection() {
         return direction;
+    }*/
+    public Environment getEnvironment() {
+        return environment;
     }
-    public Level getLevel() {
-        return level;
-    }
+    /*
     public int getOppositeDirection(){
         if (this.direction == 1){
             return 3;
@@ -105,6 +107,8 @@ public abstract class Ennemy extends Deplaçable {
 
         return 0;
     }
+    */
+
     public int getDropRate() {
         return dropRate;
     }
@@ -129,103 +133,34 @@ public abstract class Ennemy extends Deplaçable {
     }
 
     //Pour savoir si l'ennemie est centré sur la tuile avec une "marge d'erreur"
-
+/*
     public boolean isCentered(){
         int[] center;
         int[] pos = new int[2];
         pos[0] = this.getX()/32;
         pos[1] = this.getY()/32;
 
-        center = this.level.getTileCenter(pos);
+      //  center = this.level.getTileCenter(pos);
 
         pos[0] = this.getX();
         pos[1] = this.getY();
 
         return pos[0] <= center[0]+3 && pos[0] >= center[0]-3 && pos[1] <= center[1]+3 && pos[1] >= center[1]-3 ;
     }
-    public void resetSpped(){
-        setSpeed(this.initialSpeed);
-    }
 
-
-    //Change la direction de l'ennemie en fonction de la valeur de la TravelingMap à ses coordonnées et en fonction de
-    // sa direction initiale
-
-    public void algoDeplacement() {
-        int[] pos = new int[2];
-        pos[0] = this.getX()/32;
-        pos[1] = this.getY()/32;
-        int travelingValue = this.getLevel().getTileValue(pos);
-
-        switch (travelingValue){
-            case 2 -> {
-                if (this.getDirection() == 2){
-                    if (isCentered()){
-                        this.setDirection(1);
-                    }
-                } else if (this.getDirection() == 3) {
-                    if(isCentered()){
-                        this.setDirection(4);
-                    }
-                }
-            }
-            case 3 -> {
-                if (this.getDirection() == 2){
-                    if (isCentered()){
-                        this.setDirection(3);
-                    }
-                } else if (this.getDirection() == 1) {
-                    if(isCentered()){
-                        this.setDirection(4);
-                    }
-                }
-            }
-            case 4 -> {
-                if (this.getDirection() == 4){
-                    if (isCentered()){
-                        this.setDirection(1);
-                    }
-                } else if (this.getDirection() == 3) {
-                    if (isCentered()){
-                        this.setDirection(2);
-                    }
-                }
-            }
-            case 5 -> {
-                if (this.getDirection() == 4){
-                    if (isCentered()){
-                        this.setDirection(3);
-                    }
-                } else if (this.getDirection() == 1) {
-                    if (isCentered()){
-                        this.setDirection(2);
-                    }
-                }
-            }
-        }
-
-        if (this.getDirection() == 1){
-            this.setY(this.getY()-this.getSpeed());
-        }
-        else if(this.getDirection() == 2){
-            this.setX(this.getX()+this.getSpeed());
-        }
-        else if(this.getDirection() == 3){
-            this.setY(this.getY()+this.getSpeed());
-        }
-        else if(this.getDirection() == 4){
-            this.setX(this.getX()-this.getSpeed());
-        }
-
-    }
     public boolean isOnBound(){
         return this.getX() < this.levelPane.getWidth() && this.getY() < this.levelPane.getHeight() && this.getX() >= 0 && this.getY() >=0;
     }
+
     public boolean isOnObjective(){
         int[] pos = new int[2];
         pos[0] = this.getX()/32;
         pos[1] = this.getY()/32;
-        return this.level.getTileValue(pos) == 7;
+        return this.environment.getTileValue(pos) == 7;
+    }
+*/
+    public void resetSpped(){
+        setSpeed(this.initialSpeed);
     }
 
 

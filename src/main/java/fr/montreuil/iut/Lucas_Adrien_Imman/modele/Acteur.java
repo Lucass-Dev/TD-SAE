@@ -1,8 +1,8 @@
-package fr.montreuil.iut.Lucas_Adrien_Imman;
+package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
-public abstract class Acteur {
+public abstract class Acteur extends  Entites {
 
     private SimpleIntegerProperty x, y; //Acteur
     public static int compteur=0;
