@@ -18,6 +18,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Level {
+
+    public enum Direction {
+        NORTH, SOUTH, EAST, WEST;
+    }
+
+    public enum TowerType {
+        TASK_KILLER, C_CLEANER, DEMINEUR, INTERNET_EXPLORER, NORD_VPN, PDF_CONVERTER;
+    }
+
+    private static final int TILE_SIZE = 32;
+    private static final int FREEZING_DELAY = 350;
+    private static final int POISONING_DELAY = 150;
+
     private int nbTours;
     private Player player;
     private int difficulty;
@@ -27,51 +40,48 @@ public class Level {
     private ArrayList<ArrayList<Integer>> travelingMap;
     private ObservableList<Tower> placedTower;
     private ObservableList<Ennemy> ennemies;
-    private ArrayList<Ennemy> ennemiesDansLaZone ;
+    private ArrayList<Ennemy> ennemiesDansLaZone;
     private ObservableList<Projectile> projectiles;
 
     private int[] startTilePos;
     private int[] endTilePos;
     private Pane levelPane;
     private int waveSize;
-    private int nbActeurs ;
+    private int nbActeurs;
     private int startDirection;
-    private int cpt ;
+    private int cpt;
 
-
-    //For freezing ram state
     private boolean freezingRam;
     private int startFreezingRam;
-    private int freezingDelay;
     private int freezedRamAmount;
 
-    //For poisoning state
     private boolean poisoning;
     private int startPoisoning;
-    private int poisoningDelay;
     private int poisonedAmount;
     private int poisonTicks;
 
-    public Level(Pane levelPane){
+    public Level(Pane levelPane) {
         this.levelPane = levelPane;
-        this.tileMap = new ArrayList<>();
-        this.travelingMap = new ArrayList<>();
-        this.ennemiesDansLaZone = new ArrayList<>();
-        this.placedTower = FXCollections.observableArrayList();
-        this.ennemies = FXCollections.observableArrayList();
-        this.startTilePos = new int[2];
-        this.endTilePos = new int[2];
-        this.actualWave = new ArrayList<>();
-        this.waveSize = 3;
-        this.actualWaveNumber = new SimpleIntegerProperty(0);
-        this.projectiles = FXCollections.observableArrayList();
-        this.nbActeurs = 4;
-        this.freezingDelay = 350;
-        this.freezingRam = false;
-        this.freezedRamAmount = 0;
-        this.poisoning = false;
-        this.poisoningDelay = 150;
-        this.poisonedAmount = 0;
+        initializeDefaultValues();
+    }
+
+    private void initializeDefaultValues() {
+        tileMap = new ArrayList<>();
+        travelingMap = new ArrayList<>();
+        ennemiesDansLaZone = new ArrayList<>();
+        placedTower = FXCollections.observableArrayList();
+        ennemies = FXCollections.observableArrayList();
+        startTilePos = new int[2];
+        endTilePos = new int[2];
+        actualWave = new ArrayList<>();
+        waveSize = 3;
+        actualWaveNumber = new SimpleIntegerProperty(0);
+        projectiles = FXCollections.observableArrayList();
+        nbActeurs = 4;
+        freezingRam = false;
+        freezedRamAmount = 0;
+        poisoning = false;
+        poisonedAmount = 0;
     }
 
 
@@ -88,7 +98,7 @@ public class Level {
         return ennemies;
     }
 
-    public ObservableList<EffetTour> getProjectiles(){
+    public ObservableList<Projectile> getProjectiles(){
         return projectiles ;
     }
 

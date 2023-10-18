@@ -2,7 +2,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
 
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.Deplaçable;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;

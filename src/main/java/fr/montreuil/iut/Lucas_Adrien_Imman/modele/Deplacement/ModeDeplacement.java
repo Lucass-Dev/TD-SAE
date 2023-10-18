@@ -1,6 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.Deplaçable;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplaçable;
 
 public interface ModeDeplacement {
 
