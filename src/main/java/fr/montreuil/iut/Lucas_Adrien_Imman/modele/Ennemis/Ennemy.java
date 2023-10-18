@@ -1,5 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
+
+
 import fr.montreuil.iut.Lucas_Adrien_Imman.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
@@ -22,6 +24,7 @@ public abstract class Ennemy extends Deplaçable {
     private int damage ;
     private int initialSpeed ;
     private SimpleIntegerProperty maxLife;
+    
     //la direction représente une direction cardinale : 1 North 2 East 3 South 4 West 0 for nothing
     private int direction;
 
@@ -29,16 +32,16 @@ public abstract class Ennemy extends Deplaçable {
     private int dropRate ;
 
 
-    public Ennemy(int x, int y, Pane levelPane, Level level, int spriteIndex, int life , Player player, int speed, int maxLife , int damage, int startDirection , int dropeRate , int initialSpeed, ModeDeplacement md){
-        super(x,y,"E" + compteur, md);
+    public Ennemy(int x, int y, int health, int maxHealth, Pane levelPane, Level level, int spriteIndex, Player player, int speed, int damage, int startDirection, int dropeRate, int initialSpeed, ModeDeplacement md) {
+        super(x, y, health, maxHealth, md);
 
 
         this.levelPane = levelPane;
         this.level = level;
         this.direction = startDirection;
         this.speed = speed;
-        this.life = new SimpleIntegerProperty(life);
-        this.maxLife = new SimpleIntegerProperty(maxLife);
+        this.life = new SimpleIntegerProperty(life.getValue());
+        this.maxLife = new SimpleIntegerProperty(maxLife.getValue());
         this.spriteIndex = spriteIndex;
         this.player = player ;
         this.damage = damage ;

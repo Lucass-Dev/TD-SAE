@@ -1,14 +1,14 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours;
 
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
+/*import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
 public class ZoneRalentisseur extends EffetTour {
 
 
 
-    public ZoneRalentisseur(int x , int y , Ennemy ennemyCible, , ModeDeplacement md){
+    public ZoneRalentisseur(int x , int y , Ennemy ennemyCible, ModeDeplacement md){
         super(x,y,ennemyCible, md);
     }
 
@@ -31,3 +31,4 @@ public class ZoneRalentisseur extends EffetTour {
 
 
 }
+*/

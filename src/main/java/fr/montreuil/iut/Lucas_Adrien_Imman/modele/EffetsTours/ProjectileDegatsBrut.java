@@ -3,19 +3,16 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
-public class ProjectileDegatsBrut extends EffetTour {
+public class ProjectileDegatsBrut extends Projectile {
 
-
-    public ProjectileDegatsBrut(int x , int y , Ennemy ennemyCible, ModeDeplacement md){
-     super(x,y,ennemyCible, md);
-
+    public ProjectileDegatsBrut(int x, int y, int health, int maxHealth, Ennemy ennemyCible, ModeDeplacement md) {
+        super(x, y, health, maxHealth, ennemyCible, md);
     }
 
     @Override
-    public void agitSurLaCible() {//si un cible est détecté , il perdera  x pv envoyé en parametre
-        if(isOnObjective())
-        getEnnemyCible().reductionPv(10);
+    public void agitSurLaCible() {
+        if (isOnObjective()) {
+            getEnnemyCible().reductionPv(10);
+        }
     }
-
-
 }

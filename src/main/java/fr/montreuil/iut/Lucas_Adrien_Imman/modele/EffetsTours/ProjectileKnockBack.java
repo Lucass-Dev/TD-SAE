@@ -3,16 +3,17 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
-public class ProjectileKnockBack extends EffetTour {
-    public ProjectileKnockBack(int x, int y, Ennemy ennemyCible, ModeDeplacement md) {
-        super(x, y, ennemyCible, md);
+public class ProjectileKnockBack extends Projectile {
+
+    public ProjectileKnockBack(int x, int y, int health, int maxHealth, Ennemy ennemyCible, ModeDeplacement md) {
+        super(x, y, health, maxHealth, ennemyCible, md);
     }
 
     @Override
     public void agitSurLaCible() {
-        int knockBack = 2; //fait reculer l'ennemi ciblé de 2 pixel par rapport a sa direction actuel
-        Ennemy e = getEnnemyCible() ;
-        if(e.isCentered()){
+        int knockBack = 2;
+        Ennemy e = getEnnemyCible();
+        if (e.isCentered()) {
             if(e.getDirection()==2){
                 e.setX(e.getX()-knockBack);
             }
