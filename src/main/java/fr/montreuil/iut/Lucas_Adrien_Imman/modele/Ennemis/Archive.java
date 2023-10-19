@@ -1,7 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.scene.layout.Pane;
 

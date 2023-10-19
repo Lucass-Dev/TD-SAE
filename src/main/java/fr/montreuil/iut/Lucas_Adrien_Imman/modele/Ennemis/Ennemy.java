@@ -2,7 +2,6 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
@@ -33,7 +32,7 @@ public abstract class Ennemy extends Deplaçable {
 
         this.levelPane = levelPane;
         this.environment = environment;
-      //  this.direction = startDirection;
+      //this.direction = startDirection;
         this.speed = speed;
         this.life = new SimpleIntegerProperty(life);
         this.maxLife = new SimpleIntegerProperty(maxLife);
@@ -48,10 +47,7 @@ public abstract class Ennemy extends Deplaçable {
     public abstract void doDamage();
     public abstract void die();
 
-    //SETTER
-  /*  public void setDirection(int direction) {
-        this.direction = direction;
-    }*/
+
     public void setLife(int life) {
         this.life.set(life);
     }
@@ -59,7 +55,7 @@ public abstract class Ennemy extends Deplaçable {
         this.speed = speed;
     }
 
-    //GETTER
+
     public int getSpriteIndex() {
         return spriteIndex;
     }
@@ -87,12 +83,35 @@ public abstract class Ennemy extends Deplaçable {
     public boolean isDead(){
         return getLife().getValue()==0 ;
     }
-   /* public int getDirection() {
-        return direction;
-    }*/
     public Environment getEnvironment() {
         return environment;
     }
+    public int getDropRate() {
+        return dropRate;
+    }
+    public Ennemy isTouching(ObservableList<Ennemy> ennemies){
+        for (Ennemy e: ennemies) {
+
+            if (this.getX() < e.getX() +8 && this.getX() > e.getX() -8 && this.getY() < e.getY() +8 && this.getY() < e.getY() -8){
+                System.out.println("je tpuche");
+                return e;
+            }
+
+        }
+        return null;
+    }
+    public void reductionPv(int l){
+        if(life.getValue()-l>=0)
+            setLife(life.getValue()-l);
+        else
+            setLife(0);
+    }
+    public void resetSpped(){
+        setSpeed(this.initialSpeed);
+    }
+
+
+
     /*
     public int getOppositeDirection(){
         if (this.direction == 1){
@@ -108,29 +127,9 @@ public abstract class Ennemy extends Deplaçable {
         return 0;
     }
     */
-
-    public int getDropRate() {
-        return dropRate;
-    }
-
-    //OTHER METHODS
-    public Ennemy isTouching(ObservableList<Ennemy> ennemies){
-        for (Ennemy e: ennemies) {
-
-                if (this.getX() < e.getX() +8 && this.getX() > e.getX() -8 && this.getY() < e.getY() +8 && this.getY() < e.getY() -8){
-                    System.out.println("je tpuche");
-                    return e;
-                }
-
-        }
-        return null;
-    }
-    public void reductionPv(int l){
-        if(life.getValue()-l>=0)
-            setLife(life.getValue()-l);
-        else
-            setLife(0);
-    }
+  /* public int getDirection() {
+        return direction;
+    }*/
 
     //Pour savoir si l'ennemie est centré sur la tuile avec une "marge d'erreur"
 /*
@@ -147,7 +146,7 @@ public abstract class Ennemy extends Deplaçable {
 
         return pos[0] <= center[0]+3 && pos[0] >= center[0]-3 && pos[1] <= center[1]+3 && pos[1] >= center[1]-3 ;
     }
-
+*/
     public boolean isOnBound(){
         return this.getX() < this.levelPane.getWidth() && this.getY() < this.levelPane.getHeight() && this.getX() >= 0 && this.getY() >=0;
     }
@@ -158,12 +157,11 @@ public abstract class Ennemy extends Deplaçable {
         pos[1] = this.getY()/32;
         return this.environment.getTileValue(pos) == 7;
     }
-*/
-    public void resetSpped(){
-        setSpeed(this.initialSpeed);
-    }
 
 
-
+    //SETTER
+  /*  public void setDirection(int direction) {
+        this.direction = direction;
+    }*/
 
 }

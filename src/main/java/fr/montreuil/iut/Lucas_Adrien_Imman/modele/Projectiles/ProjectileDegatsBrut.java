@@ -12,7 +12,7 @@ public class ProjectileDegatsBrut extends Projectile {
 
     @Override
     public void agitSurLaCible() {//si un cible est détecté , il perdera  x pv envoyé en parametre
-        if(cibleAtteint())
+        if(isOnObjective())
         getEnnemyCible().reductionPv(10);
     }
 

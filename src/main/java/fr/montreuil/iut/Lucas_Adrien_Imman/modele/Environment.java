@@ -182,6 +182,7 @@ public class Environment {
     public void towerTurn(int nbTours) {
         for (int i =  placedTower.size() - 1 ; i>=0 ; i--) {
             Tower t = placedTower.get(i);
+
             ennemiesDansLaZone = t.detect(ennemies); //liste des ennemies détectés
 
             if(ennemiesDansLaZone.size()!=0){
@@ -231,7 +232,7 @@ public class Environment {
     public void bulletTurn() {
 
         for (Projectile p : projectiles) {   //déplacement des projectiles et agit sur la cible
-            p.placement();
+            p.algoDeplacement();
             p.agitSurLaCible();
         }
 
@@ -239,13 +240,13 @@ public class Environment {
             Projectile p = projectiles.get(j);
 
             if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
-                if (p.cibleAtteint() || p.isOnBound()) {
+                if (p.isOnObjective() || p.isOnBound()) {
                     projectiles.remove(p);
                 }
             }
 
             else if (p instanceof ProjectileDotSH) {
-                if (p.cibleAtteint()) {
+                if (p.isOnObjective()) {
                     projectiles.remove(p);
                     cpt++;
                     if (cpt == 3) {
@@ -258,7 +259,7 @@ public class Environment {
 
             else if(p instanceof ProjectileKamikaze) {
 
-                if ((p.cibleAtteint() || p.isOnBound())) {
+                if ((p.isOnObjective() || p.isOnBound())) {
                     projectiles.remove(p);
                     cpt ++ ;
                     System.out.println(cpt);
@@ -270,10 +271,8 @@ public class Environment {
                 }
             }
 
-
-
             else if(p instanceof ZoneRalentisseur || p instanceof ZoneElectrique){
-                if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
+                if (!p.isOnObjective() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
                     projectiles.remove(p);
                 }
             }

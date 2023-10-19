@@ -11,7 +11,8 @@ public class ProjectileKnockBack extends Projectile{
     public void agitSurLaCible() {
         int knockBack = 2; //fait reculer l'ennemi ciblé de 2 pixel par rapport a sa direction actuel
         Ennemy e = getEnnemyCible() ;
-        if(e.isCentered()){
+
+      /*  if(e.isCentered()){
             if(e.getDirection()==2){
                 e.setX(e.getX()-knockBack);
             }
@@ -24,6 +25,6 @@ public class ProjectileKnockBack extends Projectile{
             else if(e.getDirection()==3){
                 e.setY(e.getY()-knockBack);
             }
-        }
+        }*/
     }
 }

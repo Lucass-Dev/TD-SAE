@@ -1,4 +1,4 @@
-/*package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles;
+package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
@@ -27,4 +27,3 @@ public class ZoneElectrique extends Projectile{
         setY(getY());
     }
 }
-*/

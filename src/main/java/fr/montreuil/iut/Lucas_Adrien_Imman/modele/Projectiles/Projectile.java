@@ -1,71 +1,35 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.AgirSurCible;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 
 
-public abstract class Projectile {
-    private IntegerProperty x , y ;
+public abstract class Projectile extends Deplaçable implements AgirSurCible {
+
     private Ennemy ennemyCible;
-    private String id;
-    public static int compteur=0;
-
 
 
     public Projectile(int x , int y , Ennemy ennemyCible){
-        this.x = new SimpleIntegerProperty(x);
-        this.y = new SimpleIntegerProperty(y);
+        super(x,y,"P" + compteur);
         this.ennemyCible = ennemyCible;
-        this.id= "P" + compteur;
-        compteur++;
     }
 
     public abstract void agitSurLaCible();
 
-
-    //GETTER
-    public int getY() {
-        return y.get();
-    }
-
-    public String getId() {
-        return id ;
-    }
-
-    public int getX() {
-        return x.get();
-    }
-
-    public IntegerProperty xProperty() {
-        return x;
-    }
-
-
-    public IntegerProperty yProperty() {
-        return y;
-    }
 
     //SETTER
     public Ennemy getEnnemyCible() {
         return ennemyCible;
     }
 
-    public void setY(int y) {
-        this.y.set(y);
-    }
-
-    public void setX(int x) {
-        this.x.set(x);
-    }
-
     //OTHER METHODS
-    public void placement() { // déplacement de projectiles vers la cible
+    public void algoDeplacement() { // déplacement de projectiles vers la cible
         double  posX = ennemyCible.getX() - this.getX() ;
         double  posY = ennemyCible.getY() - this.getY() ;
         double dirX, dirY;
 
-        double totalDis = Math.sqrt(posX * posX + posY * posY);
+        double totalDis = Math.sqrt(posX * posX + posY * posY);  //ALGO déplacement projectile
 
         dirX = posX  / totalDis  ;
         dirY = posY  / totalDis ;
@@ -78,7 +42,7 @@ public abstract class Projectile {
         setY((int) newPosY);
     }
 
-    public   boolean cibleAtteint() { //return true si la projectile a atteint la (x et y cible ) cible
+    public   boolean isOnObjective() { //return true si la projectile a atteint la (x et y cible ) cible
         int range = 16 ;
         return ((this.getY()-range<= ennemyCible.getY() && ennemyCible.getY()<= this.getY()+range) && (this.getX()-range<= ennemyCible.getX() && ennemyCible.getX() <= this.getX()+range)) ;
     }
