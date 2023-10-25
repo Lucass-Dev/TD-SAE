@@ -1,9 +1,8 @@
-package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles;
+package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.AgirSurCible;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
-public class ProjectileKamikaze extends Projectile {
+public class ProjectileKamikaze extends EffetTour {
     public ProjectileKamikaze(int x, int y, Ennemy ennemyCible) {
         super(x, y, ennemyCible);
     }

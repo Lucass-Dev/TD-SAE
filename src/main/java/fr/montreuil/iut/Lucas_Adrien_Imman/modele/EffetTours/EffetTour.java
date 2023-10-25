@@ -1,16 +1,16 @@
-package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles;
+package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.AgirSurCible;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
 
-public abstract class Projectile extends Deplaçable implements AgirSurCible {
+public abstract class EffetTour extends Deplaçable implements AgirSurCible {
 
     private Ennemy ennemyCible;
 
 
-    public Projectile(int x , int y , Ennemy ennemyCible){
+    public EffetTour(int x , int y , Ennemy ennemyCible){
         super(x,y,"P" + compteur);
         this.ennemyCible = ennemyCible;
     }

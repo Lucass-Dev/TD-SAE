@@ -1,6 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Acteur;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -199,6 +200,7 @@ abstract public class Tower extends Acteur {
         this.showingRange.set(showingRange);
     }
     //OTHER METHODS
+
     public void upgrade(Player p){
         if (p.getFlop() >= this.upgradeCost.get() && this.level.get() <= 10){
             p.setFlop(p.getFlop() - this.upgradeCost.get());
@@ -219,5 +221,12 @@ abstract public class Tower extends Acteur {
         }
         return ennemieDetecte ;
     }
+
+    public ArrayList<Ennemy> getEnnemieDetecte(){
+        return ennemieDetecte;
+    }
+
+
+    public abstract EffetTour getEffet();
 
 }

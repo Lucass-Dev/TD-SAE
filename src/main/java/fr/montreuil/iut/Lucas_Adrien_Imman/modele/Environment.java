@@ -1,7 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.*;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.PopupVue;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -24,7 +24,7 @@ public class Environment {
     private ObservableList<Tower> placedTower;
     private ObservableList<Ennemy> ennemies;
     private ArrayList<Ennemy> ennemiesDansLaZone ;
-    private ObservableList<Projectile> projectiles;
+    private ObservableList<EffetTour> projectiles;
 
 
     private Pane levelPane;
@@ -75,7 +75,7 @@ public class Environment {
         return ennemies;
     }
 
-    public ObservableList<Projectile> getProjectiles(){
+    public ObservableList<EffetTour> getProjectiles(){
         return projectiles ;
     }
 
@@ -190,7 +190,7 @@ public class Environment {
                     Ennemy detectedEnnemy = ennemiesDansLaZone.get(j);
                     Ennemy firstDetect = ennemiesDansLaZone.get(0);
 
-                    Projectile p  = null;
+                    EffetTour p  = null;
 
                     if (t instanceof TaskKiller) { // ajoute au liste des projectiles le projectile correspondant au tour
                         p = new ProjectileDegatsBrut(t.getX() + 16, t.getY() + 16, firstDetect);
@@ -231,13 +231,13 @@ public class Environment {
     }
     public void bulletTurn() {
 
-        for (Projectile p : projectiles) {   //déplacement des projectiles et agit sur la cible
+        for (EffetTour p : projectiles) {   //déplacement des projectiles et agit sur la cible
             p.algoDeplacement();
             p.agitSurLaCible();
         }
 
         for (int j = projectiles.size() - 1; j >= 0; j--) {//enleve les projectiles/zones  par rapport aux conditions
-            Projectile p = projectiles.get(j);
+            EffetTour p = projectiles.get(j);
 
             if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
                 if (p.isOnObjective() || p.isOnBound()) {
@@ -290,7 +290,7 @@ public class Environment {
         if (this.ennemies.size() > 0){ //fait déplacer les ennemis , les enleve de la liste  si ils ont atteint l'objectif , ou il sont en dehors de la map  ou s'il sont morts
             for (int i = ennemies.size()-1; i>=0 ; i--) {
                 Ennemy e = ennemies.get(i);
-                e.move();
+                //e.move();
                 if (e instanceof Kamikaze){
                     if (ground.getTileValue(ground.getTilePos(e.getX(), e.getY())) == 6){
                         ennemies.remove(e);

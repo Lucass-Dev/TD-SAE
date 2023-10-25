@@ -49,13 +49,6 @@ public abstract class Ennemy extends Deplaçable {
     public void setDirection(int direction) {
         this.direction = direction;
     }
-    public void setX(int x) {
-        this.x.set(x);
-    }
-
-    public void setY(int y) {
-        this.y.set(y);
-    }
 
     public void setLife(int life) {
         this.life.set(life);
@@ -87,18 +80,6 @@ public abstract class Ennemy extends Deplaçable {
     public SimpleIntegerProperty maxLifeProperty() {
         return maxLife;
     }
-    public int getX() {
-        return x.get();
-    }
-    public SimpleIntegerProperty xProperty() {
-        return x;
-    }
-    public int getY() {
-        return y.get();
-    }
-    public SimpleIntegerProperty yProperty() {
-        return y;
-    }
     public SimpleIntegerProperty getLife() {
         return life;
     }
@@ -108,7 +89,6 @@ public abstract class Ennemy extends Deplaçable {
     public boolean isDead(){
         return getLife().getValue()==0 ;
     }
-
     public Environment getEnvironment() {
         return environment;
     }
@@ -127,7 +107,6 @@ public abstract class Ennemy extends Deplaçable {
         }
         return null;
     }
-
     public void reductionPv(int l){
         if(life.getValue()-l>=0)
             setLife(life.getValue()-l);
@@ -140,7 +119,7 @@ public abstract class Ennemy extends Deplaçable {
 
 
 
-    /*
+
     public int getOppositeDirection(){
         if (this.direction == 1){
             return 3;
@@ -154,12 +133,13 @@ public abstract class Ennemy extends Deplaçable {
 
         return 0;
     }
-    */
-  /* public int getDirection() {
+
+    public int getDirection() {
         return direction;
-    }*/
+    }
 
     //Pour savoir si l'ennemie est centré sur la tuile avec une "marge d'erreur"
+
     public boolean isCentered(){
         int[] center;
         int[] pos = new int[2];

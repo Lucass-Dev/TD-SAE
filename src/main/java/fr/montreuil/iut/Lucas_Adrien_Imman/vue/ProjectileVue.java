@@ -1,7 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.*;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -27,7 +27,7 @@ public class ProjectileVue {
             if (newProjectile instanceof ProjectileDotSH) {
                 circle = new Circle(3);
                 circle.setFill(Color.BLACK);
-            }else if(newProjectile instanceof  ProjectileKamikaze){
+            }else if(newProjectile instanceof ProjectileKamikaze){
                 circle = new Circle(3);
                 circle.setFill(Color.RED);
             }else if (newProjectile instanceof ZoneRalentisseur) {

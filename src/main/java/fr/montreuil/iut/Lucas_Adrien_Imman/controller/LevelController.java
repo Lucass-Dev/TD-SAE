@@ -1,11 +1,11 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.LevelDataTransit;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Score;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tower;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.LevelVue;
@@ -181,8 +181,8 @@ public class LevelController implements Initializable {
             this.environment.getEnnemies().addListener(ennemyListChangeListener);
             ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane, player);
             this.environment.getPlacedTower().addListener(towerListChangeListener);
-            ListChangeListener<Projectile> projectileListChangeListener = new ListeObsProjectile(levelPane);
-            this.environment.getProjectiles().addListener(projectileListChangeListener);
+            ListChangeListener<EffetTour> effetTourListChangeListener = new ListeObsEffetTour(levelPane);
+            this.environment.getProjectiles().addListener(effetTourListChangeListener);
             this.levelVue = new LevelVue(this.environment, this.tilePane, this.levelPane, this);
             this.levelVue.createShopMenu(towerShopVbox);
             try {
@@ -220,7 +220,7 @@ public class LevelController implements Initializable {
                         System.out.println("fini");
                         gameLoop.stop();
                         Score s = new Score(this.LDT.getDifficulty(), this.timeLabel.getText(), this.LDT.getPlayerName(), this.LDT.getMapIndex(), this.environment.getActualWaveNumber());
-                        //Ce try catch est pour la méthode newBestScores de la classe Environment parce que l'on essaye de trouver un fichier
+                        //Ce try catch est pour la méthode newBestScores de la classe Level parce que l'on essaye de trouver un fichier
                         try {
                             s.newBestScores();
                         } catch (IOException e) {
