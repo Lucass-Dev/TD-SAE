@@ -59,7 +59,7 @@ public class MenuController implements Initializable {
         this.difficulty = 1;
         mapNameLabel.setText("Map n° 1");
 
-        //Ce try catch est pour la méthode setScores de la classe Environment parce que l'on essaye de trouver un fichier
+        //Ce try catch est pour la méthode setScores de la classe Environnement parce que l'on essaye de trouver un fichier
         try {
             setScores(0);
         } catch (FileNotFoundException e) {

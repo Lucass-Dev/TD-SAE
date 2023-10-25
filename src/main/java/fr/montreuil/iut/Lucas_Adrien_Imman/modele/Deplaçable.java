@@ -1,6 +1,5 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Acteur;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 
 public abstract class Deplaçable extends Acteur {
@@ -19,6 +18,8 @@ public abstract class Deplaçable extends Acteur {
     public void algoDeplacement() {
         modeDeplacement.seDeplacer(this);
     }
+
+    public ModeDeplacement getModeDeplacement() { return this.modeDeplacement; }
 
 
     public abstract boolean isOnObjective();

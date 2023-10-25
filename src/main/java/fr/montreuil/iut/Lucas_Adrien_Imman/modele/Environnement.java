@@ -1,5 +1,8 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.DeplacementBFS;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.Projectile;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
@@ -11,7 +14,7 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
-public class Environment {
+public class Environnement {
     // private ArrayList<CooldownState> states; attribut de acteur !!
     private Ground ground;
     private int nbTours;
@@ -45,7 +48,7 @@ public class Environment {
     private int poisonedAmount;
     private int poisonTicks;
 
-    public Environment(Pane levelPane){
+    public Environnement(Pane levelPane){
         this.levelPane = levelPane;
         this.ground = new Ground();
         this.ennemiesDansLaZone = new ArrayList<>();
@@ -256,7 +259,7 @@ public class Environment {
                 }
             }
 
-            else if(p instanceof ProjectileKamikaze) {
+            else if(p instanceof Kamikaze) {
 
                 if ((p.cibleAtteint() || p.isOnBound())) {
                     projectiles.remove(p);
@@ -321,42 +324,50 @@ public class Environment {
     public void createWave(int size){
         int direction = this.ground.getStartDirection();
         for (int i = 0; i < size; i++) {
+            int x = ground.getStartTilePos()[0]*32 + 16;
+            int y = ground.getStartTilePos()[1]*32 + 16;
+            Pane levelPane = this.levelPane;
+            Environnement env = this;
+            Player player = this.player;
+            ModeDeplacement md = new DeplacementBFS(); // Supposant que vous avez un getter pour ModeDeplacement
+
             switch ((int) ((Math.random() * (6 - 1)) + 1)){
-                case 1 -> {
-                    this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                }
-                case 2 -> {
+                case 1:
+                    this.actualWave.add(new DotSH(x, y, levelPane, env, player, direction, md));
+                    break;
+                case 2:
                     if (this.actualWaveNumber.get() <= 5){
-                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }else{
-                        this.actualWave.add(new Archive(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
+                        this.actualWave.add(new DotSH(x, y, levelPane, env, player, direction, md));
+                    } else {
+                        this.actualWave.add(new Archive(x, y, levelPane, env, player, direction, md));
                     }
-                }
-                case 3 -> {
+                    break;
+                case 3:
                     if (this.actualWaveNumber.get() <= 10){
-                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }else{
-                        this.actualWave.add(new Virus(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
+                        this.actualWave.add(new DotSH(x, y, levelPane, env, player, direction, md));
+                    } else {
+                        this.actualWave.add(new Virus(x, y, levelPane, env, player, direction, md));
                     }
-                }
-                case 4 -> {
+                    break;
+                case 4:
                     if (this.actualWaveNumber.get() <= 15){
-                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }else{
-                        this.actualWave.add(new Scam(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
+                        this.actualWave.add(new DotSH(x, y, levelPane, env, player, direction, md));
+                    } else {
+                        this.actualWave.add(new Scam(x, y, levelPane, env, player, direction, md));
                     }
-                }
-                case 5 -> {
+                    break;
+                case 5:
                     if (this.actualWaveNumber.get() <= 20){
-                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }else{
-                        this.actualWave.add(new DotExe(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
+                        this.actualWave.add(new DotSH(x, y, levelPane, env, player, direction, md));
+                    } else {
+                        this.actualWave.add(new DotExe(x, y, levelPane, env, player, direction, md));
                     }
-                }
+                    break;
             }
         }
         setActualWaveNumber(actualWaveNumber.get() + 1);
     }
+
 
     public void placeTower(int x , int y, int index){
         int[] pos = ground.getTilePos(x, y);

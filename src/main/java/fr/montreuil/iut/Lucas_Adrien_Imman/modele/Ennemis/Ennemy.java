@@ -4,7 +4,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environnement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
@@ -16,7 +16,7 @@ public abstract class Ennemy extends Deplaçable {
     private int spriteIndex;
 
     private Pane levelPane;
-    private Level level;
+    private Environnement env;
     Player player ;
 
     private SimpleIntegerProperty life;
@@ -32,12 +32,12 @@ public abstract class Ennemy extends Deplaçable {
     private int dropRate ;
 
 
-    public Ennemy(int x, int y, int health, int maxHealth, Pane levelPane, Level level, int spriteIndex, Player player, int speed, int damage, int startDirection, int dropeRate, int initialSpeed, ModeDeplacement md) {
+    public Ennemy(int x, int y, int health, int maxHealth, Pane levelPane, Environnement env, int spriteIndex, Player player, int speed, int damage, int startDirection, int dropeRate, int initialSpeed, ModeDeplacement md) {
         super(x, y, health, maxHealth, md);
 
 
         this.levelPane = levelPane;
-        this.level = level;
+        this.env = env;
         this.direction = startDirection;
         this.speed = speed;
         this.life = new SimpleIntegerProperty(life.getValue());
@@ -95,8 +95,8 @@ public abstract class Ennemy extends Deplaçable {
     public int getDirection() {
         return direction;
     }
-    public Level getLevel() {
-        return level;
+    public Environnement getEnv() {
+        return env;
     }
     public int getOppositeDirection(){
         if (this.direction == 1){
@@ -142,7 +142,7 @@ public abstract class Ennemy extends Deplaçable {
         pos[0] = this.getX()/32;
         pos[1] = this.getY()/32;
 
-        center = this.level.getTileCenter(pos);
+        center = this.env.getGround().getTileCenter(pos);
 
         pos[0] = this.getX();
         pos[1] = this.getY();
@@ -161,7 +161,7 @@ public abstract class Ennemy extends Deplaçable {
         int[] pos = new int[2];
         pos[0] = this.getX()/32;
         pos[1] = this.getY()/32;
-        return this.level.getTileValue(pos) == 7;
+        return this.env.getGround().getTileValue(pos) == 7;
     }
 
 

@@ -1,13 +1,29 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environnement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.scene.layout.Pane;
 
 public class Archive extends Ennemy{
-    public Archive(int x, int y, Pane levelPane, Level level, Player player, int startDirection, ModeDeplacement md) {
-        super(x, y, levelPane, level, 1, 20, player, 3, 20,0,  startDirection, 30,3, md);
+    public Archive(int x, int y, Pane levelPane, Environnement env, Player player, int startDirection, ModeDeplacement md) {
+        super(
+                x, // x
+                y, // y
+                4, // health (valeur par défaut)
+                30, // maxHealth (valeur par défaut)
+                levelPane, // levelPane
+                env, // env
+                2, // spriteIndex (valeur par défaut)
+                player, // player
+                30, // speed (valeur par défaut)
+                15, // damage (valeur par défaut)
+                startDirection, // startDirection
+                25, // dropeRate (valeur par défaut)
+                2, // initialSpeed (valeur par défaut)
+                md // md
+        );
     }
 
     @Override
@@ -21,9 +37,18 @@ public class Archive extends Ennemy{
     public void die(){
         //Fait apparaître plusieurs DotSH qand il est tué par des tours
         for (int i = 0; i < 3; i++) {
-            Ennemy e = new DotSH(this.getX(), this.getY(), this.getLevelPane(), this.getLevel(), this.getPlayer(), this.getDirection());
+            Ennemy e = new DotSH(
+                    this.getX(),
+                    this.getY(),
+                    this.getLevelPane(),
+                    this.getEnv(),
+                    this.getPlayer(),
+                    this.getDirection(),
+                    this.getModeDeplacement()
+            );
+
             e.setDirection(this.getDirection());
-            this.getLevel().getEnnemies().add(e);
+            this.getEnv().getEnnemies().add(e);
         }
     }
 }
