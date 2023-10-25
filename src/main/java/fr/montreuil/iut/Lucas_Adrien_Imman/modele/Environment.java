@@ -14,11 +14,11 @@ import java.util.ArrayList;
 public class Environment {
     // private ArrayList<CooldownState> states; attribut de acteur !!
     private Ground ground;
+    private Wave wave;
     private int nbTours;
     private Player player;
     private int difficulty;
-    private SimpleIntegerProperty actualWaveNumber;
-    private ArrayList<Ennemy> actualWave;
+
 
 
     private ObservableList<Tower> placedTower;
@@ -28,7 +28,6 @@ public class Environment {
 
 
     private Pane levelPane;
-    private int waveSize;
     private int cpt ;
 
 
@@ -48,12 +47,12 @@ public class Environment {
     public Environment(Pane levelPane){
         this.levelPane = levelPane;
         this.ground = new Ground();
+        this.wave = new Wave();
         this.ennemiesDansLaZone = new ArrayList<>();
         this.placedTower = FXCollections.observableArrayList();
         this.ennemies = FXCollections.observableArrayList();
-        this.actualWave = new ArrayList<>();
-        this.waveSize = 3;
-        this.actualWaveNumber = new SimpleIntegerProperty(0);
+
+
         this.projectiles = FXCollections.observableArrayList();
         this.freezingDelay = 350;
         this.freezingRam = false;
@@ -79,14 +78,10 @@ public class Environment {
         return projectiles ;
     }
 
-    public int getActualWaveNumber() {
-        return actualWaveNumber.get();
-    }
 
-    public SimpleIntegerProperty actualWaveNumberProperty() {
-        return actualWaveNumber;
+    public Wave getWave() {
+        return wave;
     }
-
 
     public Player getPlayer() {
         return player;
@@ -105,9 +100,7 @@ public class Environment {
 
 
     //SETTER
-    public void setActualWaveNumber(int actualWaveNumber) {
-        this.actualWaveNumber.set(actualWaveNumber);
-    }
+
 
     public void setPlayer(Player player) {
         this.player = player;
@@ -141,8 +134,8 @@ public class Environment {
         for (int i = ennemies.size() - 1; i >= 0; i--) {
             Ennemy e = ennemies.get(i);
             if (e.isDead()) {
-                player.setFlop(player.getFlop() + (e.getDropRate()* (int)(actualWaveNumber.getValue()*0.5)));
-                player.setRam(player.getRam() + (int)(actualWaveNumber.getValue()*0.2));
+                player.setFlop(player.getFlop() + (e.getDropRate()* (int)(this.wave.getActualWaveNumber()*0.5)));
+                player.setRam(player.getRam() + (int)(this.wave.getActualWaveNumber()*0.2));
             }
 
 
@@ -282,11 +275,11 @@ public class Environment {
 
     public boolean enemiesTurn(int nbTours){
 
-        if (actualWave.size() == 0 && ennemies.size() == 0){
-            createWave(this.waveSize);
-            this.waveSize += actualWaveNumber.get()*difficulty/3;
-        }else if (nbTours % 20 == 0 && actualWave.size() != 0){
-            this.ennemies.add(this.actualWave.remove(0));
+        if (this.wave.getActualWave().size() == 0 && ennemies.size() == 0){
+            this.wave.createWave(this.wave.getWaveSize(), this.ground, this.levelPane, this.player, this);
+            this.wave.setWaveSize(this.wave.getWaveSize() + this.wave.getActualWaveNumber()*this.difficulty/3);
+        }else if (nbTours % 20 == 0 && this.wave.getActualWave().size() != 0){
+            this.ennemies.add(this.wave.getActualWave().remove(0));
         }
         if (this.ennemies.size() > 0){ //fait déplacer les ennemis , les enleve de la liste  si ils ont atteint l'objectif , ou il sont en dehors de la map  ou s'il sont morts
             for (int i = ennemies.size()-1; i>=0 ; i--) {
@@ -318,45 +311,7 @@ public class Environment {
         return this.player.isDead();
     }
 
-    public void createWave(int size){
-        int direction = this.ground.getStartDirection();
-        for (int i = 0; i < size; i++) {
-            switch ((int) ((Math.random() * (6 - 1)) + 1)){
-                case 1 -> {
-                    this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                }
-                case 2 -> {
-                    if (this.actualWaveNumber.get() <= 5){
-                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }else{
-                        this.actualWave.add(new Archive(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }
-                }
-                case 3 -> {
-                    if (this.actualWaveNumber.get() <= 10){
-                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }else{
-                        this.actualWave.add(new Virus(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }
-                }
-                case 4 -> {
-                    if (this.actualWaveNumber.get() <= 15){
-                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }else{
-                        this.actualWave.add(new Scam(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }
-                }
-                case 5 -> {
-                    if (this.actualWaveNumber.get() <= 20){
-                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }else{
-                        this.actualWave.add(new DotExe(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }
-                }
-            }
-        }
-        setActualWaveNumber(actualWaveNumber.get() + 1);
-    }
+
 
     public void placeTower(int x , int y, int index){
         int[] pos = ground.getTilePos(x, y);

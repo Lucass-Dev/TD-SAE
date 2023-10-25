@@ -172,7 +172,7 @@ public class LevelController implements Initializable {
         this.environment = new Environment(this.levelPane);
         this.environment.setPlayer(this.LDT.getPlayer());
         this.environment.setDifficulty(this.LDT.getDifficulty());
-        this.waveLabel.textProperty().bind(this.environment.actualWaveNumberProperty().asString());
+        this.waveLabel.textProperty().bind(this.environment.getWave().getActualWaveNumberProperty().asString());
 
         //Ce try catch est pour la méthode createMap de la classe Environment parce que l'on essaye de trouver un fichier
         try {
@@ -219,7 +219,7 @@ public class LevelController implements Initializable {
                     if(estFini || environment.checkProgression()){
                         System.out.println("fini");
                         gameLoop.stop();
-                        Score s = new Score(this.LDT.getDifficulty(), this.timeLabel.getText(), this.LDT.getPlayerName(), this.LDT.getMapIndex(), this.environment.getActualWaveNumber());
+                        Score s = new Score(this.LDT.getDifficulty(), this.timeLabel.getText(), this.LDT.getPlayerName(), this.LDT.getMapIndex(), this.environment.getWave().getActualWaveNumber());
                         //Ce try catch est pour la méthode newBestScores de la classe Environment parce que l'on essaye de trouver un fichier
                         try {
                             s.newBestScores();
