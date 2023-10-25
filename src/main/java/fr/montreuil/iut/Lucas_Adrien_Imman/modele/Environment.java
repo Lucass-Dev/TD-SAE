@@ -1,94 +1,71 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.*;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.PopupVue;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class Level {
-
-    public enum Direction {
-        NORTH, SOUTH, EAST, WEST;
-    }
-
-    public enum TowerType {
-        TASK_KILLER, C_CLEANER, DEMINEUR, INTERNET_EXPLORER, NORD_VPN, PDF_CONVERTER;
-    }
-
-    private static final int TILE_SIZE = 32;
-    private static final int FREEZING_DELAY = 350;
-    private static final int POISONING_DELAY = 150;
-
+public class Environment {
+    // private ArrayList<CooldownState> states; attribut de acteur !!
+    private Ground ground;
     private int nbTours;
     private Player player;
     private int difficulty;
     private SimpleIntegerProperty actualWaveNumber;
     private ArrayList<Ennemy> actualWave;
-    private ArrayList<ArrayList<Integer>> tileMap;
-    private ArrayList<ArrayList<Integer>> travelingMap;
+
+
     private ObservableList<Tower> placedTower;
     private ObservableList<Ennemy> ennemies;
-    private ArrayList<Ennemy> ennemiesDansLaZone;
+    private ArrayList<Ennemy> ennemiesDansLaZone ;
     private ObservableList<Projectile> projectiles;
 
-    private int[] startTilePos;
-    private int[] endTilePos;
+
     private Pane levelPane;
     private int waveSize;
-    private int nbActeurs;
-    private int startDirection;
-    private int cpt;
+    private int cpt ;
 
+
+    //For freezing ram state
     private boolean freezingRam;
     private int startFreezingRam;
+    private int freezingDelay;
     private int freezedRamAmount;
 
+    //For poisoning state
     private boolean poisoning;
     private int startPoisoning;
+    private int poisoningDelay;
     private int poisonedAmount;
     private int poisonTicks;
 
-    public Level(Pane levelPane) {
+    public Environment(Pane levelPane){
         this.levelPane = levelPane;
-        initializeDefaultValues();
-    }
-
-    private void initializeDefaultValues() {
-        tileMap = new ArrayList<>();
-        travelingMap = new ArrayList<>();
-        ennemiesDansLaZone = new ArrayList<>();
-        placedTower = FXCollections.observableArrayList();
-        ennemies = FXCollections.observableArrayList();
-        startTilePos = new int[2];
-        endTilePos = new int[2];
-        actualWave = new ArrayList<>();
-        waveSize = 3;
-        actualWaveNumber = new SimpleIntegerProperty(0);
-        projectiles = FXCollections.observableArrayList();
-        nbActeurs = 4;
-        freezingRam = false;
-        freezedRamAmount = 0;
-        poisoning = false;
-        poisonedAmount = 0;
+        this.ground = new Ground();
+        this.ennemiesDansLaZone = new ArrayList<>();
+        this.placedTower = FXCollections.observableArrayList();
+        this.ennemies = FXCollections.observableArrayList();
+        this.actualWave = new ArrayList<>();
+        this.waveSize = 3;
+        this.actualWaveNumber = new SimpleIntegerProperty(0);
+        this.projectiles = FXCollections.observableArrayList();
+        this.freezingDelay = 350;
+        this.freezingRam = false;
+        this.freezedRamAmount = 0;
+        this.poisoning = false;
+        this.poisoningDelay = 150;
+        this.poisonedAmount = 0;
     }
 
 
     //GETTER
-    public ArrayList<ArrayList<Integer>> getTileMap() {
-        return tileMap;
-    }
+
 
     public ObservableList<Tower> getPlacedTower() {
         return placedTower;
@@ -110,42 +87,6 @@ public class Level {
         return actualWaveNumber;
     }
 
-    public ArrayList<ArrayList<Integer>> getTravelingMap() {
-        return travelingMap;
-    }
-
-    public int[] getTileCenter(int[] tilePos){
-        int[] center = new int[2];
-        if (tilePos[0] >= this.travelingMap.size() || tilePos[1] > this.travelingMap.size()){
-            return null;
-        }else{
-            center[0] = tilePos[0]*32 + 16;
-            center[1] = tilePos[1]*32 + 16;
-        }
-
-        return center;
-    }
-
-    public int getTile(int[] pos){
-        return this.travelingMap.get(pos[1]).get(pos[0]);
-    }
-
-    /***
-     * Donne la valeur de la position dans la Traveling Map
-     */
-    public int getTileValue(int[] pos) {
-        return this.getTravelingMap().get(pos[1]).get(pos[0]);
-    }
-
-    /**
-     *Obliger de diviser par 32 pour la convertir en index d'ArrayList
-     */
-    public int[] getTilePos(int x, int y){
-        int[] pos = new int[2];
-        pos[0] = x/32;
-        pos[1] = y/32;
-        return pos;
-    }
 
     public Player getPlayer() {
         return player;
@@ -161,24 +102,7 @@ public class Level {
         return t;
     }
 
-    /**
-     *Renvoie une position cardinal (cf Enemy) par rapport à la position de départ dans la travelingMap
-     */
-    public int getStartDirection(){
-        int startTile = this.tileMap.get(startTilePos[0]).get(startTilePos[1]);
-        System.out.println(startTile);
-        int direction = 0;
-        if (startTile == 13){
-            direction = 4;
-        }else if (startTile == 14){
-            direction = 3;
-        }else if (startTile == 12){
-            direction = 2;
-        }else if (startTile == 11){
-            direction = 1;
-        }
-        return direction;
-    }
+
 
     //SETTER
     public void setActualWaveNumber(int actualWaveNumber) {
@@ -193,13 +117,6 @@ public class Level {
         this.difficulty = difficulty;
     }
 
-    public void setTileMap(ArrayList<ArrayList<Integer>> tileMap) {
-        this.tileMap = tileMap;
-    }
-
-    public void setTravelingMap(ArrayList<ArrayList<Integer>> tileMap){
-        this.travelingMap = tileMapToTraveling(this.tileMap);
-    }
 
     //OTHER METHODS
 
@@ -272,7 +189,7 @@ public class Level {
                     Ennemy detectedEnnemy = ennemiesDansLaZone.get(j);
                     Ennemy firstDetect = ennemiesDansLaZone.get(0);
 
-                    EffetTour p  = null;
+                    Projectile p  = null;
 
                     if (t instanceof TaskKiller) { // ajoute au liste des projectiles le projectile correspondant au tour
                         p = new ProjectileDegatsBrut(t.getX() + 16, t.getY() + 16, firstDetect);
@@ -314,7 +231,7 @@ public class Level {
     public void bulletTurn() {
 
         for (Projectile p : projectiles) {   //déplacement des projectiles et agit sur la cible
-            p.algoDeplacement();
+            p.placement();
             p.agitSurLaCible();
         }
 
@@ -322,18 +239,18 @@ public class Level {
             Projectile p = projectiles.get(j);
 
             if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
-                if (p.isOnObjective() || p.isOnBound()) {
+                if (p.cibleAtteint() || p.isOnBound()) {
                     projectiles.remove(p);
                 }
             }
 
             else if (p instanceof ProjectileDotSH) {
-                if (p.isOnObjective()) {
+                if (p.cibleAtteint()) {
                     projectiles.remove(p);
                     cpt++;
                     if (cpt == 3) {
                         ennemies.remove(p.getEnnemyCible());
-                        this.ennemies.add(new DotSH(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, this.getStartDirection()));
+                        this.ennemies.add(new DotSH(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, this.ground.getStartDirection()));
                         cpt = 0;
                     }
                 }
@@ -341,7 +258,7 @@ public class Level {
 
             else if(p instanceof ProjectileKamikaze) {
 
-                if ((p.isOnObjective() || p.isOnBound())) {
+                if ((p.cibleAtteint() || p.isOnBound())) {
                     projectiles.remove(p);
                     cpt ++ ;
                     System.out.println(cpt);
@@ -356,7 +273,7 @@ public class Level {
 
 
             else if(p instanceof ZoneRalentisseur || p instanceof ZoneElectrique){
-                if (!p.isOnObjective() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
+                if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
                     projectiles.remove(p);
                 }
             }
@@ -374,9 +291,9 @@ public class Level {
         if (this.ennemies.size() > 0){ //fait déplacer les ennemis , les enleve de la liste  si ils ont atteint l'objectif , ou il sont en dehors de la map  ou s'il sont morts
             for (int i = ennemies.size()-1; i>=0 ; i--) {
                 Ennemy e = ennemies.get(i);
-                e.algoDeplacement();
+                e.move();
                 if (e instanceof Kamikaze){
-                    if (getTileValue(getTilePos(e.getX(), e.getY())) == 6){
+                    if (ground.getTileValue(ground.getTilePos(e.getX(), e.getY())) == 6){
                         ennemies.remove(e);
                     }
                     Ennemy newEnemy = e.isTouching(ennemies);
@@ -402,38 +319,38 @@ public class Level {
     }
 
     public void createWave(int size){
-        this.startDirection = getStartDirection();
+        int direction = this.ground.getStartDirection();
         for (int i = 0; i < size; i++) {
             switch ((int) ((Math.random() * (6 - 1)) + 1)){
                 case 1 -> {
-                    this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
+                    this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
                 }
                 case 2 -> {
                     if (this.actualWaveNumber.get() <= 5){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
+                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
                     }else{
-                        this.actualWave.add(new Archive(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
+                        this.actualWave.add(new Archive(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
                     }
                 }
                 case 3 -> {
                     if (this.actualWaveNumber.get() <= 10){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
+                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
                     }else{
-                        this.actualWave.add(new Virus(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
+                        this.actualWave.add(new Virus(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
                     }
                 }
                 case 4 -> {
                     if (this.actualWaveNumber.get() <= 15){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
+                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
                     }else{
-                        this.actualWave.add(new Scam(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
+                        this.actualWave.add(new Scam(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
                     }
                 }
                 case 5 -> {
                     if (this.actualWaveNumber.get() <= 20){
-                        this.actualWave.add(new DotSH(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
+                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
                     }else{
-                        this.actualWave.add(new DotExe(startTilePos[0]*32 +16, startTilePos[1]*32 +16, levelPane, this, this.player, this.getStartDirection()));
+                        this.actualWave.add(new DotExe(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
                     }
                 }
             }
@@ -442,7 +359,7 @@ public class Level {
     }
 
     public void placeTower(int x , int y, int index){
-        int[] pos = getTilePos(x, y);
+        int[] pos = ground.getTilePos(x, y);
         Tower t = null;
         switch(index){
             case 0 -> {
@@ -474,9 +391,6 @@ public class Level {
 
     }
 
-    public boolean validTile(int[] pos){
-        return getTile(pos) == 0;
-    }
 
     public void startLevel(int nbTours){
         enemiesTurn(nbTours);
@@ -493,70 +407,7 @@ public class Level {
         this.placedTower.add(tower);
     }
 
-    public ArrayList<ArrayList<Integer>> tileMapToTraveling(ArrayList<ArrayList<Integer>> tileMap) {
-        ArrayList<ArrayList<Integer>> traveling = new ArrayList<>();
-
-        int index = 0;
-        for (ArrayList<Integer>  a: tileMap) {
-            traveling.add(new ArrayList<>());
-            for (Integer i : a) {
-                if (i == 10){
-                    traveling.get(index).add(0);
-                } else if (i == 6) {
-                    traveling.get(index).add(2);
-                }else if (i == 7) {
-                    traveling.get(index).add(3);
-                }else if (i == 8) {
-                    traveling.get(index).add(4);
-                }else if (i == 9) {
-                    traveling.get(index).add(5);
-                } else if (i == 11 || i == 12 || i == 13 || i == 14) {
-                    traveling.get(index).add(6);
-                    startTilePos[0] = index;
-                    startTilePos[1] = traveling.get(index).size()-1;
-                }else if (i == 1 || i == 2 || i == 4 || i == 5) {
-                    traveling.get(index).add(7);
-                    endTilePos[0] = index;
-                    endTilePos[1] = traveling.get(index).size()-1;
-                } else{
-                    traveling.get(index).add(1);
-                }
-            }
-            index++;
-        }
-        return traveling;
-    }
-
-
-    public ArrayList<ArrayList<Integer>> createMap(String path, Pane pane) throws FileNotFoundException {
-        File f = new File(path);
-
-        Scanner sc = new Scanner(f);
-
-        ArrayList<ArrayList<Integer>> map = new ArrayList<>();
-
-        int i = 0;
-
-        while (sc.hasNextLine()){
-            String l = sc.nextLine();
-            String[] ls = l.split(",");
-            map.add(new ArrayList<>());
-            for (int j = 0; j < ls.length; j++) {
-                map.get(i).add(Integer.valueOf(ls[j]));
-            }
-            i++;
-        }
-
-
-        for (int j = 0; j < map.size(); j++) {
-            for (int k = 0; k < map.get(j).size(); k++) {
-                ImageView newImageView = new ImageView();
-                String s = "graphics/tiles/"+map.get(j).get(k)+".png";
-                String newImagePath = Main.class.getResource(s).toString();
-                newImageView.setImage(new Image(newImagePath));
-                pane.getChildren().add(newImageView);
-            }
-        }
-        return map;
+    public Ground getGround() {
+        return ground;
     }
 }
