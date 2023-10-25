@@ -232,56 +232,81 @@ public class Environnement {
         }
     }
     public void bulletTurn() {
+        moveAndActOnTargetForAllProjectiles();
+        removeAndTransformProjectiles();
+    }
 
-        for (Projectile p : projectiles) {   //déplacement des projectiles et agit sur la cible
+    private void moveAndActOnTargetForAllProjectiles() {
+        for (Projectile p : projectiles) {
             p.placement();
             p.agitSurLaCible();
         }
+    }
 
-        for (int j = projectiles.size() - 1; j >= 0; j--) {//enleve les projectiles/zones  par rapport aux conditions
+    private void removeAndTransformProjectiles() {
+        int cpt = 0;
+
+        for (int j = projectiles.size() - 1; j >= 0; j--) {
             Projectile p = projectiles.get(j);
 
-            if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
-                if (p.cibleAtteint() || p.isOnBound()) {
-                    projectiles.remove(p);
-                }
-            }
-
-            else if (p instanceof ProjectileDotSH) {
-                if (p.cibleAtteint()) {
-                    projectiles.remove(p);
-                    cpt++;
-                    if (cpt == 3) {
-                        ennemies.remove(p.getEnnemyCible());
-                        this.ennemies.add(new DotSH(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, this.ground.getStartDirection()));
-                        cpt = 0;
-                    }
-                }
-            }
-
-            else if(p instanceof Kamikaze) {
-
-                if ((p.cibleAtteint() || p.isOnBound())) {
-                    projectiles.remove(p);
-                    cpt ++ ;
-                    System.out.println(cpt);
-                    if(cpt == 3) {
-                        ennemies.remove(p.getEnnemyCible());
-                        this.ennemies.add(new Kamikaze(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, p.getEnnemyCible().getOppositeDirection()));
-                        cpt = 0 ;
-                    }
-                }
-            }
-
-
-
-            else if(p instanceof ZoneRalentisseur || p instanceof ZoneElectrique){
-                if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
-                    projectiles.remove(p);
-                }
+            if (p instanceof ProjectileDegatsBrut || p instanceof ProjectileKnockBack) {
+                handleDegatsBrutAndKnockBack(p);
+            } else if (p instanceof ProjectileDotSH) {
+                cpt = handleDotSH(p, cpt);
+            } else if (p instanceof Kamikaze) {
+                cpt = handleKamikaze(p, cpt);
+            } else if (p instanceof ZoneRalentisseur || p instanceof ZoneElectrique) {
+                handleZones(p);
             }
         }
     }
+
+    private void handleDegatsBrutAndKnockBack(Projectile p) {
+        if (p.cibleAtteint() || p.isOnBound()) {
+            projectiles.remove(p);
+        }
+    }
+
+    private int handleDotSH(Projectile p, int cpt) {
+        if (p.cibleAtteint()) {
+            projectiles.remove(p);
+            cpt++;
+            if (cpt == 3) {
+                transformToDotSH(p.getEnnemyCible());
+                cpt = 0;
+            }
+        }
+        return cpt;
+    }
+
+    private void transformToDotSH(Ennemy ennemy) {
+        ennemies.remove(ennemy);
+        ennemies.add(new DotSH(ennemy.getX(), ennemy.getY(), levelPane, this, this.player, this.ground.getStartDirection()));
+    }
+
+    private int handleKamikaze(Projectile p, int cpt) {
+        if (p.isOnObjective() || p.isOnBound()) {
+            projectiles.remove(p);
+            cpt++;
+            if (cpt == 3) {
+                transformToKamikaze(p.getEnnemyCible());
+                cpt = 0;
+            }
+        }
+        return cpt;
+    }
+
+    private void transformToKamikaze(Ennemy ennemy) {
+        ennemies.remove(ennemy);
+        ennemies.add(new Kamikaze(ennemy.getX(), ennemy.getY(), levelPane, this, this.player, ennemy.getOppositeDirection()));
+    }
+
+    private void handleZones(Projectile p) {
+        if (!p.isOnObjective() && ennemiesDansLaZone.size() == 0 || p.getEnnemyCible().isDead()) {
+            projectiles.remove(p);
+        }
+    }
+
 
     public boolean enemiesTurn(int nbTours){
 

@@ -13,6 +13,7 @@ public abstract class Deplaçable extends Acteur {
 
     public abstract boolean isOnBound();
 
+    public void move(){ //TODO }
 
 
     public void algoDeplacement() {
