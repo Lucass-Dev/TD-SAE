@@ -19,18 +19,36 @@ public class Wave {
         this.actualWave = new ArrayList<>();
         this.waveSize = 3;
     }
+
+    // GETTER
+
     public int getActualWaveNumber() {
         return actualWaveNumber.get();
     }
 
-    public IntegerProperty getActualWaveNumberProperty(){return this.actualWaveNumber;}
-
-    public SimpleIntegerProperty actualWaveNumberProperty() {
-        return actualWaveNumber;
+    public int getWaveSize() {
+        return waveSize;
     }
+
+    public SimpleIntegerProperty getActualWaveNumberProperty(){return this.actualWaveNumber;}
+
+    public ArrayList<Ennemy> getActualWave() {
+        return actualWave;
+    }
+
+
+    // SETTER
+
     public void setActualWaveNumber(int actualWaveNumber) {
         this.actualWaveNumber.set(actualWaveNumber);
     }
+
+    public void setWaveSize(int waveSize) {
+        this.waveSize = waveSize;
+    }
+
+
+    // OTHER METHODS
 
     public void createWave(int size, Ground ground, Pane levelPane, Player player, Environment environment){
         int direction = ground.getStartDirection();
@@ -90,20 +108,6 @@ public class Wave {
 
     public Ennemy createDotExe(Ground ground, Pane levelPane, Player player, Environment environment, int direction){
         return new DotExe(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, environment, player, direction);
-    }
-
-
-
-    public ArrayList<Ennemy> getActualWave() {
-        return actualWave;
-    }
-
-    public int getWaveSize() {
-        return waveSize;
-    }
-
-    public void setWaveSize(int waveSize) {
-        this.waveSize = waveSize;
     }
 
 
