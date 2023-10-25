@@ -2,7 +2,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import fr.montreuil.iut.Lucas_Adrien_Imman.controller.LevelController;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
 import javafx.beans.binding.Bindings;
@@ -24,14 +24,14 @@ public class LevelVue {
     private Pane tilePane;
     private Pane levelPane;
     private TowerVue towerVue;
-    private Level level;
+    private Environment environment;
     private LevelController levelController;
     private Tower[] reference;
     private TowerVue tv;
     private BarVue bv;
 
-    public LevelVue(Level level, Pane tilePane, Pane levelPane, LevelController levelController){
-        this.level = level;
+    public LevelVue(Environment environment, Pane tilePane, Pane levelPane, LevelController levelController){
+        this.environment = environment;
         this.tilePane = tilePane;
         this.levelPane = levelPane;
         this.levelController = levelController;
@@ -95,7 +95,7 @@ public class LevelVue {
         towerPresentation.getChildren().add(imageView);
 
         HBox levelHbox = new HBox();
-        levelHbox.getChildren().add(new Label("Tower level : "));
+        levelHbox.getChildren().add(new Label("Tower environment : "));
         Label levelLabel = new Label();
         levelLabel.textProperty().bind(tower.getLevel().asString());
         levelHbox.getChildren().add(levelLabel);
@@ -107,10 +107,10 @@ public class LevelVue {
 
         Button upgradeButton = new Button();
         upgradeButton.textProperty().bind(Bindings.createStringBinding(() -> "Upgrade Tower : " +tower.upgradeCostProperty().get(), tower.upgradeCostProperty()));
-        upgradeButton.setOnAction(e-> tower.upgrade(level.getPlayer()));
+        upgradeButton.setOnAction(e-> tower.upgrade(environment.getPlayer()));
         Button moveButton = new Button("Move Tower");
         moveButton.setOnAction(e-> {
-            if (this.level.getPlayer().getFlop() >= tower.getMovingPrice()){
+            if (this.environment.getPlayer().getFlop() >= tower.getMovingPrice()){
                 levelController.setMovingTower(true);
                 levelController.setMovingTower(tower);
                 try {
@@ -124,7 +124,7 @@ public class LevelVue {
         });
         Button sell = new Button("Sell Tower");
         sell.setOnAction(e -> {
-            this.level.sellTower(tower);
+            this.environment.sellTower(tower);
             removeTowerMenu(location);
         });
         VBox stats = tv.stats(tower);
