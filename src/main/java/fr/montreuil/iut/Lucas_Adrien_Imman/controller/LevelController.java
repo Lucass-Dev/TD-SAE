@@ -169,7 +169,7 @@ public class LevelController implements Initializable {
         this.towerMenu.getChildren().remove(this.playButton);
         this.player = this.LDT.getPlayer();
         int mapIndex = this.LDT.getMapIndex();
-        this.environment = new Environment(this.levelPane);
+        this.environment = Environment.getInstance(this.levelPane);
         this.environment.setPlayer(this.LDT.getPlayer());
         this.environment.setDifficulty(this.LDT.getDifficulty());
         this.waveLabel.textProperty().bind(this.environment.getWave().getActualWaveNumberProperty().asString());

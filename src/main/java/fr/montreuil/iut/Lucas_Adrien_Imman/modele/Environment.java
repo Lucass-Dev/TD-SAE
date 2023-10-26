@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 public class Environment {
     // private ArrayList<CooldownState> states; attribut de acteur !!
+
+    private static Environment uniqueInstance = null;
     private Ground ground;
     private Wave wave;
     private int nbTours;
@@ -44,7 +46,7 @@ public class Environment {
     private int poisonedAmount;
     private int poisonTicks;
 
-    public Environment(Pane levelPane){
+    private Environment(Pane levelPane){
         this.levelPane = levelPane;
         this.ground = new Ground();
         this.wave = new Wave();
@@ -60,6 +62,12 @@ public class Environment {
         this.poisoning = false;
         this.poisoningDelay = 150;
         this.poisonedAmount = 0;
+    }
+
+    public static Environment getInstance(Pane levelPane){
+        if(uniqueInstance == null)
+            uniqueInstance = new Environment(levelPane);
+        return uniqueInstance;
     }
 
 
