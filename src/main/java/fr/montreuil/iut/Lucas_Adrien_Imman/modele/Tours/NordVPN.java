@@ -2,6 +2,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.ProjectileKnockBack;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
 public class NordVPN extends Tower {
 
@@ -11,7 +12,7 @@ public class NordVPN extends Tower {
     }
 
     @Override
-    public EffetTour getEffet() {
-        return new ProjectileKnockBack(this.getX() + 16, this.getY() + 16, getEnnemieDetecte().get(0));
+    public EffetTour getEffet(Ennemy ennemy) {
+        return new ProjectileKnockBack(this.getX() + 16, this.getY() + 16, ennemy);
     }
 }

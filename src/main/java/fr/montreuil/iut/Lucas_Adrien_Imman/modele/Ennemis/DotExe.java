@@ -14,12 +14,12 @@ public class DotExe extends Ennemy {
         if(isOnObjective()){
             this.getPlayer().looseLife(this.getDamage());
             //Enlève un tour aléatoire
-            if (this.getLevel().getPlacedTower().size() != 0){
-                int max = this.getLevel().getPlacedTower().size();
+            if (this.getEnvironment().getPlacedTower().size() != 0){
+                int max = this.getEnvironment().getPlacedTower().size();
                 int rand = (int) (Math.random() * (max-1) + 1);
                 for (int i = 0; i < max; i++) {
                     if (i == rand){
-                        this.getLevel().getPlacedTower().remove(i);
+                        this.getEnvironment().getPlacedTower().remove(i);
                     }
                 }
             }

@@ -2,6 +2,8 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.AgirSurCible;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.ZoneRalentisseur;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
 public class InternetExplorer extends Tower  {
 
@@ -10,7 +12,7 @@ public class InternetExplorer extends Tower  {
     }
 
     @Override
-    public EffetTour getEffet() {
-        return null;
+    public EffetTour getEffet(Ennemy ennemy) {
+        return  new ZoneRalentisseur(this.getX() + 16, this.getY() + 16, ennemy);
     }
 }

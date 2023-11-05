@@ -227,6 +227,6 @@ abstract public class Tower extends Acteur {
     }
 
 
-    public abstract EffetTour getEffet();
+    public abstract EffetTour getEffet(Ennemy ennemy);
 
 }

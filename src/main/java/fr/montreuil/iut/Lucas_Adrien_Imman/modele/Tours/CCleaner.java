@@ -1,5 +1,9 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.ZoneElectrique;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
+
 public class CCleaner extends Tower {
 
 
@@ -8,4 +12,8 @@ public class CCleaner extends Tower {
     }
 
 
+    @Override
+    public EffetTour getEffet(Ennemy ennemy) {
+        return new ZoneElectrique(this.getX() + 16, this.getY() + 16, ennemy);
+    }
 }

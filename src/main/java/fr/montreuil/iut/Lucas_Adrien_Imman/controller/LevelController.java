@@ -182,7 +182,7 @@ public class LevelController implements Initializable {
             ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane, player);
             this.environment.getPlacedTower().addListener(towerListChangeListener);
             ListChangeListener<EffetTour> effetTourListChangeListener = new ListeObsEffetTour(levelPane);
-            this.environment.getProjectiles().addListener(effetTourListChangeListener);
+            this.environment.getEffetTours().addListener(effetTourListChangeListener);
             this.levelVue = new LevelVue(this.environment, this.tilePane, this.levelPane, this);
             this.levelVue.createShopMenu(towerShopVbox);
             try {

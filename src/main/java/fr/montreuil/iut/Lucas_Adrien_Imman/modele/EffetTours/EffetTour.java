@@ -3,6 +3,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.AgirSurCible;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
+import javafx.collections.ObservableList;
 
 
 public abstract class EffetTour extends Deplaçable implements AgirSurCible {
@@ -16,7 +17,6 @@ public abstract class EffetTour extends Deplaçable implements AgirSurCible {
     }
 
     public abstract void agitSurLaCible();
-
 
     //SETTER
     public Ennemy getEnnemyCible() {
@@ -50,4 +50,5 @@ public abstract class EffetTour extends Deplaçable implements AgirSurCible {
     public boolean isOnBound(){
         return this.getX() >640  && this.getY() >640;
     }
+
 }

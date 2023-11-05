@@ -1,6 +1,8 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.DotSH;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
+import javafx.collections.ObservableList;
 
 public class ProjectileDotSH extends EffetTour {
     public ProjectileDotSH(int x, int y, Ennemy ennemyCible) {

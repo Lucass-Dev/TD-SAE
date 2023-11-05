@@ -25,10 +25,6 @@ public class Kamikaze extends Ennemy {
         return false;
     }
 
-    @Override
-    public void algoDeplacement() {
-
-    }
 
     @Override
     public boolean isOnObjective() {

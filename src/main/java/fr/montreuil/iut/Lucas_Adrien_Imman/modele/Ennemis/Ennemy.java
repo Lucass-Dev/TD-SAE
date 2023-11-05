@@ -26,17 +26,17 @@ public abstract class Ennemy extends Deplaçable {
     private int direction;
 
 
-    public Ennemy(int x, int y, Pane levelPane, Environment environment, int spriteIndex, int life , Player player, int speed, int maxLife , int damage , int dropeRate , int initialSpeed){
+    public Ennemy(int x, int y, Pane levelPane, Environment environment, int spriteIndex, int life , Player player, int speed, int maxLife , int damage ,int startDirection ,int dropeRate , int initialSpeed){
         super(x,y,"E" + compteur);
         this.levelPane = levelPane;
         this.environment = environment;
-        //this.direction = startDirection;
         this.speed = speed;
         this.life = new SimpleIntegerProperty(life);
         this.maxLife = new SimpleIntegerProperty(maxLife);
         this.spriteIndex = spriteIndex;
         this.player = player ;
         this.damage = damage ;
+        this.direction = startDirection;
         this.dropRate = dropeRate ;
         this.initialSpeed = initialSpeed ;
     }

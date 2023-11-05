@@ -21,10 +21,10 @@ public class ZoneRalentisseur extends EffetTour {
         return ((this.getY()-range<=ennemyCible.getY() && ennemyCible.getY()<= this.getY()+range) && (this.getX()-range<=ennemyCible.getX() && ennemyCible.getX() <= this.getX()+range)) ;
     }
 
- /*   public void placement(){
+    public void algoDeplacement(){
         setX(getX());
         setY(getY());
-    }*/
+    }
 
 
 }

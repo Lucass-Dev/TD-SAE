@@ -19,12 +19,14 @@ public class Environment {
     private int difficulty;
     private SimpleIntegerProperty actualWaveNumber;
     private ArrayList<Ennemy> actualWave;
+    private ArrayList<Ennemy> ennemiesDansLaZone ;
 
 
     private ObservableList<Tower> placedTower;
     private ObservableList<Ennemy> ennemies;
-    private ArrayList<Ennemy> ennemiesDansLaZone ;
-    private ObservableList<EffetTour> projectiles;
+    private ObservableList<EffetTour> effetTours;
+
+
 
 
     private Pane levelPane;
@@ -54,7 +56,7 @@ public class Environment {
         this.actualWave = new ArrayList<>();
         this.waveSize = 3;
         this.actualWaveNumber = new SimpleIntegerProperty(0);
-        this.projectiles = FXCollections.observableArrayList();
+        this.effetTours = FXCollections.observableArrayList();
         this.freezingDelay = 350;
         this.freezingRam = false;
         this.freezedRamAmount = 0;
@@ -75,8 +77,8 @@ public class Environment {
         return ennemies;
     }
 
-    public ObservableList<EffetTour> getProjectiles(){
-        return projectiles ;
+    public ObservableList<EffetTour> getEffetTours(){
+        return effetTours;
     }
 
     public int getActualWaveNumber() {
@@ -101,7 +103,6 @@ public class Environment {
         }
         return t;
     }
-
 
 
     //SETTER
@@ -144,9 +145,6 @@ public class Environment {
                 player.setFlop(player.getFlop() + (e.getDropRate()* (int)(actualWaveNumber.getValue()*0.5)));
                 player.setRam(player.getRam() + (int)(actualWaveNumber.getValue()*0.2));
             }
-
-
-
         }
     }
 
@@ -182,7 +180,7 @@ public class Environment {
     public void towerTurn(int nbTours) {
         for (int i =  placedTower.size() - 1 ; i>=0 ; i--) {
             Tower t = placedTower.get(i);
-
+            EffetTour p ;
             ennemiesDansLaZone = t.detect(ennemies); //liste des ennemies détectés
 
             if(ennemiesDansLaZone.size()!=0){
@@ -190,33 +188,38 @@ public class Environment {
                     Ennemy detectedEnnemy = ennemiesDansLaZone.get(j);
                     Ennemy firstDetect = ennemiesDansLaZone.get(0);
 
-                    EffetTour p  = null;
 
-                    if (t instanceof TaskKiller) { // ajoute au liste des projectiles le projectile correspondant au tour
+                    if(t instanceof InternetExplorer || t instanceof  CCleaner) {
+                       p  = t.getEffet(detectedEnnemy);
+                    }
+                    else {
+                        p = t.getEffet(firstDetect);
+                    }
+                   /* if (t instanceof TaskKiller) { // ajoute au liste des projectiles le projectile correspondant au tour
                         p = new ProjectileDegatsBrut(t.getX() + 16, t.getY() + 16, firstDetect);
                     }
-                    else if (t instanceof CCleaner) {
-                        p = new ZoneElectrique(t.getX() + 16, t.getY() + 16, detectedEnnemy);
+                    else if (t instanceof NordVPN) {
+                        p = new ProjectileKnockBack(t.getX() + 16, t.getY() + 16, firstDetect);
                     }
                     else if (t instanceof PDFConverter) {
                         if(firstDetect instanceof DotExe) {
                             p = new ProjectileDotSH(t.getX() + 16, t.getY() + 16, firstDetect);
                         }
                     }
-                    else if (t instanceof InternetExplorer) {
-                        p = new ZoneRalentisseur(t.getX() + 16, t.getY() + 16, detectedEnnemy);
-                    }
-                    else if (t instanceof NordVPN) {
-                        p = new ProjectileKnockBack(t.getX() + 16, t.getY() + 16, firstDetect);
-                    }
                     else if (t instanceof Demineur) {
                         if((!(firstDetect instanceof DotExe) &&  !(firstDetect instanceof Virus) && !(firstDetect instanceof Scam) && !(firstDetect instanceof Kamikaze)))
                             p = new ProjectileKamikaze(t.getX() + 16, t.getY() + 16, firstDetect);
                     }
-
+                    else if (t instanceof InternetExplorer) {
+                        p = new ZoneRalentisseur(t.getX() + 16, t.getY() + 16, detectedEnnemy);
+                    }
+                    else if (t instanceof CCleaner) {
+                        p = new ZoneElectrique(t.getX() + 16, t.getY() + 16, detectedEnnemy);
+                    }
+                    */
                     ennemiesDansLaZone.remove(detectedEnnemy);
                     if (nbTours % t.getDelais() == 0 && p != null) {//le délais attaque
-                        projectiles.add(p);
+                        effetTours.add(p);
 
                     }
                 }
@@ -231,23 +234,23 @@ public class Environment {
     }
     public void bulletTurn() {
 
-        for (EffetTour p : projectiles) {   //déplacement des projectiles et agit sur la cible
+        for (EffetTour p : effetTours) {   //déplacement des projectiles et agit sur la cible
             p.algoDeplacement();
             p.agitSurLaCible();
         }
 
-        for (int j = projectiles.size() - 1; j >= 0; j--) {//enleve les projectiles/zones  par rapport aux conditions
-            EffetTour p = projectiles.get(j);
+        for (int j = effetTours.size() - 1; j >= 0; j--) {//enleve les projectiles/zones  par rapport aux conditions
+            EffetTour p = effetTours.get(j);
 
             if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
                 if (p.isOnObjective() || p.isOnBound()) {
-                    projectiles.remove(p);
+                    effetTours.remove(p);
                 }
             }
 
             else if (p instanceof ProjectileDotSH) {
                 if (p.isOnObjective()) {
-                    projectiles.remove(p);
+                    effetTours.remove(p);
                     cpt++;
                     if (cpt == 3) {
                         ennemies.remove(p.getEnnemyCible());
@@ -260,12 +263,11 @@ public class Environment {
             else if(p instanceof ProjectileKamikaze) {
 
                 if ((p.isOnObjective() || p.isOnBound())) {
-                    projectiles.remove(p);
+                    effetTours.remove(p);
                     cpt ++ ;
-                    System.out.println(cpt);
                     if(cpt == 3) {
                         ennemies.remove(p.getEnnemyCible());
-                        this.ennemies.add(new Kamikaze(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, ()));
+                        this.ennemies.add(new Kamikaze(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, this.ground.getStartDirection()));
                         cpt = 0 ;
                     }
                 }
@@ -273,7 +275,7 @@ public class Environment {
 
             else if(p instanceof ZoneRalentisseur || p instanceof ZoneElectrique){
                 if (!p.isOnObjective() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
-                    projectiles.remove(p);
+                    effetTours.remove(p);
                 }
             }
         }
@@ -282,7 +284,7 @@ public class Environment {
     public boolean enemiesTurn(int nbTours){
 
         if (actualWave.size() == 0 && ennemies.size() == 0){
-            createWave(this.waveSize);
+            //  createWave(this.waveSize);
             this.waveSize += actualWaveNumber.get()*difficulty/3;
         }else if (nbTours % 20 == 0 && actualWave.size() != 0){
             this.ennemies.add(this.actualWave.remove(0));
@@ -317,7 +319,7 @@ public class Environment {
         return this.player.isDead();
     }
 
-    public void createWave(int size){
+   /* public void createWave(int size){
         int direction = this.ground.getStartDirection();
         for (int i = 0; i < size; i++) {
             switch ((int) ((Math.random() * (6 - 1)) + 1)){
@@ -356,7 +358,7 @@ public class Environment {
         }
         setActualWaveNumber(actualWaveNumber.get() + 1);
     }
-
+*/
     public void placeTower(int x , int y, int index){
         int[] pos = ground.getTilePos(x, y);
         Tower t = null;

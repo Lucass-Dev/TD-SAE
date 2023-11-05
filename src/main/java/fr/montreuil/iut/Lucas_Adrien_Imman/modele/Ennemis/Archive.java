@@ -20,7 +20,7 @@ public class Archive extends Ennemy{
     public void die(){
         //Fait apparaître plusieurs DotSH qand il est tué par des tours
         for (int i = 0; i < 3; i++) {
-            Ennemy e = new DotSH(this.getX(), this.getY(), this.getLevelPane(), this.getEnvironment(), this.getPlayer());
+            Ennemy e = new DotSH(this.getX(), this.getY(), this.getLevelPane(), this.getEnvironment(), this.getPlayer(),1);
          //   e.setDirection(this.getDirection());
            // this.getLevel().getEnnemies().add(e);
         }

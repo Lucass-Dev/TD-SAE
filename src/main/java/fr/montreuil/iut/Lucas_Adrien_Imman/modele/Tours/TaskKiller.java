@@ -2,6 +2,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.ProjectileDegatsBrut;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
 public class TaskKiller extends Tower {
 
@@ -15,7 +16,7 @@ public class TaskKiller extends Tower {
     }
 
     @Override
-    public EffetTour getEffet() {
-        return new ProjectileDegatsBrut(this.getX() + 16, this.getY() + 16, getEnnemieDetecte().get(0));
+    public EffetTour getEffet(Ennemy ennemy) {
+        return new ProjectileDegatsBrut(this.getX() + 16, this.getY() + 16, ennemy);
     }
 }
