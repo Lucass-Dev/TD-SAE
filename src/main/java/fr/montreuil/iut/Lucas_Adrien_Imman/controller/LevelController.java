@@ -1,9 +1,8 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.Projectile;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environnement;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.LevelDataTransit;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
@@ -46,7 +45,7 @@ public class LevelController implements Initializable {
 
 
     //Données quelconques relatives au niveau
-    private Environnement environnement;
+    private Environment environment;
     private LevelDataTransit LDT;
     private LevelVue levelVue;
     private Player player;
@@ -118,12 +117,12 @@ public class LevelController implements Initializable {
             int x = (int) mouseEvent.getX();
             int y = (int) mouseEvent.getY();
 
-            int[] mousePos = this.environnement.getGround().getTilePos(x, y);
+            int[] mousePos = this.environment.getGround().getTilePos(x, y);
 
             //Quand on bouge une tour
             if (this.isMovingTower){
                 System.out.println(mouseEvent);
-                if (this.environnement.getGround().validTile(mousePos)){
+                if (this.environment.getGround().validTile(mousePos)){
                     moveTowerTo(this.movingTower, mousePos[0]*32, mousePos[1]*32);
                     setCursor(Cursor.DEFAULT);
                     this.movingTower = null;
@@ -133,8 +132,8 @@ public class LevelController implements Initializable {
             //Quand on veut poser une tour
             else{
                 if (Main.stg.getScene().getCursor() != Cursor.DEFAULT && Main.stg.getScene().getCursor() != null) {
-                    if (this.environnement.getGround().validTile(mousePos)) {
-                        this.environnement.placeTower(x, y, cursorIndex);
+                    if (this.environment.getGround().validTile(mousePos)) {
+                        this.environment.placeTower(x, y, cursorIndex);
                     }
                 }
             }
@@ -152,7 +151,7 @@ public class LevelController implements Initializable {
                 String imageViewId = imageView.getId();
                 System.out.println(imageViewId);
                 if (imageViewId != null) {
-                    showedTower = this.environnement.getTower(imageViewId);
+                    showedTower = this.environment.getTower(imageViewId);
                     try {
                         this.levelVue.createTowerMenu(showedTower, this.towerMenu);
                         showedTower.setShowingRange(true);
@@ -170,21 +169,21 @@ public class LevelController implements Initializable {
         this.towerMenu.getChildren().remove(this.playButton);
         this.player = this.LDT.getPlayer();
         int mapIndex = this.LDT.getMapIndex();
-        this.environnement = new Environnement(this.levelPane);
-        this.environnement.setPlayer(this.LDT.getPlayer());
-        this.environnement.setDifficulty(this.LDT.getDifficulty());
-        this.waveLabel.textProperty().bind(this.environnement.actualWaveNumberProperty().asString());
+        this.environment = new Environment(this.levelPane);
+        this.environment.setPlayer(this.LDT.getPlayer());
+        this.environment.setDifficulty(this.LDT.getDifficulty());
+        this.waveLabel.textProperty().bind(this.environment.getWave().getActualWaveNumberProperty().asString());
 
-        //Ce try catch est pour la méthode createMap de la classe Environnement parce que l'on essaye de trouver un fichier
+        //Ce try catch est pour la méthode createMap de la classe Environment parce que l'on essaye de trouver un fichier
         try {
-            this.environnement.getGround().initMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map"+mapIndex+".csv", tilePane);
+            this.environment.getGround().initMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map"+mapIndex+".csv", tilePane);
             ListChangeListener<Ennemy> ennemyListChangeListener = new ListObsEnnemy(levelPane);
-            this.environnement.getEnnemies().addListener(ennemyListChangeListener);
+            this.environment.getEnnemies().addListener(ennemyListChangeListener);
             ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane, player);
-            this.environnement.getPlacedTower().addListener(towerListChangeListener);
+            this.environment.getPlacedTower().addListener(towerListChangeListener);
             ListChangeListener<Projectile> projectileListChangeListener = new ListeObsProjectile(levelPane);
-            this.environnement.getProjectiles().addListener(projectileListChangeListener);
-            this.levelVue = new LevelVue(this.environnement, this.tilePane, this.levelPane, this);
+            this.environment.getProjectiles().addListener(projectileListChangeListener);
+            this.levelVue = new LevelVue(this.environment, this.tilePane, this.levelPane, this);
             this.levelVue.createShopMenu(towerShopVbox);
             try {
                 this.levelVue.createATH(this.player, athHbox);
@@ -217,11 +216,11 @@ public class LevelController implements Initializable {
                 // on définit ce qui se passe à chaque frame
                 // c'est un eventHandler d'ou le lambda
                 (ev ->{
-                    if(estFini || environnement.checkProgression()){
+                    if(estFini || environment.checkProgression()){
                         System.out.println("fini");
                         gameLoop.stop();
-                        Score s = new Score(this.LDT.getDifficulty(), this.timeLabel.getText(), this.LDT.getPlayerName(), this.LDT.getMapIndex(), this.environnement.getActualWaveNumber());
-                        //Ce try catch est pour la méthode newBestScores de la classe Environnement parce que l'on essaye de trouver un fichier
+                        Score s = new Score(this.LDT.getDifficulty(), this.timeLabel.getText(), this.LDT.getPlayerName(), this.LDT.getMapIndex(), this.environment.getWave().getActualWaveNumber());
+                        //Ce try catch est pour la méthode newBestScores de la classe Environment parce que l'on essaye de trouver un fichier
                         try {
                             s.newBestScores();
                         } catch (IOException e) {
@@ -244,7 +243,7 @@ public class LevelController implements Initializable {
                         Main.stg.setScene(nS);
                     }
                     else{
-                        this.environnement.startLevel(nbTours);
+                        this.environment.startLevel(nbTours);
                         if (nbTours%50 == 0){
                             refreshTimer();
                         }

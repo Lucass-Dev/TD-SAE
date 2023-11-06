@@ -1,8 +1,5 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.DeplacementBFS;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.Projectile;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
@@ -14,14 +11,14 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
-public class Environnement {
+public class Environment {
     // private ArrayList<CooldownState> states; attribut de acteur !!
     private Ground ground;
+    private Wave wave;
     private int nbTours;
     private Player player;
     private int difficulty;
-    private SimpleIntegerProperty actualWaveNumber;
-    private ArrayList<Ennemy> actualWave;
+
 
 
     private ObservableList<Tower> placedTower;
@@ -31,7 +28,6 @@ public class Environnement {
 
 
     private Pane levelPane;
-    private int waveSize;
     private int cpt ;
 
 
@@ -48,15 +44,15 @@ public class Environnement {
     private int poisonedAmount;
     private int poisonTicks;
 
-    public Environnement(Pane levelPane){
+    public Environment(Pane levelPane){
         this.levelPane = levelPane;
         this.ground = new Ground();
+        this.wave = new Wave();
         this.ennemiesDansLaZone = new ArrayList<>();
         this.placedTower = FXCollections.observableArrayList();
         this.ennemies = FXCollections.observableArrayList();
-        this.actualWave = new ArrayList<>();
-        this.waveSize = 3;
-        this.actualWaveNumber = new SimpleIntegerProperty(0);
+
+
         this.projectiles = FXCollections.observableArrayList();
         this.freezingDelay = 350;
         this.freezingRam = false;
@@ -82,14 +78,10 @@ public class Environnement {
         return projectiles ;
     }
 
-    public int getActualWaveNumber() {
-        return actualWaveNumber.get();
-    }
 
-    public SimpleIntegerProperty actualWaveNumberProperty() {
-        return actualWaveNumber;
+    public Wave getWave() {
+        return wave;
     }
-
 
     public Player getPlayer() {
         return player;
@@ -108,9 +100,7 @@ public class Environnement {
 
 
     //SETTER
-    public void setActualWaveNumber(int actualWaveNumber) {
-        this.actualWaveNumber.set(actualWaveNumber);
-    }
+
 
     public void setPlayer(Player player) {
         this.player = player;
@@ -144,8 +134,8 @@ public class Environnement {
         for (int i = ennemies.size() - 1; i >= 0; i--) {
             Ennemy e = ennemies.get(i);
             if (e.isDead()) {
-                player.setFlop(player.getFlop() + (e.getDropRate()* (int)(actualWaveNumber.getValue()*0.5)));
-                player.setRam(player.getRam() + (int)(actualWaveNumber.getValue()*0.2));
+                player.setFlop(player.getFlop() + (e.getDropRate()* (int)(this.wave.getActualWaveNumber()*0.5)));
+                player.setRam(player.getRam() + (int)(this.wave.getActualWaveNumber()*0.2));
             }
 
 
@@ -232,89 +222,64 @@ public class Environnement {
         }
     }
     public void bulletTurn() {
-        moveAndActOnTargetForAllProjectiles();
-        removeAndTransformProjectiles();
-    }
 
-    private void moveAndActOnTargetForAllProjectiles() {
-        for (Projectile p : projectiles) {
+        for (Projectile p : projectiles) {   //déplacement des projectiles et agit sur la cible
             p.placement();
             p.agitSurLaCible();
         }
-    }
 
-    private void removeAndTransformProjectiles() {
-        int cpt = 0;
-
-        for (int j = projectiles.size() - 1; j >= 0; j--) {
+        for (int j = projectiles.size() - 1; j >= 0; j--) {//enleve les projectiles/zones  par rapport aux conditions
             Projectile p = projectiles.get(j);
 
-            if (p instanceof ProjectileDegatsBrut || p instanceof ProjectileKnockBack) {
-                handleDegatsBrutAndKnockBack(p);
-            } else if (p instanceof ProjectileDotSH) {
-                cpt = handleDotSH(p, cpt);
-            } else if (p instanceof Kamikaze) {
-                cpt = handleKamikaze(p, cpt);
-            } else if (p instanceof ZoneRalentisseur || p instanceof ZoneElectrique) {
-                handleZones(p);
+            if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
+                if (p.cibleAtteint() || p.isOnBound()) {
+                    projectiles.remove(p);
+                }
+            }
+
+            else if (p instanceof ProjectileDotSH) {
+                if (p.cibleAtteint()) {
+                    projectiles.remove(p);
+                    cpt++;
+                    if (cpt == 3) {
+                        ennemies.remove(p.getEnnemyCible());
+                        this.ennemies.add(new DotSH(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, this.ground.getStartDirection()));
+                        cpt = 0;
+                    }
+                }
+            }
+
+            else if(p instanceof ProjectileKamikaze) {
+
+                if ((p.cibleAtteint() || p.isOnBound())) {
+                    projectiles.remove(p);
+                    cpt ++ ;
+                    System.out.println(cpt);
+                    if(cpt == 3) {
+                        ennemies.remove(p.getEnnemyCible());
+                        this.ennemies.add(new Kamikaze(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, p.getEnnemyCible().getOppositeDirection()));
+                        cpt = 0 ;
+                    }
+                }
+            }
+
+
+
+            else if(p instanceof ZoneRalentisseur || p instanceof ZoneElectrique){
+                if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
+                    projectiles.remove(p);
+                }
             }
         }
     }
-
-    private void handleDegatsBrutAndKnockBack(Projectile p) {
-        if (p.cibleAtteint() || p.isOnBound()) {
-            projectiles.remove(p);
-        }
-    }
-
-    private int handleDotSH(Projectile p, int cpt) {
-        if (p.cibleAtteint()) {
-            projectiles.remove(p);
-            cpt++;
-            if (cpt == 3) {
-                transformToDotSH(p.getEnnemyCible());
-                cpt = 0;
-            }
-        }
-        return cpt;
-    }
-
-    private void transformToDotSH(Ennemy ennemy) {
-        ennemies.remove(ennemy);
-        ennemies.add(new DotSH(ennemy.getX(), ennemy.getY(), levelPane, this, this.player, this.ground.getStartDirection()));
-    }
-
-    private int handleKamikaze(Projectile p, int cpt) {
-        if (p.isOnObjective() || p.isOnBound()) {
-            projectiles.remove(p);
-            cpt++;
-            if (cpt == 3) {
-                transformToKamikaze(p.getEnnemyCible());
-                cpt = 0;
-            }
-        }
-        return cpt;
-    }
-
-    private void transformToKamikaze(Ennemy ennemy) {
-        ennemies.remove(ennemy);
-        ennemies.add(new Kamikaze(ennemy.getX(), ennemy.getY(), levelPane, this, this.player, ennemy.getOppositeDirection()));
-    }
-
-    private void handleZones(Projectile p) {
-        if (!p.isOnObjective() && ennemiesDansLaZone.size() == 0 || p.getEnnemyCible().isDead()) {
-            projectiles.remove(p);
-        }
-    }
-
 
     public boolean enemiesTurn(int nbTours){
 
-        if (actualWave.size() == 0 && ennemies.size() == 0){
-            createWave(this.waveSize);
-            this.waveSize += actualWaveNumber.get()*difficulty/3;
-        }else if (nbTours % 20 == 0 && actualWave.size() != 0){
-            this.ennemies.add(this.actualWave.remove(0));
+        if (this.wave.getActualWave().size() == 0 && ennemies.size() == 0){
+            this.wave.createWave(this.wave.getWaveSize(), this.ground, this.levelPane, this.player, this);
+            this.wave.setWaveSize(this.wave.getWaveSize() + this.wave.getActualWaveNumber()*this.difficulty/3);
+        }else if (nbTours % 20 == 0 && this.wave.getActualWave().size() != 0){
+            this.ennemies.add(this.wave.getActualWave().remove(0));
         }
         if (this.ennemies.size() > 0){ //fait déplacer les ennemis , les enleve de la liste  si ils ont atteint l'objectif , ou il sont en dehors de la map  ou s'il sont morts
             for (int i = ennemies.size()-1; i>=0 ; i--) {
@@ -346,52 +311,6 @@ public class Environnement {
         return this.player.isDead();
     }
 
-    public void createWave(int size){
-        int direction = this.ground.getStartDirection();
-        for (int i = 0; i < size; i++) {
-            int x = ground.getStartTilePos()[0]*32 + 16;
-            int y = ground.getStartTilePos()[1]*32 + 16;
-            Pane levelPane = this.levelPane;
-            Environnement env = this;
-            Player player = this.player;
-            ModeDeplacement md = new DeplacementBFS(); // Supposant que vous avez un getter pour ModeDeplacement
-
-            switch ((int) ((Math.random() * (6 - 1)) + 1)){
-                case 1:
-                    this.actualWave.add(new DotSH(x, y, levelPane, env, player, direction, md));
-                    break;
-                case 2:
-                    if (this.actualWaveNumber.get() <= 5){
-                        this.actualWave.add(new DotSH(x, y, levelPane, env, player, direction, md));
-                    } else {
-                        this.actualWave.add(new Archive(x, y, levelPane, env, player, direction, md));
-                    }
-                    break;
-                case 3:
-                    if (this.actualWaveNumber.get() <= 10){
-                        this.actualWave.add(new DotSH(x, y, levelPane, env, player, direction, md));
-                    } else {
-                        this.actualWave.add(new Virus(x, y, levelPane, env, player, direction, md));
-                    }
-                    break;
-                case 4:
-                    if (this.actualWaveNumber.get() <= 15){
-                        this.actualWave.add(new DotSH(x, y, levelPane, env, player, direction, md));
-                    } else {
-                        this.actualWave.add(new Scam(x, y, levelPane, env, player, direction, md));
-                    }
-                    break;
-                case 5:
-                    if (this.actualWaveNumber.get() <= 20){
-                        this.actualWave.add(new DotSH(x, y, levelPane, env, player, direction, md));
-                    } else {
-                        this.actualWave.add(new DotExe(x, y, levelPane, env, player, direction, md));
-                    }
-                    break;
-            }
-        }
-        setActualWaveNumber(actualWaveNumber.get() + 1);
-    }
 
 
     public void placeTower(int x , int y, int index){
