@@ -94,9 +94,7 @@ public abstract class Ennemy extends Deplaçable {
     public int getDirection() {
         return direction;
     }
-    public Environment getEnv() {
-        return env;
-    }
+
     public int getOppositeDirection(){
         if (this.direction == 1){
             return 3;
@@ -155,6 +153,10 @@ public abstract class Ennemy extends Deplaçable {
 
     public boolean isOnBound(){
         return this.getXValue() < this.levelPane.getWidth() && this.getYValue() < this.levelPane.getHeight() && this.getXValue() >= 0 && this.getYValue() >=0;
+    }
+
+    public Environment getEnv() {
+        return env;
     }
 
 

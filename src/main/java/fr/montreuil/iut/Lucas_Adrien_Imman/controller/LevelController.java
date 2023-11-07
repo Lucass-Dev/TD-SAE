@@ -185,6 +185,7 @@ public class LevelController implements Initializable {
             ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane, player);
             this.environment.getPlacedTower().addListener(towerListChangeListener);
             ListChangeListener<Projectile> projectileListChangeListener = new ListeObsProjectile(levelPane);
+            // L'erreur Viens de ListeObsProjectile qui est en commentaires
             this.environment.getProjectiles().addListener(projectileListChangeListener);
             this.levelVue = new LevelVue(this.environment, this.tilePane, this.levelPane, this);
             this.levelVue.createShopMenu(towerShopVbox);

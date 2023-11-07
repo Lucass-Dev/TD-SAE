@@ -38,7 +38,7 @@ public class Archive extends Ennemy{
         for (int i = 0; i < 3; i++) {
             Ennemy e = new DotSH(
                     this.getXValue(),
-                    this.getY(),
+                    this.getYValue(),
                     this.getLevelPane(),
                     this.getEnv(),
                     this.getPlayer(),
@@ -47,7 +47,9 @@ public class Archive extends Ennemy{
             );
 
             e.setDirection(this.getDirection());
-            this.getEnv().getEnnemies().add(e);
+            this.getEnv();
+
+
         }
     }
 }

@@ -1,5 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
@@ -175,7 +176,7 @@ public class Environment {
         return player.isDead();
     }
 
-    public void towerTurn(int nbTours) {
+    public void towerTurn(int nbTours, ModeDeplacement md) {
         for (int i =  placedTower.size() - 1 ; i>=0 ; i--) {
             Tower t = placedTower.get(i);
             ennemiesDansLaZone = t.detect(ennemies); //liste des ennemies détectés
@@ -188,7 +189,7 @@ public class Environment {
                     Projectile p  = null;
 
                     if (t instanceof TaskKiller) { // ajoute au liste des projectiles le projectile correspondant au tour
-                        p = new ProjectileDegatsBrut(t.getXValue() + 16, t.getYValue() + 16, firstDetect);
+                        p = new ProjectileDegatsBrut(t.getXValue() + 16, t.getYValue() + 16, firstDetect, md);
                     }
                     /*
                     else if (t instanceof CCleaner) {
@@ -196,18 +197,18 @@ public class Environment {
                     }*/
                     else if (t instanceof PDFConverter) {
                         if(firstDetect instanceof DotExe) {
-                            p = new ProjectileDotSH(t.getXValue() + 16, t.getYValue() + 16, firstDetect);
+                            p = new ProjectileDotSH(t.getXValue() + 16, t.getYValue() + 16, firstDetect, md);
                         }
                     }
                     /*else if (t instanceof InternetExplorer) {
                         p = new ZoneRalentisseur(t.getX() + 16, t.getY() + 16, detectedEnnemy);
                     }*/
                     else if (t instanceof NordVPN) {
-                        p = new ProjectileKnockBack(t.getXValue() + 16, t.getYValue() + 16, firstDetect);
+                        p = new ProjectileKnockBack(t.getXValue() + 16, t.getYValue() + 16, firstDetect, md);
                     }
                     else if (t instanceof Demineur) {
                         if((!(firstDetect instanceof DotExe) &&  !(firstDetect instanceof Virus) && !(firstDetect instanceof Scam) && !(firstDetect instanceof Kamikaze)))
-                            p = new ProjectileKamikaze(t.getXValue() + 16, t.getYValue() + 16, firstDetect);
+                            p = new ProjectileKamikaze(t.getXValue() + 16, t.getYValue() + 16, firstDetect, md);
                     }
 
                     ennemiesDansLaZone.remove(detectedEnnemy);
@@ -261,7 +262,7 @@ public class Environment {
                     System.out.println(cpt);
                     if(cpt == 3) {
                         ennemies.remove(p.getEnnemyCible());
-                        this.ennemies.add(new Kamikaze(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, p.getEnnemyCible().getOppositeDirection()));
+                        this.ennemies.add(new Kamikaze(p.getEnnemyCible().getXValue(), p.getEnnemyCible().getYValue(), levelPane, this, this.player, p.getEnnemyCible().getOppositeDirection()));
                         cpt = 0 ;
                     }
                 }
@@ -290,7 +291,7 @@ public class Environment {
                 Ennemy e = ennemies.get(i);
                 e.move();
                 if (e instanceof Kamikaze){
-                    if (ground.getTileValue(ground.getTilePos(e.getX(), e.getY())) == 6){
+                    if (ground.getTileValue(ground.getTilePos(e.getXValue(), e.getYValue())) == 6){
                         ennemies.remove(e);
                     }
                     Ennemy newEnemy = e.isTouching(ennemies);
