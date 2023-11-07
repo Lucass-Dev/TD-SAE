@@ -5,11 +5,14 @@ import javafx.beans.property.SimpleIntegerProperty;
 public abstract class Acteur extends Entites {
     SimpleIntegerProperty x; // Position x
     SimpleIntegerProperty y; // Position y
+    static int compteur; //Compteur utilisé pour l'id générique d'un acteur
+    private String id;
 
     public Acteur(int x, int y, int initialHealth, int maxHealth) {
         super(initialHealth, maxHealth);
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
+        this.id = "E"+compteur++;
     }
 
     // Getters et Setters pour x et y
@@ -34,5 +37,10 @@ public abstract class Acteur extends Entites {
     public SimpleIntegerProperty getYProperty() {return this.y;}
 
     // Autres méthodes spécifiques à Acteurs
+
+
+    public String getId() {
+        return id;
+    }
 }
 
