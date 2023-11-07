@@ -13,7 +13,8 @@ public abstract class Deplaçable extends Acteur {
 
     public abstract boolean isOnBound();
 
-    public void move(){ //TODO }
+    public void move(){ //TODO
+         }
 
 
     public void algoDeplacement() {
@@ -23,5 +24,10 @@ public abstract class Deplaçable extends Acteur {
     public ModeDeplacement getModeDeplacement() { return this.modeDeplacement; }
 
 
-    public abstract boolean isOnObjective();
+    public boolean isOnObjective(){
+        int[] pos = new int[2];
+        pos[0] = this.getXValue()/32;
+        pos[1] = this.getYValue()/32;
+        return Environment.getInstance().getGround().getTileValue(pos) == 7;
+    }
 }

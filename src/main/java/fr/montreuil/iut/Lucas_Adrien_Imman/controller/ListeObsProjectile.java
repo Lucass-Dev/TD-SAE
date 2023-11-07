@@ -1,6 +1,6 @@
-package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
+/* package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.EffetTour;
+
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.ProjectileVue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;
@@ -39,4 +39,4 @@ public class ListeObsProjectile implements ListChangeListener<EffetTour> {
 }
 
 
-
+*/

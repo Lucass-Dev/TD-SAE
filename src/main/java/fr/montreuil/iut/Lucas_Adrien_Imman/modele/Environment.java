@@ -1,10 +1,9 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.PopupVue;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
@@ -25,6 +24,7 @@ public class Environment {
     private ObservableList<Ennemy> ennemies;
     private ArrayList<Ennemy> ennemiesDansLaZone ;
     private ObservableList<Projectile> projectiles;
+    private static Environment instance = null;
 
 
     private Pane levelPane;
@@ -44,8 +44,7 @@ public class Environment {
     private int poisonedAmount;
     private int poisonTicks;
 
-    public Environment(Pane levelPane){
-        this.levelPane = levelPane;
+    public Environment(){
         this.ground = new Ground();
         this.wave = new Wave();
         this.ennemiesDansLaZone = new ArrayList<>();
@@ -61,6 +60,7 @@ public class Environment {
         this.poisoningDelay = 150;
         this.poisonedAmount = 0;
     }
+
 
 
     //GETTER
@@ -110,8 +110,11 @@ public class Environment {
         this.difficulty = difficulty;
     }
 
+    public void setLevelPane(Pane levelPane) {
+        this.levelPane = levelPane;
+    }
 
-    //OTHER METHODS
+//OTHER METHODS
 
     public void freezeRam(int amount){
         this.freezingRam = true;
@@ -185,25 +188,26 @@ public class Environment {
                     Projectile p  = null;
 
                     if (t instanceof TaskKiller) { // ajoute au liste des projectiles le projectile correspondant au tour
-                        p = new ProjectileDegatsBrut(t.getX() + 16, t.getY() + 16, firstDetect);
+                        p = new ProjectileDegatsBrut(t.getXValue() + 16, t.getYValue() + 16, firstDetect);
                     }
+                    /*
                     else if (t instanceof CCleaner) {
                         p = new ZoneElectrique(t.getX() + 16, t.getY() + 16, detectedEnnemy);
-                    }
+                    }*/
                     else if (t instanceof PDFConverter) {
                         if(firstDetect instanceof DotExe) {
-                            p = new ProjectileDotSH(t.getX() + 16, t.getY() + 16, firstDetect);
+                            p = new ProjectileDotSH(t.getXValue() + 16, t.getYValue() + 16, firstDetect);
                         }
                     }
-                    else if (t instanceof InternetExplorer) {
+                    /*else if (t instanceof InternetExplorer) {
                         p = new ZoneRalentisseur(t.getX() + 16, t.getY() + 16, detectedEnnemy);
-                    }
+                    }*/
                     else if (t instanceof NordVPN) {
-                        p = new ProjectileKnockBack(t.getX() + 16, t.getY() + 16, firstDetect);
+                        p = new ProjectileKnockBack(t.getXValue() + 16, t.getYValue() + 16, firstDetect);
                     }
                     else if (t instanceof Demineur) {
                         if((!(firstDetect instanceof DotExe) &&  !(firstDetect instanceof Virus) && !(firstDetect instanceof Scam) && !(firstDetect instanceof Kamikaze)))
-                            p = new ProjectileKamikaze(t.getX() + 16, t.getY() + 16, firstDetect);
+                            p = new ProjectileKamikaze(t.getXValue() + 16, t.getYValue() + 16, firstDetect);
                     }
 
                     ennemiesDansLaZone.remove(detectedEnnemy);
@@ -360,6 +364,17 @@ public class Environment {
 
     public void addTower(Tower tower){
         this.placedTower.add(tower);
+    }
+
+    public static Environment getInstance() {
+        if (instance == null) {
+            instance = new Environment();
+        }
+        return instance;
+    }
+
+    public Pane getLevelPane() {
+        return levelPane;
     }
 
     public Ground getGround() {

@@ -1,13 +1,12 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environnement;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Level;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.scene.layout.Pane;
 
 public class Kamikaze extends Ennemy {
-    public Kamikaze(int x, int y, Pane levelPane, Environnement env, Player player, int startDirection, ModeDeplacement md) {
+    public Kamikaze(int x, int y, Pane levelPane, Environment env, Player player, int startDirection, ModeDeplacement md) {
         super(
                 x, // x
                 y, // y

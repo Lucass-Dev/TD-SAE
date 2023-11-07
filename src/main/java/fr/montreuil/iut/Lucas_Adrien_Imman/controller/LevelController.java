@@ -1,17 +1,19 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
+
+import javafx.collections.ListChangeListener;
+
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.Projectile;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.LevelDataTransit;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Projectiles.Projectile;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Score;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tower;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.LevelVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.ListChangeListener;
 import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -169,7 +171,8 @@ public class LevelController implements Initializable {
         this.towerMenu.getChildren().remove(this.playButton);
         this.player = this.LDT.getPlayer();
         int mapIndex = this.LDT.getMapIndex();
-        this.environment = new Environment(this.levelPane);
+        this.environment = Environment.getInstance();
+        this.environment.setLevelPane(this.levelPane);
         this.environment.setPlayer(this.LDT.getPlayer());
         this.environment.setDifficulty(this.LDT.getDifficulty());
         this.waveLabel.textProperty().bind(this.environment.getWave().getActualWaveNumberProperty().asString());
@@ -257,8 +260,8 @@ public class LevelController implements Initializable {
     }
 
     public void moveTowerTo(Tower t, int x, int y){
-        t.setX(x);
-        t.setY(y);
+        t.setXValue(x);
+        t.setYValue(y);
     }
 
     public void setMovingTower(boolean b){

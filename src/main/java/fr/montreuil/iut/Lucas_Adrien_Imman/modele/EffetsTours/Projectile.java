@@ -2,7 +2,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 
 
 public abstract class Projectile extends Deplaçable {
@@ -27,11 +27,11 @@ public abstract class Projectile extends Deplaçable {
 
     public  boolean isOnObjective() { //return true si la projectile a atteint la (x et y cible ) cible
         int range = 16 ;
-        return ((this.getY()-range<= ennemyCible.getY() && ennemyCible.getY()<= this.getY()+range) && (this.getX()-range<= ennemyCible.getX() && ennemyCible.getX() <= this.getX()+range)) ;
+        return ((this.getYValue()-range<= ennemyCible.getYValue()) && ennemyCible.getYValue()<= this.getYValue()+range) && (this.getXValue()-range<= ennemyCible.getXValue() && ennemyCible.getXValue() <= this.getXValue()+range);
     }
 
     public boolean isOnBound(){
-        return this.getX() >640  && this.getY() >640;
+        return this.getXValue() >640  && this.getYValue() >640;
     }
 
 }

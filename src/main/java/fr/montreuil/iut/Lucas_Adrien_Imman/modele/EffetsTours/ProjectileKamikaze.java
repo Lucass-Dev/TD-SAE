@@ -1,7 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 
 public class ProjectileKamikaze extends Projectile {
 

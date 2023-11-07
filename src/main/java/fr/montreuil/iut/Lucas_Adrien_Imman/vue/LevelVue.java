@@ -2,7 +2,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import fr.montreuil.iut.Lucas_Adrien_Imman.controller.LevelController;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environnement;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
 import javafx.beans.binding.Bindings;
@@ -24,13 +24,13 @@ public class LevelVue {
     private Pane tilePane;
     private Pane levelPane;
     private TowerVue towerVue;
-    private Environnement environnement;
+    private Environment environnement;
     private LevelController levelController;
     private Tower[] reference;
     private TowerVue tv;
     private BarVue bv;
 
-    public LevelVue(Environnement environnement, Pane tilePane, Pane levelPane, LevelController levelController){
+    public LevelVue(Environment environnement, Pane tilePane, Pane levelPane, LevelController levelController){
         this.environnement = environnement;
         this.tilePane = tilePane;
         this.levelPane = levelPane;

@@ -1,5 +1,5 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
-
+/*
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.*;
 import javafx.scene.image.Image;
@@ -50,7 +50,7 @@ public class ProjectileVue {
                 circle.setFill(Color.VIOLET);
             }
 
-            circle.translateXProperty().bind(newProjectile.xProperty());
+            circle.translateXProperty().bind(newProjectile.getXProperty());
             circle.translateYProperty().bind(newProjectile.yProperty());
             circle.setId(newProjectile.getId());
 
@@ -70,5 +70,5 @@ public class ProjectileVue {
 }
 
 
-
+*/
 

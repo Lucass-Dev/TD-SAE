@@ -1,10 +1,9 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
 
-
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environnement;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
@@ -16,7 +15,7 @@ public abstract class Ennemy extends Deplaçable {
     private int spriteIndex;
 
     private Pane levelPane;
-    private Environnement env;
+    private Environment env;
     Player player ;
 
     private SimpleIntegerProperty life;
@@ -32,7 +31,7 @@ public abstract class Ennemy extends Deplaçable {
     private int dropRate ;
 
 
-    public Ennemy(int x, int y, int health, int maxHealth, Pane levelPane, Environnement env, int spriteIndex, Player player, int speed, int damage, int startDirection, int dropeRate, int initialSpeed, ModeDeplacement md) {
+    public Ennemy(int x, int y, int health, int maxHealth, Pane levelPane, Environment env, int spriteIndex, Player player, int speed, int damage, int startDirection, int dropeRate, int initialSpeed, ModeDeplacement md) {
         super(x, y, health, maxHealth, md);
 
 
@@ -95,7 +94,7 @@ public abstract class Ennemy extends Deplaçable {
     public int getDirection() {
         return direction;
     }
-    public Environnement getEnv() {
+    public Environment getEnv() {
         return env;
     }
     public int getOppositeDirection(){
@@ -119,7 +118,7 @@ public abstract class Ennemy extends Deplaçable {
     public Ennemy isTouching(ObservableList<Ennemy> ennemies){
         for (Ennemy e: ennemies) {
 
-                if (this.getX() < e.getX() +8 && this.getX() > e.getX() -8 && this.getY() < e.getY() +8 && this.getY() < e.getY() -8){
+                if (this.getXValue() < e.getXValue() +8 && this.getXValue() > e.getXValue() -8 && this.getYValue() < e.getYValue() +8 && this.getYValue() < e.getYValue() -8){
                     System.out.println("je tpuche");
                     return e;
                 }
@@ -139,13 +138,13 @@ public abstract class Ennemy extends Deplaçable {
     public boolean isCentered(){
         int[] center;
         int[] pos = new int[2];
-        pos[0] = this.getX()/32;
-        pos[1] = this.getY()/32;
+        pos[0] = this.getXValue()/32;
+        pos[1] = this.getYValue()/32;
 
         center = this.env.getGround().getTileCenter(pos);
 
-        pos[0] = this.getX();
-        pos[1] = this.getY();
+        pos[0] = this.getXValue();
+        pos[1] = this.getYValue();
 
         return pos[0] <= center[0]+3 && pos[0] >= center[0]-3 && pos[1] <= center[1]+3 && pos[1] >= center[1]-3 ;
     }
@@ -155,14 +154,10 @@ public abstract class Ennemy extends Deplaçable {
 
 
     public boolean isOnBound(){
-        return this.getX() < this.levelPane.getWidth() && this.getY() < this.levelPane.getHeight() && this.getX() >= 0 && this.getY() >=0;
+        return this.getXValue() < this.levelPane.getWidth() && this.getYValue() < this.levelPane.getHeight() && this.getXValue() >= 0 && this.getYValue() >=0;
     }
-    public boolean isOnObjective(){
-        int[] pos = new int[2];
-        pos[0] = this.getX()/32;
-        pos[1] = this.getY()/32;
-        return this.env.getGround().getTileValue(pos) == 7;
-    }
+
+
 
 
 

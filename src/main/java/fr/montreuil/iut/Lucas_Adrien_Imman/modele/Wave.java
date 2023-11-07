@@ -1,5 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.DeplacementBFS;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -12,14 +14,19 @@ public class Wave {
     private SimpleIntegerProperty actualWaveNumber;
     private ArrayList<Ennemy> actualWave;
     private int waveSize;
+    private Environment env;
 
 
     public Wave(){
         this.actualWaveNumber = new SimpleIntegerProperty(0);
         this.actualWave = new ArrayList<>();
         this.waveSize = 3;
+        this.env = Environment.getInstance();
     }
 
+    private enum EnemyType {
+        DOT_SH, ARCHIVE, VIRUS, SCAM, DOT_EXE
+    }
     // GETTER
 
     public int getActualWaveNumber() {
@@ -52,63 +59,50 @@ public class Wave {
 
     public void createWave(int size, Ground ground, Pane levelPane, Player player, Environment environment){
         int direction = ground.getStartDirection();
+        ModeDeplacement md = new DeplacementBFS();
         for (int i = 0; i < size; i++) {
-            switch ((int) ((Math.random() * (6 - 1)) + 1)){
-                case 1 -> {
-                    this.actualWave.add(createDotSH(ground, levelPane, player, environment, direction));
-                }
-                case 2 -> {
-                    if (this.actualWaveNumber.get() <= 5){
-                        this.actualWave.add(createDotSH(ground, levelPane, player, environment, direction));
-                    }else{
-                        this.actualWave.add(createArchive(ground, levelPane, player, environment, direction));
-                    }
-                }
-                case 3 -> {
-                    if (this.actualWaveNumber.get() <= 10){
-                        this.actualWave.add(createDotSH(ground, levelPane, player, environment, direction));
-                    }else{
-                        this.actualWave.add(createVirus(ground, levelPane, player, environment, direction));
-                    }
-                }
-                case 4 -> {
-                    if (this.actualWaveNumber.get() <= 15){
-                        this.actualWave.add(createDotSH(ground, levelPane, player, environment, direction));
-                    }else{
-                        this.actualWave.add(createScam(ground, levelPane, player, environment, direction));
-                    }
-                }
-                case 5 -> {
-                    if (this.actualWaveNumber.get() <= 20){
-                        this.actualWave.add(createDotSH(ground, levelPane, player, environment, direction));
-                    }else{
-                        this.actualWave.add(createDotExe(ground, levelPane, player, environment, direction));
-                    }
-                }
-            }
+            EnemyType type = selectEnemyType();
+            this.actualWave.add(createEnemy(type, direction, md));
         }
         setActualWaveNumber(actualWaveNumber.get() + 1);
     }
 
-    public Ennemy createDotSH(Ground ground, Pane levelPane, Player player, Environment environment, int direction){
-        return new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, environment, player, direction);
+    private EnemyType selectEnemyType() {
+        int waveNumber = this.actualWaveNumber.get();
+        int randomNum = (int) ((Math.random() * (6 - 1)) + 1);
+        if (waveNumber > 20 && randomNum == 5) {
+            return EnemyType.DOT_EXE;
+        } else if (waveNumber > 15 && randomNum == 4) {
+            return EnemyType.SCAM;
+        } else if (waveNumber > 10 && randomNum == 3) {
+            return EnemyType.VIRUS;
+        } else if (waveNumber > 5 && randomNum == 2) {
+            return EnemyType.ARCHIVE;
+        } else {
+            return EnemyType.DOT_SH;
+        }
     }
 
-    public Ennemy createArchive(Ground ground, Pane levelPane, Player player, Environment environment, int direction){
-        return new Archive(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, environment, player, direction);
+    private Ennemy createEnemy(EnemyType type, int direction, ModeDeplacement md){
+        int[] startPos = env.getGround().getStartTilePos();
+        int x = startPos[0]*32 + 16;
+        int y = startPos[1]*32 + 16;
+        Pane levelPane = env.getLevelPane();
+        Player player = env.getPlayer();
+
+        switch (type) {
+            case ARCHIVE:
+                return new Archive(x, y, levelPane, env, player, direction, md);
+            case VIRUS:
+                return new Virus(x, y, levelPane, env, player, direction, md);
+            case SCAM:
+                return new Scam(x, y, levelPane, env, player, direction, md);
+            case DOT_EXE:
+                return new DotExe(x, y, levelPane, env, player, direction, md);
+            case DOT_SH:
+            default:
+                return new DotSH(x, y, levelPane, env, player, direction, md);
+        }
     }
-
-    public Ennemy createVirus(Ground ground, Pane levelPane, Player player, Environment environment, int direction){
-        return new Virus(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, environment, player, direction);
-    }
-
-    public Ennemy createScam(Ground ground, Pane levelPane, Player player, Environment environment, int direction){
-        return new Scam(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, environment, player, direction);
-    }
-
-    public Ennemy createDotExe(Ground ground, Pane levelPane, Player player, Environment environment, int direction){
-        return new DotExe(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, environment, player, direction);
-    }
-
-
 }
+
