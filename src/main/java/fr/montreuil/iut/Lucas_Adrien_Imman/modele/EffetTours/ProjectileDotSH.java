@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 
 public class ProjectileDotSH extends EffetTour {
     public ProjectileDotSH(int x, int y, Ennemy ennemyCible) {
-        super(x, y, ennemyCible);
+        super(x, y, ennemyCible,16);
     }
 
 

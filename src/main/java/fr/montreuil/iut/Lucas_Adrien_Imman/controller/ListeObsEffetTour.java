@@ -20,19 +20,17 @@ public class ListeObsEffetTour implements ListChangeListener<EffetTour> {
     @Override
     public void onChanged(Change<? extends EffetTour> c) {
         while (c.next()) {
-            for (EffetTour newProjectile : c.getAddedSubList()) {
+            for (EffetTour newEffetTour : c.getAddedSubList()) {
                 ProjectileVue projectileVue = new ProjectileVue(levelpane);
                 try {
-                    projectileVue.projectileSprite(newProjectile);
+                    projectileVue.projectileSprite(newEffetTour);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
+            for (EffetTour oldEffetTour : c.getRemoved()) {
 
-            for (EffetTour oldProjectile : c.getRemoved()) {
-
-                levelpane.getChildren().remove(levelpane.lookup("#" + oldProjectile.getId()));
+                levelpane.getChildren().remove(levelpane.lookup("#" + oldEffetTour.getId()));
             }
         }
     }

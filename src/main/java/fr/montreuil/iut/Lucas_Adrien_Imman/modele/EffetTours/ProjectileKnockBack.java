@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 
 public class ProjectileKnockBack extends EffetTour  {
     public ProjectileKnockBack(int x, int y, Ennemy ennemyCible) {
-        super(x, y, ennemyCible);
+        super(x, y, ennemyCible,16);
     }
 
     @Override

@@ -9,7 +9,5 @@ public abstract class Deplaçable extends Acteur {
 
     public abstract boolean isOnBound();
 
-    //public abstract void algoDeplacement();
-
     public abstract boolean isOnObjective();
 }

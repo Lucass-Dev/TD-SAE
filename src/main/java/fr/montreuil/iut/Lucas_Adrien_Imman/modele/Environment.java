@@ -319,46 +319,7 @@ public class Environment {
         return this.player.isDead();
     }
 
-   /* public void createWave(int size){
-        int direction = this.ground.getStartDirection();
-        for (int i = 0; i < size; i++) {
-            switch ((int) ((Math.random() * (6 - 1)) + 1)){
-                case 1 -> {
-                    this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                }
-                case 2 -> {
-                    if (this.actualWaveNumber.get() <= 5){
-                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }else{
-                        this.actualWave.add(new Archive(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }
-                }
-                case 3 -> {
-                    if (this.actualWaveNumber.get() <= 10){
-                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }else{
-                        this.actualWave.add(new Virus(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }
-                }
-                case 4 -> {
-                    if (this.actualWaveNumber.get() <= 15){
-                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }else{
-                        this.actualWave.add(new Scam(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }
-                }
-                case 5 -> {
-                    if (this.actualWaveNumber.get() <= 20){
-                        this.actualWave.add(new DotSH(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }else{
-                        this.actualWave.add(new DotExe(ground.getStartTilePos()[0]*32 +16, ground.getStartTilePos()[1]*32 +16, levelPane, this, this.player, direction));
-                    }
-                }
-            }
-        }
-        setActualWaveNumber(actualWaveNumber.get() + 1);
-    }
-*/
+
     public void placeTower(int x , int y, int index){
         int[] pos = ground.getTilePos(x, y);
         Tower t = null;

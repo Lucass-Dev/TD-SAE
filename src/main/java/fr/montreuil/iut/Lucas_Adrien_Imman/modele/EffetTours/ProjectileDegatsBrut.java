@@ -7,7 +7,7 @@ public class ProjectileDegatsBrut extends EffetTour {
 
 
     public ProjectileDegatsBrut(int x, int y, Ennemy ennemyCible) {
-        super(x, y, ennemyCible);
+        super(x, y, ennemyCible,16);
 
     }
 

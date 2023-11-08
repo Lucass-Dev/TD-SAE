@@ -15,6 +15,7 @@ public class TaskKiller extends Tower {
         return this.getName() + this.getLevel() +this.getRange();
     }
 
+
     @Override
     public EffetTour getEffet(Ennemy ennemy) {
         return new ProjectileDegatsBrut(this.getX() + 16, this.getY() + 16, ennemy);

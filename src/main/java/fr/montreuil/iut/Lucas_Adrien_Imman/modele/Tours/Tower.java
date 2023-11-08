@@ -27,7 +27,6 @@ abstract public class Tower extends Acteur {
     private SimpleIntegerProperty sellingPrice;
     private int flopPrice;
     private int ramPrice;
-
     private SimpleIntegerProperty level;
     private Pane tilePane;
     private int delais ;
@@ -225,7 +224,6 @@ abstract public class Tower extends Acteur {
     public ArrayList<Ennemy> getEnnemieDetecte(){
         return ennemieDetecte;
     }
-
 
     public abstract EffetTour getEffet(Ennemy ennemy);
 

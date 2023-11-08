@@ -4,7 +4,7 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
 public class ProjectileKamikaze extends EffetTour {
     public ProjectileKamikaze(int x, int y, Ennemy ennemyCible) {
-        super(x, y, ennemyCible);
+        super(x, y, ennemyCible,16);
     }
 
 

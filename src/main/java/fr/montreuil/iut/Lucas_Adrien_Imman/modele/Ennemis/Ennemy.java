@@ -98,9 +98,7 @@ public abstract class Ennemy extends Deplaçable {
 
     public Ennemy isTouching(ObservableList<Ennemy> ennemies){
         for (Ennemy e: ennemies) {
-
             if (this.getX() < e.getX() +8 && this.getX() > e.getX() -8 && this.getY() < e.getY() +8 && this.getY() < e.getY() -8){
-                System.out.println("je tpuche");
                 return e;
             }
 

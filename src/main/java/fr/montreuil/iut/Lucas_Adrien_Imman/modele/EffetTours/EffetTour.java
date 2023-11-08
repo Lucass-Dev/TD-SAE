@@ -9,11 +9,13 @@ import javafx.collections.ObservableList;
 public abstract class EffetTour extends Deplaçable implements AgirSurCible {
 
     private Ennemy ennemyCible;
+    private int range ;
 
 
-    public EffetTour(int x , int y , Ennemy ennemyCible){
+    public EffetTour(int x , int y , Ennemy ennemyCible , int range){
         super(x,y,"P" + compteur);
         this.ennemyCible = ennemyCible;
+        this.range = range ;
     }
 
     public abstract void agitSurLaCible();
@@ -43,7 +45,7 @@ public abstract class EffetTour extends Deplaçable implements AgirSurCible {
     }
 
     public   boolean isOnObjective() { //return true si la projectile a atteint la (x et y cible ) cible
-        int range = 16 ;
+       // int range = 16 ;
         return ((this.getY()-range<= ennemyCible.getY() && ennemyCible.getY()<= this.getY()+range) && (this.getX()-range<= ennemyCible.getX() && ennemyCible.getX() <= this.getX()+range)) ;
     }
 
