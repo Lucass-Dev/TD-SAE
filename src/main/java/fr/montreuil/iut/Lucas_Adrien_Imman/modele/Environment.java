@@ -1,5 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.DeplacementBFS;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
@@ -19,6 +20,7 @@ public class Environment {
     private Player player;
     private int difficulty;
 
+    private ModeDeplacement modeDeplacementBFS;
 
 
     private ObservableList<Tower> placedTower;
@@ -52,7 +54,7 @@ public class Environment {
         this.placedTower = FXCollections.observableArrayList();
         this.ennemies = FXCollections.observableArrayList();
 
-
+        this.modeDeplacementBFS = new DeplacementBFS();
         this.projectiles = FXCollections.observableArrayList();
         this.freezingDelay = 350;
         this.freezingRam = false;
@@ -61,7 +63,6 @@ public class Environment {
         this.poisoningDelay = 150;
         this.poisonedAmount = 0;
     }
-
 
 
     //GETTER
@@ -78,7 +79,6 @@ public class Environment {
     public ObservableList<Projectile> getProjectiles(){
         return projectiles ;
     }
-
 
     public Wave getWave() {
         return wave;
@@ -99,7 +99,6 @@ public class Environment {
     }
 
 
-
     //SETTER
 
 
@@ -115,7 +114,7 @@ public class Environment {
         this.levelPane = levelPane;
     }
 
-//OTHER METHODS
+    //OTHER METHODS
 
     public void freezeRam(int amount){
         this.freezingRam = true;
@@ -141,9 +140,6 @@ public class Environment {
                 player.setFlop(player.getFlop() + (e.getDropRate()* (int)(this.wave.getActualWaveNumber()*0.5)));
                 player.setRam(player.getRam() + (int)(this.wave.getActualWaveNumber()*0.2));
             }
-
-
-
         }
     }
 
@@ -229,26 +225,26 @@ public class Environment {
     public void bulletTurn() {
 
         for (Projectile p : projectiles) {   //déplacement des projectiles et agit sur la cible
-            p.placement();
+            p.deplacement();
             p.agitSurLaCible();
         }
 
-        for (int j = projectiles.size() - 1; j >= 0; j--) {//enleve les projectiles/zones  par rapport aux conditions
+        for (int j = projectiles.size() - 1; j >= 0; j--) {//enleve les projectiles/zones par rapport aux conditions
             Projectile p = projectiles.get(j);
 
             if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
-                if (p.cibleAtteint() || p.isOnBound()) {
+                if (p.isOnObjective() || p.isOnBound()) {
                     projectiles.remove(p);
                 }
             }
 
             else if (p instanceof ProjectileDotSH) {
-                if (p.cibleAtteint()) {
+                if (p.isOnObjective()) {
                     projectiles.remove(p);
                     cpt++;
                     if (cpt == 3) {
                         ennemies.remove(p.getEnnemyCible());
-                        this.ennemies.add(new DotSH(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, this.ground.getStartDirection()));
+                        this.ennemies.add(new DotSH(p.getEnnemyCible().getXValue(), p.getEnnemyCible().getYValue(), levelPane, this, this.player, this.ground.getStartDirection(), this.modeDeplacementBFS));
                         cpt = 0;
                     }
                 }
@@ -256,22 +252,20 @@ public class Environment {
 
             else if(p instanceof ProjectileKamikaze) {
 
-                if ((p.cibleAtteint() || p.isOnBound())) {
+                if ((p.isOnObjective() || p.isOnBound())) {
                     projectiles.remove(p);
                     cpt ++ ;
                     System.out.println(cpt);
                     if(cpt == 3) {
                         ennemies.remove(p.getEnnemyCible());
-                        this.ennemies.add(new Kamikaze(p.getEnnemyCible().getXValue(), p.getEnnemyCible().getYValue(), levelPane, this, this.player, p.getEnnemyCible().getOppositeDirection()));
+                        this.ennemies.add(new Kamikaze(p.getEnnemyCible().getXValue(), p.getEnnemyCible().getYValue(), levelPane, this, this.player, p.getEnnemyCible().getOppositeDirection(), this.modeDeplacementBFS));
                         cpt = 0 ;
                     }
                 }
             }
 
-
-
             else if(p instanceof ZoneRalentisseur || p instanceof ZoneElectrique){
-                if (!p.cibleAtteint() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
+                if (!p.isOnObjective() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
                     projectiles.remove(p);
                 }
             }
@@ -286,7 +280,7 @@ public class Environment {
         }else if (nbTours % 20 == 0 && this.wave.getActualWave().size() != 0){
             this.ennemies.add(this.wave.getActualWave().remove(0));
         }
-        if (this.ennemies.size() > 0){ //fait déplacer les ennemis , les enleve de la liste  si ils ont atteint l'objectif , ou il sont en dehors de la map  ou s'il sont morts
+        if (this.ennemies.size() > 0){ //fait déplacer les ennemis, les enleve de la liste  si ils ont atteint l'objectif , ou il sont en dehors de la map  ou s'il sont morts
             for (int i = ennemies.size()-1; i>=0 ; i--) {
                 Ennemy e = ennemies.get(i);
                 e.move();
@@ -315,8 +309,6 @@ public class Environment {
         poison();
         return this.player.isDead();
     }
-
-
 
     public void placeTower(int x , int y, int index){
         int[] pos = ground.getTilePos(x, y);
@@ -354,7 +346,7 @@ public class Environment {
 
     public void startLevel(int nbTours){
         enemiesTurn(nbTours);
-        towerTurn(nbTours);
+        towerTurn(nbTours, this.modeDeplacementBFS);
         bulletTurn();
         flopGain();
     }

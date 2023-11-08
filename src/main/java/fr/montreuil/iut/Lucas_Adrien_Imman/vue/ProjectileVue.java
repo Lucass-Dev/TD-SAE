@@ -1,5 +1,4 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
-/*
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.*;
 import javafx.scene.image.Image;
@@ -20,7 +19,7 @@ public class ProjectileVue {
         this.levelPane = levelPane;
     }
 
-    public void projectileSprite(EffetTour newProjectile) throws IOException {
+    public void projectileSprite(Projectile newProjectile) throws IOException {
 
         if (!(newProjectile instanceof ProjectileDegatsBrut)) { // cree les sprites correspondant
 
@@ -51,7 +50,7 @@ public class ProjectileVue {
             }
 
             circle.translateXProperty().bind(newProjectile.getXProperty());
-            circle.translateYProperty().bind(newProjectile.yProperty());
+            circle.translateYProperty().bind(newProjectile.getYProperty());
             circle.setId(newProjectile.getId());
 
             levelPane.getChildren().add(circle);
@@ -61,14 +60,11 @@ public class ProjectileVue {
             this.imageView = new ImageView(new Image((Main.class.getResource("graphics/projectiles/" + proba2 + ".png")).openStream()));
 
 
-            imageView.translateXProperty().bind(newProjectile.xProperty());
-            imageView.translateYProperty().bind(newProjectile.yProperty());
+            imageView.translateXProperty().bind(newProjectile.getXProperty());
+            imageView.translateYProperty().bind(newProjectile.getYProperty());
             imageView.setId(newProjectile.getId());
             levelPane.getChildren().add(imageView);
         }
     }
 }
-
-
-*/
 

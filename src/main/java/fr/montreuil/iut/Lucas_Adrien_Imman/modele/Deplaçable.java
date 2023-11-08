@@ -17,7 +17,7 @@ public abstract class Deplaçable extends Acteur {
          }
 
 
-    public void algoDeplacement() {
+    public void deplacement() {
         modeDeplacement.seDeplacer(this);
     }
 
