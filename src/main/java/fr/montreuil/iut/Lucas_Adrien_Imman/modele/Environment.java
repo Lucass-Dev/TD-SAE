@@ -1,10 +1,13 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.DeplacementBFS;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.*;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.PopupVue;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
@@ -14,12 +17,12 @@ import java.util.ArrayList;
 public class Environment {
     // private ArrayList<CooldownState> states; attribut de acteur !!
     private Ground ground;
+    private Wave wave;
     private int nbTours;
     private Player player;
     private int difficulty;
-    private SimpleIntegerProperty actualWaveNumber;
-    private ArrayList<Ennemy> actualWave;
-    private ArrayList<Ennemy> ennemiesDansLaZone ;
+
+    private ModeDeplacement modeDeplacementBFS;
 
 
     private ObservableList<Tower> placedTower;
@@ -27,10 +30,12 @@ public class Environment {
     private ObservableList<EffetTour> effetTours;
 
 
+    private ArrayList<Ennemy> ennemiesDansLaZone ;
+    private ObservableList<Projectile> projectiles;
+    private static Environment instance = null;
 
 
     private Pane levelPane;
-    private int waveSize;
     private int cpt ;
 
 
@@ -47,16 +52,15 @@ public class Environment {
     private int poisonedAmount;
     private int poisonTicks;
 
-    public Environment(Pane levelPane){
-        this.levelPane = levelPane;
+    public Environment(){
         this.ground = new Ground();
+        this.wave = new Wave();
         this.ennemiesDansLaZone = new ArrayList<>();
         this.placedTower = FXCollections.observableArrayList();
         this.ennemies = FXCollections.observableArrayList();
-        this.actualWave = new ArrayList<>();
-        this.waveSize = 3;
-        this.actualWaveNumber = new SimpleIntegerProperty(0);
-        this.effetTours = FXCollections.observableArrayList();
+
+        this.modeDeplacementBFS = new DeplacementBFS();
+        this.projectiles = FXCollections.observableArrayList();
         this.freezingDelay = 350;
         this.freezingRam = false;
         this.freezedRamAmount = 0;
@@ -81,14 +85,9 @@ public class Environment {
         return effetTours;
     }
 
-    public int getActualWaveNumber() {
-        return actualWaveNumber.get();
+    public Wave getWave() {
+        return wave;
     }
-
-    public SimpleIntegerProperty actualWaveNumberProperty() {
-        return actualWaveNumber;
-    }
-
 
     public Player getPlayer() {
         return player;
@@ -106,9 +105,7 @@ public class Environment {
 
 
     //SETTER
-    public void setActualWaveNumber(int actualWaveNumber) {
-        this.actualWaveNumber.set(actualWaveNumber);
-    }
+
 
     public void setPlayer(Player player) {
         this.player = player;
@@ -118,6 +115,9 @@ public class Environment {
         this.difficulty = difficulty;
     }
 
+    public void setLevelPane(Pane levelPane) {
+        this.levelPane = levelPane;
+    }
 
     //OTHER METHODS
 
@@ -142,8 +142,8 @@ public class Environment {
         for (int i = ennemies.size() - 1; i >= 0; i--) {
             Ennemy e = ennemies.get(i);
             if (e.isDead()) {
-                player.setFlop(player.getFlop() + (e.getDropRate()* (int)(actualWaveNumber.getValue()*0.5)));
-                player.setRam(player.getRam() + (int)(actualWaveNumber.getValue()*0.2));
+                player.setFlop(player.getFlop() + (e.getDropRate()* (int)(this.wave.getActualWaveNumber()*0.5)));
+                player.setRam(player.getRam() + (int)(this.wave.getActualWaveNumber()*0.2));
             }
         }
     }
@@ -177,7 +177,7 @@ public class Environment {
         return player.isDead();
     }
 
-    public void towerTurn(int nbTours) {
+    public void towerTurn(int nbTours, ModeDeplacement md) {
         for (int i =  placedTower.size() - 1 ; i>=0 ; i--) {
             Tower t = placedTower.get(i);
             EffetTour p ;
@@ -267,7 +267,7 @@ public class Environment {
                     cpt ++ ;
                     if(cpt == 3) {
                         ennemies.remove(p.getEnnemyCible());
-                        this.ennemies.add(new Kamikaze(p.getEnnemyCible().getX(), p.getEnnemyCible().getY(), levelPane, this, this.player, this.ground.getStartDirection()));
+                        this.ennemies.add(new Kamikaze(p.getEnnemyCible().getXValue(), p.getEnnemyCible().getYValue(), levelPane, this, this.player, p.getEnnemyCible().getOppositeDirection(), this.modeDeplacementBFS));
                         cpt = 0 ;
                     }
                 }
@@ -283,18 +283,18 @@ public class Environment {
 
     public boolean enemiesTurn(int nbTours){
 
-        if (actualWave.size() == 0 && ennemies.size() == 0){
-            //  createWave(this.waveSize);
-            this.waveSize += actualWaveNumber.get()*difficulty/3;
-        }else if (nbTours % 20 == 0 && actualWave.size() != 0){
-            this.ennemies.add(this.actualWave.remove(0));
+        if (this.wave.getActualWave().size() == 0 && ennemies.size() == 0){
+            this.wave.createWave(this.wave.getWaveSize(), this.ground, this.levelPane, this.player, this);
+            this.wave.setWaveSize(this.wave.getWaveSize() + this.wave.getActualWaveNumber()*this.difficulty/3);
+        }else if (nbTours % 20 == 0 && this.wave.getActualWave().size() != 0){
+            this.ennemies.add(this.wave.getActualWave().remove(0));
         }
-        if (this.ennemies.size() > 0){ //fait déplacer les ennemis , les enleve de la liste  si ils ont atteint l'objectif , ou il sont en dehors de la map  ou s'il sont morts
+        if (this.ennemies.size() > 0){ //fait déplacer les ennemis, les enleve de la liste  si ils ont atteint l'objectif , ou il sont en dehors de la map  ou s'il sont morts
             for (int i = ennemies.size()-1; i>=0 ; i--) {
                 Ennemy e = ennemies.get(i);
-                //e.move();
+                e.move();
                 if (e instanceof Kamikaze){
-                    if (ground.getTileValue(ground.getTilePos(e.getX(), e.getY())) == 6){
+                    if (ground.getTileValue(ground.getTilePos(e.getXValue(), e.getYValue())) == 6){
                         ennemies.remove(e);
                     }
                     Ennemy newEnemy = e.isTouching(ennemies);
@@ -318,7 +318,6 @@ public class Environment {
         poison();
         return this.player.isDead();
     }
-
 
     public void placeTower(int x , int y, int index){
         int[] pos = ground.getTilePos(x, y);
@@ -356,7 +355,7 @@ public class Environment {
 
     public void startLevel(int nbTours){
         enemiesTurn(nbTours);
-        towerTurn(nbTours);
+        towerTurn(nbTours, this.modeDeplacementBFS);
         bulletTurn();
         flopGain();
     }
@@ -369,7 +368,19 @@ public class Environment {
         this.placedTower.add(tower);
     }
 
+    public static Environment getInstance() {
+        if (instance == null) {
+            instance = new Environment();
+        }
+        return instance;
+    }
+
+    public Pane getLevelPane() {
+        return levelPane;
+    }
+
     public Ground getGround() {
         return ground;
+>>>>>>>>> Temporary merge branch 2:src/main/java/fr/montreuil/iut/Lucas_Adrien_Imman/modele/Environment.java
     }
 }

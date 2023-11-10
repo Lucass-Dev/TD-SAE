@@ -30,14 +30,14 @@ public class TowerVue {
         this.imageView.setPickOnBounds(true);
         this.imageView.setId(String.valueOf(newTower.getId()));
         levelPane.getChildren().add(imageView);
-        this.imageView.translateXProperty().bind(newTower.xProperty());
-        this.imageView.translateYProperty().bind(newTower.yProperty());
+        this.imageView.translateXProperty().bind(newTower.getXProperty());
+        this.imageView.translateYProperty().bind(newTower.getYProperty());
         createRange(newTower);
     }
     public void createRange(Tower tower){
         Circle c = new Circle(tower.getRange());
-        c.translateXProperty().bind(Bindings.createIntegerBinding(()->tower.xProperty().get() +16, tower.xProperty()));
-        c.translateYProperty().bind(Bindings.createIntegerBinding(()->tower.yProperty().get() +16, tower.yProperty()));
+        c.translateXProperty().bind(Bindings.createIntegerBinding(()->tower.getXProperty().get() +16, tower.getXProperty()));
+        c.translateYProperty().bind(Bindings.createIntegerBinding(()->tower.getYProperty().get() +16, tower.getYProperty()));
 
         c.visibleProperty().bind(tower.showingRangeProperty());
         c.radiusProperty().bind(tower.rangeProperty());

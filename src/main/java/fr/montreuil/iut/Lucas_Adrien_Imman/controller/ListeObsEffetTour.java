@@ -35,6 +35,3 @@ public class ListeObsEffetTour implements ListChangeListener<EffetTour> {
         }
     }
 }
-
-
-

@@ -1,8 +1,13 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
+
+import javafx.collections.ListChangeListener;
+
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.Projectile;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.LevelDataTransit;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
@@ -11,7 +16,6 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tower;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.LevelVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.ListChangeListener;
 import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -169,10 +173,11 @@ public class LevelController implements Initializable {
         this.towerMenu.getChildren().remove(this.playButton);
         this.player = this.LDT.getPlayer();
         int mapIndex = this.LDT.getMapIndex();
-        this.environment = new Environment(this.levelPane);
+        this.environment = Environment.getInstance();
+        this.environment.setLevelPane(this.levelPane);
         this.environment.setPlayer(this.LDT.getPlayer());
         this.environment.setDifficulty(this.LDT.getDifficulty());
-        this.waveLabel.textProperty().bind(this.environment.actualWaveNumberProperty().asString());
+        this.waveLabel.textProperty().bind(this.environment.getWave().getActualWaveNumberProperty().asString());
 
         //Ce try catch est pour la méthode createMap de la classe Environment parce que l'on essaye de trouver un fichier
         try {
@@ -183,6 +188,9 @@ public class LevelController implements Initializable {
             this.environment.getPlacedTower().addListener(towerListChangeListener);
             ListChangeListener<EffetTour> effetTourListChangeListener = new ListeObsEffetTour(levelPane);
             this.environment.getEffetTours().addListener(effetTourListChangeListener);
+            ListChangeListener<Projectile> projectileListChangeListener = new ListeObsProjectile(levelPane);
+            // L'erreur Viens de ListeObsProjectile qui est en commentaires
+            this.environment.getProjectiles().addListener(projectileListChangeListener);
             this.levelVue = new LevelVue(this.environment, this.tilePane, this.levelPane, this);
             this.levelVue.createShopMenu(towerShopVbox);
             try {
@@ -219,8 +227,8 @@ public class LevelController implements Initializable {
                     if(estFini || environment.checkProgression()){
                         System.out.println("fini");
                         gameLoop.stop();
-                        Score s = new Score(this.LDT.getDifficulty(), this.timeLabel.getText(), this.LDT.getPlayerName(), this.LDT.getMapIndex(), this.environment.getActualWaveNumber());
-                        //Ce try catch est pour la méthode newBestScores de la classe Level parce que l'on essaye de trouver un fichier
+                        Score s = new Score(this.LDT.getDifficulty(), this.timeLabel.getText(), this.LDT.getPlayerName(), this.LDT.getMapIndex(), this.environment.getWave().getActualWaveNumber());
+                        //Ce try catch est pour la méthode newBestScores de la classe Environment parce que l'on essaye de trouver un fichier
                         try {
                             s.newBestScores();
                         } catch (IOException e) {
@@ -257,8 +265,8 @@ public class LevelController implements Initializable {
     }
 
     public void moveTowerTo(Tower t, int x, int y){
-        t.setX(x);
-        t.setY(y);
+        t.setXValue(x);
+        t.setYValue(y);
     }
 
     public void setMovingTower(boolean b){

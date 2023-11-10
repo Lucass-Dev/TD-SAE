@@ -1,16 +1,23 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.DotSH;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
-import javafx.collections.ObservableList;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 
+
+public class ProjectileDotSH extends Projectile {
+
+    private static final int DEFAULT_INITIAL_HEALTH = 100;
+    private static final int DEFAULT_MAX_HEALTH = 100;
+
+    public ProjectileDotSH(int x, int y, Ennemy ennemyCible, ModeDeplacement md) {
+        super(x, y, DEFAULT_INITIAL_HEALTH, DEFAULT_MAX_HEALTH, ennemyCible, md);
 public class ProjectileDotSH extends EffetTour {
     public ProjectileDotSH(int x, int y, Ennemy ennemyCible) {
         super(x, y, ennemyCible,16);
     }
 
-
-    public void agitSurLaCible() {//si un cible est détecté , il perdera  x pv   envoyé en paramétre
+    @Override
+    public void agitSurLaCible() {
         if (isOnObjective()) {
             getEnnemyCible().reductionPv(1);
         }

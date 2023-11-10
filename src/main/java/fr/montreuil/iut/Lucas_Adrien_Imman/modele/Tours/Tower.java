@@ -1,6 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Acteur;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Acteur;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
@@ -8,6 +9,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 
 import java.util.ArrayList;
 
@@ -25,8 +27,12 @@ abstract public class Tower extends Acteur {
     private SimpleIntegerProperty movingPrice;
     private SimpleBooleanProperty showingRange;
     private SimpleIntegerProperty sellingPrice;
+    private static int towerCounter = 0;
     private int flopPrice;
     private int ramPrice;
+    private static final int DEFAULT_INITIAL_HEALTH = 100;
+    private static final int DEFAULT_MAX_HEALTH = 100;
+
     private SimpleIntegerProperty level;
     private Pane tilePane;
     private int delais ;
@@ -35,7 +41,7 @@ abstract public class Tower extends Acteur {
 
     public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex, int damage, int reloadSpeed, int delais){
 
-        super(x,y,"T"+compteur);
+        super(x, y, DEFAULT_INITIAL_HEALTH, DEFAULT_MAX_HEALTH);
         this.spriteIndex = spriteIndex;
         this.name = name;
         this.level =  new SimpleIntegerProperty(1);
@@ -47,9 +53,10 @@ abstract public class Tower extends Acteur {
         this.damage = new SimpleIntegerProperty(damage);
         this.reloadSpeed = new SimpleIntegerProperty(reloadSpeed);
         this.showingRange = new SimpleBooleanProperty(false);
-        this.sellingPrice = new SimpleIntegerProperty((int) (this.flopPrice*0.75));
-        this.delais = delais ;
-        this.ennemieDetecte = new ArrayList<>() ;
+        this.sellingPrice = new SimpleIntegerProperty((int) (this.flopPrice * 0.75));
+        this.delais = delais;
+        this.ennemieDetecte = new ArrayList<Ennemy>();
+        towerCounter++;
     }
 
     public SimpleIntegerProperty movingPriceProperty() {
@@ -199,7 +206,6 @@ abstract public class Tower extends Acteur {
         this.showingRange.set(showingRange);
     }
     //OTHER METHODS
-
     public void upgrade(Player p){
         if (p.getFlop() >= this.upgradeCost.get() && this.level.get() <= 10){
             p.setFlop(p.getFlop() - this.upgradeCost.get());
@@ -214,11 +220,16 @@ abstract public class Tower extends Acteur {
 
     public ArrayList<Ennemy> detect(ObservableList<Ennemy> ennemis){ // detecte l'ennemi qui a une range donné en paramétre | ex :(this.getX()+16) = prend le centre la tour (+16 pour obtenir le milieu)
         for (Ennemy m : ennemis) {
-            if ((this.getY()+16)-range.get()<=m.getY() && m.getY()<= (this.getY()+16)+range.get() && (this.getX()+16)-range.get()<=m.getX() && m.getX() <= (this.getX()+16)+range.get()){
+            if ((this.getYValue()+16)-range.get()<=m.getYValue() && m.getYValue()<= (this.getYValue()+16)+range.get() && (this.getXValue()+16)-range.get()<=m.getXValue() && m.getXValue() <= (this.getXValue()+16)+range.get()){
                 ennemieDetecte.add(m);
             }
         }
         return ennemieDetecte ;
+    }
+
+
+    public int getTowerCount() {
+        return towerCounter;
     }
 
     public ArrayList<Ennemy> getEnnemieDetecte(){
