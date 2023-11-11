@@ -7,13 +7,9 @@ public class RamFreezer extends CooldownState{
         super(startTick, delay, amount);
     }
 
+
     @Override
     void doEffect() {
-
-    }
-
-    @Override
-    void doEffect(Player p) {
 
     }
 }

@@ -3,20 +3,15 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class Player {
-
-    private IntegerProperty life;
-    private IntegerProperty ram ;
+public class Player extends Entites {
+    private IntegerProperty ram;
     private IntegerProperty flop;
-    private IntegerProperty maxlife;
     private IntegerProperty maxRAM;
     private String username;
 
-
     public Player(String username) {
-        this.life = new SimpleIntegerProperty(100) ;
-        this.maxlife = new SimpleIntegerProperty(100);
-        this.ram =  new SimpleIntegerProperty(1000);
+        super(100, 100); // Initialisation de la santé à 100 et de la santé maximale à 100
+        this.ram = new SimpleIntegerProperty(1000);
         this.maxRAM = new SimpleIntegerProperty(1000);
         this.flop = new SimpleIntegerProperty(500);
         this.username = username;
@@ -25,24 +20,23 @@ public class Player {
     //OTHER METHODS
 
     public boolean isDead(){
-        return getLife() == 0;
+        return getHealth() == 0;
     }
 
     public void looseLife(int l){
-        if(life.getValue()-l>=0)
-            setLife(life.getValue()-l);
+        if(getHealth() - l >= 0)
+            setHealth(getHealth() - l);
         else
-            setLife(0);
+            setHealth(0);
     }
-
 
     //GETTER
     public int getLife() {
-        return life.get();
+        return getHealth();
     }
 
     public IntegerProperty lifeProperty() {
-        return life;
+        return healthProperty();
     }
 
     public int getFlop() {
@@ -52,6 +46,7 @@ public class Player {
     public IntegerProperty flopProperty() {
         return flop;
     }
+
     public int getRam() {
         return ram.get();
     }
@@ -69,13 +64,13 @@ public class Player {
     }
 
     public IntegerProperty maxlifeProperty() {
-        return maxlife;
+        return maxHealthProperty();
     }
 
     //SETTER
 
     public void setLife(int life) {
-        this.life.set(life);
+        setHealth(life);
     }
 
     public void setRam(int ram) {

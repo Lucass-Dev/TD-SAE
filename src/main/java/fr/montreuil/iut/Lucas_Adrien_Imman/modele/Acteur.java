@@ -2,43 +2,45 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
-public abstract class Acteur extends  Entites {
-
-    private SimpleIntegerProperty x, y; //Acteur
-    public static int compteur=0;
+public abstract class Acteur extends Entites {
+    SimpleIntegerProperty x; // Position x
+    SimpleIntegerProperty y; // Position y
+    static int compteur; //Compteur utilisé pour l'id générique d'un acteur
     private String id;
 
-
-    public Acteur(int x, int y,String id) {
+    public Acteur(int x, int y, int initialHealth, int maxHealth) {
+        super(initialHealth, maxHealth);
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
-        this.id = id;
-        compteur++;
+        this.id = "E"+compteur++;
     }
 
-    public int getX() {
-        return x.get();
-    }
-    public SimpleIntegerProperty xProperty() {
-        return x;
-    }
-    public int getY() {
-        return y.get();
-    }
-    public SimpleIntegerProperty yProperty() {
-        return y;
-    }
-    public void setY(int y) {
-        this.y.set(y);
+    // Getters et Setters pour x et y
+    public int getXValue() {
+        return x.getValue();
     }
 
-    public void setX(int x) {
+    public void setXValue(int x) {
         this.x.set(x);
     }
 
-    public String getId() {
-        return id ;
+    public int getYValue() {
+        return y.getValue();
     }
 
+    public void setYValue(int y) {
+        this.y.set(y);
+    }
 
+    public SimpleIntegerProperty getXProperty() {return this.x;}
+
+    public SimpleIntegerProperty getYProperty() {return this.y;}
+
+    // Autres méthodes spécifiques à Acteurs
+
+
+    public String getId() {
+        return id;
+    }
 }
+

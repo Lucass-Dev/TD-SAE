@@ -1,7 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -34,8 +34,8 @@ public class EnnemyVue {
         this.image = new ImageView(new Image(Main.class.getResource("graphics/enemy/"+newEnnemy.getSpriteIndex()+".png").openStream()));
 
 
-        this.ennemy.translateXProperty().bind(newEnnemy.xProperty());
-        this.ennemy.translateYProperty().bind(newEnnemy.yProperty());
+        this.ennemy.translateXProperty().bind(newEnnemy.getXProperty());
+        this.ennemy.translateYProperty().bind(newEnnemy.getYProperty());
         this.ennemy.setId(newEnnemy.getId());
         this.ennemy.setAlignment(Pos.CENTER);
         ennemy.getChildren().add(life);

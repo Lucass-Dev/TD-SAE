@@ -1,6 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.EnnemyVue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;
