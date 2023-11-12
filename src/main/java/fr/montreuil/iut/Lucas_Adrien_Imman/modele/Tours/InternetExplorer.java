@@ -1,6 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.AgirSurCible;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.ZoneRalentisseur;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
@@ -12,7 +12,7 @@ public class InternetExplorer extends Tower  {
     }
 
     @Override
-    public EffetTour getEffet(Ennemy ennemy) {
-        return  new ZoneRalentisseur(this.getX() + 16, this.getY() + 16, ennemy);
+    public EffetTour getEffet(Ennemy ennemy, ModeDeplacement modeDeplacement) {
+        return  new ZoneRalentisseur(this.getXValue() + 16, this.getYValue() + 16, ennemy ,modeDeplacement);
     }
 }

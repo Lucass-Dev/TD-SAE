@@ -1,5 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.ProjectileDotSH;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.DotExe;
@@ -12,9 +13,9 @@ public class PDFConverter extends Tower {
     }
 
     @Override
-    public EffetTour getEffet(Ennemy ennemy) {
+    public EffetTour getEffet(Ennemy ennemy, ModeDeplacement modeDeplacement) {
         if(ennemy instanceof DotExe) {
-            return new ProjectileDotSH(this.getX() + 16, this.getY() + 16, ennemy);
+            return new ProjectileDotSH(this.getXValue() + 16, this.getYValue() + 16, ennemy , modeDeplacement);
         }
         return null;
     }

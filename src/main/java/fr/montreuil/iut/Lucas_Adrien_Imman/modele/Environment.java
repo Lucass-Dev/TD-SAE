@@ -2,10 +2,10 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.DeplacementBFS;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.*;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.*;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.DotSH;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Kamikaze;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.PopupVue;
 import javafx.collections.FXCollections;
@@ -59,7 +59,7 @@ public class Environment {
         this.ennemies = FXCollections.observableArrayList();
 
         this.modeDeplacementBFS = new DeplacementBFS();
-        this.projectiles = FXCollections.observableArrayList();
+        this.effetTours = FXCollections.observableArrayList();
         this.freezingDelay = 350;
         this.freezingRam = false;
         this.freezedRamAmount = 0;
@@ -192,34 +192,14 @@ public class Environment {
 
 
                     if(t instanceof InternetExplorer || t instanceof  CCleaner) {
-                       p  = t.getEffet(detectedEnnemy);
+                       p  = t.getEffet(detectedEnnemy,md);
                     }
                     else {
-                        p = t.getEffet(firstDetect);
+                        p = t.getEffet(firstDetect,md);
                     }
-                   /* if (t instanceof TaskKiller) { // ajoute au liste des projectiles le projectile correspondant au tour
-                        p = new ProjectileDegatsBrut(t.getX() + 16, t.getY() + 16, firstDetect);
-                    }
-                    else if (t instanceof NordVPN) {
-                        p = new ProjectileKnockBack(t.getX() + 16, t.getY() + 16, firstDetect);
-                    }
-                    else if (t instanceof PDFConverter) {
-                        if(firstDetect instanceof DotExe) {
-                            p = new ProjectileDotSH(t.getX() + 16, t.getY() + 16, firstDetect);
-                        }
-                    }
-                    else if (t instanceof Demineur) {
-                        if((!(firstDetect instanceof DotExe) &&  !(firstDetect instanceof Virus) && !(firstDetect instanceof Scam) && !(firstDetect instanceof Kamikaze)))
-                            p = new ProjectileKamikaze(t.getX() + 16, t.getY() + 16, firstDetect);
-                    }
-                    else if (t instanceof InternetExplorer) {
-                        p = new ZoneRalentisseur(t.getX() + 16, t.getY() + 16, detectedEnnemy);
-                    }
-                    else if (t instanceof CCleaner) {
-                        p = new ZoneElectrique(t.getX() + 16, t.getY() + 16, detectedEnnemy);
-                    }
-                    */
+
                     ennemiesDansLaZone.remove(detectedEnnemy);
+
                     if (nbTours % t.getDelais() == 0 && p != null) {//le délais attaque
                         effetTours.add(p);
 
@@ -236,48 +216,42 @@ public class Environment {
     }
     public void bulletTurn() {
 
-        for (EffetTour p : effetTours) {   //déplacement des projectiles et agit sur la cible
-            p.algoDeplacement();
-            p.agitSurLaCible();
+        for (EffetTour effetTour : effetTours) {   //déplacement des projectiles et agit sur la cible
+            effetTour.move();
+            effetTour.agit();
         }
 
         for (int j = effetTours.size() - 1; j >= 0; j--) {//enleve les projectiles/zones  par rapport aux conditions
-            EffetTour p = effetTours.get(j);
+            EffetTour effetTour = effetTours.get(j);
 
-            if(p instanceof ProjectileDegatsBrut || p instanceof  ProjectileKnockBack) {
-                if (p.isOnObjective() || p.isOnBound()) {
-                    effetTours.remove(p);
+         /*   if(effetTour instanceof ProjectileDegatsBrut || effetTour instanceof  ProjectileKnockBack) {
+                if (effetTour.isOnObjective() || effetTour.isOnBound()) {
+                    effetTours.remove(effetTour);
                 }
             }
-
-            else if (p instanceof ProjectileDotSH) {
-                if (p.isOnObjective()) {
-                    effetTours.remove(p);
+    */
+             if (effetTour instanceof ProjectileDotSH) {
                     cpt++;
                     if (cpt == 3) {
-                        ennemies.remove(p.getEnnemyCible());
-                        this.ennemies.add(new DotSH(p.getEnnemyCible().getXValue(), p.getEnnemyCible().getYValue(), levelPane, this, this.player, this.ground.getStartDirection(), this.modeDeplacementBFS));
+                        ennemies.remove(effetTour.getEnnemyCible());
+                        this.ennemies.add(new DotSH(effetTour.getEnnemyCible().getXValue(), effetTour.getEnnemyCible().getYValue(), levelPane, this, this.player, this.ground.getStartDirection(), this.modeDeplacementBFS));
                         cpt = 0;
                     }
                 }
-            }
 
-            else if(p instanceof ProjectileKamikaze) {
 
-                if ((p.isOnObjective() || p.isOnBound())) {
-                    effetTours.remove(p);
+            else if(effetTour instanceof ProjectileKamikaze) {
                     cpt ++ ;
                     if(cpt == 3) {
-                        ennemies.remove(p.getEnnemyCible());
-                        this.ennemies.add(new Kamikaze(p.getEnnemyCible().getXValue(), p.getEnnemyCible().getYValue(), levelPane, this, this.player, p.getEnnemyCible().getOppositeDirection(), this.modeDeplacementBFS));
+                        ennemies.remove(effetTour.getEnnemyCible());
+                        this.ennemies.add(new Kamikaze(effetTour.getEnnemyCible().getXValue(), effetTour.getEnnemyCible().getYValue(), levelPane, this, this.player, effetTour.getEnnemyCible().getOppositeDirection(), this.modeDeplacementBFS));
                         cpt = 0 ;
                     }
                 }
-            }
 
-            else if(p instanceof ZoneRalentisseur || p instanceof ZoneElectrique){
-                if (!p.isOnObjective() && ennemiesDansLaZone.size()==0 || p.getEnnemyCible().isDead()) {
-                    effetTours.remove(p);
+            else if(effetTour instanceof ZoneRalentisseur || effetTour instanceof ZoneElectrique){
+                if (!effetTour.isOnObjective() && ennemiesDansLaZone.size()==0 || effetTour.getEnnemyCible().isDead()) {
+                    effetTours.remove(effetTour);
                 }
             }
         }

@@ -57,7 +57,9 @@ public abstract class Entites {
         return maxHealth;
     }
 
-
+    public boolean isDead(){
+        return health.getValue()<1;
+    }
 }
 
 

@@ -12,4 +12,9 @@ public class RamFreezer extends CooldownState{
     void doEffect() {
 
     }
+
+    @Override
+    void doEffect(Player p) {
+
+    }
 }

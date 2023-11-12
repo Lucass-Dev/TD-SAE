@@ -1,5 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.ZoneElectrique;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.ZoneRalentisseur;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,32 +11,32 @@ import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 
-public class ProjectileVue {
+public class EffetTourVue {
     private final Pane levelPane;
     private ImageView imageView;
     Circle circle;
 
 
-    public ProjectileVue(Pane levelPane) {
+    public EffetTourVue(Pane levelPane) {
         this.levelPane = levelPane;
     }
 
-    public void projectileSprite(Projectile newProjectile) throws IOException {
+    public void projectileSprite(EffetTour newEffetTour) throws IOException {
 
-        if (!(newProjectile instanceof ProjectileDegatsBrut)) { // cree les sprites correspondant
+        if (!(newEffetTour instanceof ProjectileDegatsBrut)) { // cree les sprites correspondant
 
-            if (newProjectile instanceof ProjectileDotSH) {
+            if (newEffetTour instanceof ProjectileDotSH) {
                 circle = new Circle(3);
                 circle.setFill(Color.BLACK);
-            }else if(newProjectile instanceof ProjectileKamikaze){
+            }else if(newEffetTour instanceof ProjectileKamikaze){
                 circle = new Circle(3);
                 circle.setFill(Color.RED);
-            }else if (newProjectile instanceof ZoneRalentisseur) {
+            }else if (newEffetTour instanceof ZoneRalentisseur) {
                 circle = new Circle(60);
                 circle.setFill(Color.BLUE);
                 circle.setOpacity(0.2);
             }
-            else if (newProjectile instanceof ZoneElectrique) {
+            else if (newEffetTour instanceof ZoneElectrique) {
                 circle = new Circle(70);
                 circle.setFill(Color.BLANCHEDALMOND);
                 int proba1 = (int) (Math.random() * 2);
@@ -44,14 +46,14 @@ public class ProjectileVue {
                 }
                 circle.setOpacity(0.2);
             }
-            else if(newProjectile instanceof ProjectileKnockBack){
+            else if(newEffetTour instanceof ProjectileKnockBack){
                 circle = new Circle(5);
                 circle.setFill(Color.VIOLET);
             }
 
-            circle.translateXProperty().bind(newProjectile.getXProperty());
-            circle.translateYProperty().bind(newProjectile.getYProperty());
-            circle.setId(newProjectile.getId());
+            circle.translateXProperty().bind(newEffetTour.getXProperty());
+            circle.translateYProperty().bind(newEffetTour.getYProperty());
+            circle.setId(newEffetTour.getId());
 
             levelPane.getChildren().add(circle);
         }
@@ -60,9 +62,9 @@ public class ProjectileVue {
             this.imageView = new ImageView(new Image((Main.class.getResource("graphics/projectiles/" + proba2 + ".png")).openStream()));
 
 
-            imageView.translateXProperty().bind(newProjectile.getXProperty());
-            imageView.translateYProperty().bind(newProjectile.getYProperty());
-            imageView.setId(newProjectile.getId());
+            imageView.translateXProperty().bind(newEffetTour.getXProperty());
+            imageView.translateYProperty().bind(newEffetTour.getYProperty());
+            imageView.setId(newEffetTour.getId());
             levelPane.getChildren().add(imageView);
         }
     }

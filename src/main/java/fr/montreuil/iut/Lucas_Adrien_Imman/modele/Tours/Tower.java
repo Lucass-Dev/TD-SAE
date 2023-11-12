@@ -1,7 +1,9 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.Forges.FabricEffetTours;
+import fr.montreuil.iut.Lucas_Adrien_Imman.Forges.ForgeDeplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Acteur;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Acteur;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
@@ -9,7 +11,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,8 @@ abstract public class Tower extends Acteur {
     private int delais ;
 
     private ArrayList<Ennemy> ennemieDetecte ;
+
+    private FabricEffetTours fabricEffetTours;
 
     public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex, int damage, int reloadSpeed, int delais){
 
@@ -236,6 +239,10 @@ abstract public class Tower extends Acteur {
         return ennemieDetecte;
     }
 
-    public abstract EffetTour getEffet(Ennemy ennemy);
+    public abstract EffetTour getEffet(Ennemy ennemy , ModeDeplacement modeDeplacement);
 
+    public FabricEffetTours getForge(Ennemy ennemy ,ModeDeplacement md){
+        fabricEffetTours = new FabricEffetTours(getXValue(),getYValue(),md ,ennemy);
+        return  fabricEffetTours ;
+    }
 }

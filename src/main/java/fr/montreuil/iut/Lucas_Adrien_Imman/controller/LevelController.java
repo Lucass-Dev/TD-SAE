@@ -1,13 +1,11 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
 import javafx.collections.ListChangeListener;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.Projectile;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.LevelDataTransit;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;

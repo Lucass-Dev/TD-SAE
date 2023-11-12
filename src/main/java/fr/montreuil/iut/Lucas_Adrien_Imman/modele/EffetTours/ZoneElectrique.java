@@ -1,26 +1,18 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
 public class ZoneElectrique extends EffetTour {
-
-    public ZoneElectrique(int x, int y, Ennemy ennemyCible) {
-        super(x, y, ennemyCible , 80);
+    private static final int DEFAULT_INITIAL_HEALTH = 100;
+    private static final int DEFAULT_MAX_HEALTH = 100;
+    public ZoneElectrique(int x, int y, Ennemy ennemyCible, ModeDeplacement md) {
+        super(x, y,DEFAULT_INITIAL_HEALTH , DEFAULT_MAX_HEALTH,1,ennemyCible , 80,md);
 
     }
 
-    @Override
-    public void agitSurLaCible() {//si un cible est détecté , il perdera  x pv envoyé en parametre
-        if (isOnObjective()){
-            getEnnemyCible().reductionPv(1);
-        }
-    }
 
-
-    public void algoDeplacement(){
-        setX(getX());
-        setY(getY());
-    }
 
     /*
     public   boolean cibleAtteint() {
@@ -30,4 +22,3 @@ public class ZoneElectrique extends EffetTour {
     }
 */
 }
-*/

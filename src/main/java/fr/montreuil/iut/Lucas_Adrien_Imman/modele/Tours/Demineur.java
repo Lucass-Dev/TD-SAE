@@ -1,5 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.ProjectileKamikaze;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
@@ -11,9 +12,9 @@ public class Demineur extends Tower {
     }
 
     @Override
-    public EffetTour getEffet(Ennemy ennemy) {
-        if((!(ennemy instanceof DotExe) &&  !(ennemy instanceof Virus) && !(ennemy instanceof Scam) && !(ennemy instanceof Kamikaze))){
-            return  new ProjectileKamikaze(this.getX() + 16, this.getY() + 16, ennemy);
+    public EffetTour getEffet(Ennemy ennemy, ModeDeplacement modeDeplacement) {
+            if( (ennemy instanceof DotSH) || (ennemy instanceof Archive) ){
+            return  new ProjectileKamikaze(this.getXValue() + 16, this.getYValue() + 16, ennemy , modeDeplacement);
         }
         else
             return null ;

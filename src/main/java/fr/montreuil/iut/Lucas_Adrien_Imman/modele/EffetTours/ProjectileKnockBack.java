@@ -9,13 +9,15 @@ public class ProjectileKnockBack extends EffetTour {
     private static final int DEFAULT_MAX_HEALTH = 100;
 
     public ProjectileKnockBack(int x, int y, Ennemy ennemyCible, ModeDeplacement md) {
-        super(x, y, DEFAULT_INITIAL_HEALTH, DEFAULT_MAX_HEALTH, ennemyCible, md);
+        super(x, y, DEFAULT_INITIAL_HEALTH, DEFAULT_MAX_HEALTH, 0,ennemyCible, 16,md);
     }
 
+
     @Override
-    public void agitSurLaCible() {
+    public void agirSurLaCible() {
         int knockBack = 2;
         Ennemy e = getEnnemyCible();
+
         if (e.isCentered()) {
             if(e.getDirection()==2){
                 e.setXValue(e.getXValue()-knockBack);
