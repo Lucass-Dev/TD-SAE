@@ -1,6 +1,5 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.Forges.TypeDeplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.ProjectileDegatsBrut;
