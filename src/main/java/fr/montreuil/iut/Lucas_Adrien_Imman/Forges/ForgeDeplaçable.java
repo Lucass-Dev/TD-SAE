@@ -14,6 +14,7 @@ public abstract class ForgeDeplaçable{
 
     }
 
+    public abstract Deplaçable  creeDeplaçable(TypeDeplaçable type);
 
 
     public Deplaçable fabriquerDeplaçable (TypeEnnemis type) {

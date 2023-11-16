@@ -50,6 +50,7 @@ public abstract class Ennemy extends Deplaçable {
 
 
     public abstract void doDamage();
+
     public abstract void die();
 
     //SETTER
