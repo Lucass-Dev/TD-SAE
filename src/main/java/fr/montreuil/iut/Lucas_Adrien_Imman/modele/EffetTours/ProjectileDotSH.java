@@ -8,7 +8,12 @@ public class ProjectileDotSH extends EffetTour {
     private static final int DEFAULT_INITIAL_HEALTH = 100;
     private static final int DEFAULT_MAX_HEALTH = 100;
 
-    public ProjectileDotSH(int x, int y, Ennemy ennemyCible,ModeDeplacement md) {
+    public ProjectileDotSH(int x,
+                           int y,
+                           Ennemy ennemyCible,
+                           ModeDeplacement md
+    ) {
+
         super(x, y, DEFAULT_INITIAL_HEALTH, DEFAULT_MAX_HEALTH,2, ennemyCible, 16,md);
     }
 

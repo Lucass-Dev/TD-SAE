@@ -22,8 +22,8 @@ public class FabricEnnemis extends ForgeDeplaçable {
         this.startDirection = startDirection;
     }
 
-    @Override
-    public Deplaçable creeDeplaçable(TypeDeplaçable type) {
+
+    public Deplaçable creeDeplaçable(TypeEnnemis type) {
         switch (type) {
             case DotSh -> {
                 return new DotSH(getX(), getY(), levelPane, env, player, startDirection, getMd());

@@ -12,8 +12,8 @@ public class FabricEffetTours extends  ForgeDeplaçable {
         super(x,y,md);
         this.ennemyCible = ennemyCible ;
     }
-    @Override
-    public  EffetTour creeDeplaçable(TypeDeplaçable type) {
+
+    public  EffetTour creeEffetTour(TypeEffetTour type) {
             switch (type){
                 case ProjectileDotSH -> {
                     return new ProjectileDotSH(getX(),getY(),ennemyCible,getMd());

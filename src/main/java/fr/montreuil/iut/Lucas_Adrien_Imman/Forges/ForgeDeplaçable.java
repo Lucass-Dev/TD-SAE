@@ -14,11 +14,10 @@ public abstract class ForgeDeplaçable{
 
     }
 
-    public abstract Deplaçable  creeDeplaçable(TypeDeplaçable type);
 
 
-    public Deplaçable fabriquerDeplaçable (TypeDeplaçable type) {
-        Deplaçable deplaçable = creeDeplaçable(type);
+    public Deplaçable fabriquerDeplaçable (TypeEnnemis type) {
+        Deplaçable deplaçable =
         return deplaçable;
     }
 

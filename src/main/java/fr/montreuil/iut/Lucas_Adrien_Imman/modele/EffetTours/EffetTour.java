@@ -10,13 +10,21 @@ public abstract class EffetTour extends Deplaçable {
     private int degats ;
 
 
-    public EffetTour(int x, int y, int health, int maxHealth,int degats, Ennemy ennemyCible, int range ,ModeDeplacement md) {
+    public EffetTour(int x,
+                     int y,
+                     int health,
+                     int maxHealth,
+                     int degats,
+                     Ennemy ennemyCible,
+                     int range,
+                     ModeDeplacement md
+    ){
         super(x, y, health, maxHealth, md);
         this.ennemyCible = ennemyCible;
         this.range = range;
         this.degats = degats;
     }
-    //public int
+
 
 
     public void agirSurLaCible(){

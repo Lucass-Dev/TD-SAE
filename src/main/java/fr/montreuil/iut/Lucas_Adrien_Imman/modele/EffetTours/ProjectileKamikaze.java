@@ -8,7 +8,11 @@ public class ProjectileKamikaze extends EffetTour {
     private static final int DEFAULT_INITIAL_HEALTH = 100;
     private static final int DEFAULT_MAX_HEALTH = 100;
 
-    public ProjectileKamikaze(int x, int y, Ennemy ennemyCible, ModeDeplacement md) {
+    public ProjectileKamikaze(int x,
+                              int y,
+                              Ennemy ennemyCible,
+                              ModeDeplacement md) {
+
         super(x, y, DEFAULT_INITIAL_HEALTH, DEFAULT_MAX_HEALTH, 1,ennemyCible, 16,md);
     }
 
