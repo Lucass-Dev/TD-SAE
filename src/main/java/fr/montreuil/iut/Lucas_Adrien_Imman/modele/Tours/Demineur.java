@@ -13,7 +13,7 @@ public class Demineur extends Tower {
 
     @Override
     public EffetTour getEffet(Ennemy ennemy, ModeDeplacement modeDeplacement) {
-            if( (ennemy instanceof DotSH) || (ennemy instanceof Archive) ){
+            if(ennemy.isCibleDeDemineur()){
             return  new ProjectileKamikaze(this.getXValue() + 16, this.getYValue() + 16, ennemy , modeDeplacement);
         }
         else

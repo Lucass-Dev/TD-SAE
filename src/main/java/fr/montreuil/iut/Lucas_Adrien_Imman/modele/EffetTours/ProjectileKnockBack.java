@@ -18,6 +18,7 @@ public class ProjectileKnockBack extends EffetTour {
     }
 
 
+
     @Override
     public void agirSurLaCible() {
         int knockBack = 2;
@@ -26,7 +27,6 @@ public class ProjectileKnockBack extends EffetTour {
 
         if (e.isCentered()) {
             switch (ennemyDirection) {
-
                 case 2:
                     e.setXValue(e.getXValue() - knockBack);
                     break;
@@ -43,22 +43,5 @@ public class ProjectileKnockBack extends EffetTour {
                     throw new IllegalStateException("Unexpected value: " + ennemyDirection);
             }
         }
-
-     /*   if (e.isCentered()) {
-            if(e.getDirection()==2){
-                e.setXValue(e.getXValue()-knockBack);
-            }
-            else if(e.getDirection() == 4){
-                e.setXValue(e.getXValue()+knockBack);
-            }
-            else if(e.getDirection()==1){
-                e.setYValue(e.getYValue()+knockBack);
-            }
-            else if(e.getDirection()==3){
-                e.setYValue(e.getYValue()-knockBack);
-            }
-        }*/
     }
-
-
 }

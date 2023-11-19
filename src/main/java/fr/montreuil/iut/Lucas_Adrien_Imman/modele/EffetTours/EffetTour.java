@@ -41,7 +41,7 @@ public abstract class EffetTour extends Deplaçable {
 
 
     public   boolean isOnObjective() { //return true si la projectile a atteint la (x et y cible ) cible
-        // int range = 16 ;
+
         return ((this.getYValue()-range<= ennemyCible.getYValue() && ennemyCible.getYValue()<= this.getYValue()+range) && (this.getXValue()-range<= ennemyCible.getXValue() && ennemyCible.getXValue() <= this.getXValue()+range)) ;
     }
 

@@ -1,6 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.EnnemyVisitor;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
@@ -13,25 +14,22 @@ public abstract class Ennemy extends Deplaçable {
 
 
     private int spriteIndex;
-
-    private Pane levelPane;
-    private Environment env;
-    Player player ;
-
-    private SimpleIntegerProperty life;
     private int speed;
     private int damage ;
     private int initialSpeed ;
-    private SimpleIntegerProperty maxLife;
-
-    //la direction représente une direction cardinale : 1 North 2 East 3 South 4 West 0 for nothing
-    private int direction;
-
-
     private int dropRate ;
+    private int direction; //la direction représente une direction cardinale : 1 North 2 East 3 South 4 West 0 for nothing
+    private SimpleIntegerProperty life;
+    private SimpleIntegerProperty maxLife;
+    private Pane levelPane;
+    private Environment env;
+    private Player player ;
+    private boolean cibleDeDemineur;
+
+    private boolean cibleDePDFConverter;
 
 
-    public Ennemy(int x, int y, int health, int maxHealth, Pane levelPane, Environment env, int spriteIndex, Player player, int speed, int damage, int startDirection, int dropeRate, int initialSpeed, ModeDeplacement md) {
+    public Ennemy(int x, int y, int health, int maxHealth, Pane levelPane, Environment env, int spriteIndex, Player player, boolean cibleDeDemineur ,boolean cibleDePDFConverter, int speed, int damage, int startDirection, int dropeRate, int initialSpeed, ModeDeplacement md) {
         super(x, y, health, maxHealth, md);
 
 
@@ -46,6 +44,8 @@ public abstract class Ennemy extends Deplaçable {
         this.damage = damage ;
         this.dropRate = dropeRate ;
         this.initialSpeed = initialSpeed ;
+        this.cibleDeDemineur = cibleDeDemineur;
+        this.cibleDePDFConverter = cibleDePDFConverter;
     }
 
 
@@ -62,6 +62,9 @@ public abstract class Ennemy extends Deplaçable {
     }
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+    public void resetSpped(){
+        setSpeed(this.initialSpeed);
     }
 
     //GETTER
@@ -95,6 +98,18 @@ public abstract class Ennemy extends Deplaçable {
     public int getDirection() {
         return direction;
     }
+    public boolean isCibleDeDemineur() {
+        return cibleDeDemineur;
+    }
+    public boolean isCibleDePDFConverter() {
+        return cibleDePDFConverter;
+    }
+    public int getDropRate() {
+        return dropRate;
+    }
+    public Environment getEnv() {
+        return env;
+    }
 
     public int getOppositeDirection(){
         if (this.direction == 1){
@@ -109,19 +124,14 @@ public abstract class Ennemy extends Deplaçable {
 
         return 0;
     }
-    public int getDropRate() {
-        return dropRate;
-    }
+
 
     //OTHER METHODS
     public Ennemy isTouching(ObservableList<Ennemy> ennemies){
         for (Ennemy e: ennemies) {
-
                 if (this.getXValue() < e.getXValue() +8 && this.getXValue() > e.getXValue() -8 && this.getYValue() < e.getYValue() +8 && this.getYValue() < e.getYValue() -8){
-                    System.out.println("je tpuche");
                     return e;
                 }
-
         }
         return null;
     }
@@ -135,7 +145,7 @@ public abstract class Ennemy extends Deplaçable {
     //Pour savoir si l'ennemie est centré sur la tuile avec une "marge d'erreur"
 
     public boolean isCentered(){
-        int[] center;
+        int[]center ;
         int[] pos = new int[2];
         pos[0] = this.getXValue()/32;
         pos[1] = this.getYValue()/32;
@@ -147,19 +157,10 @@ public abstract class Ennemy extends Deplaçable {
 
         return pos[0] <= center[0]+3 && pos[0] >= center[0]-3 && pos[1] <= center[1]+3 && pos[1] >= center[1]-3 ;
     }
-    public void resetSpped(){
-        setSpeed(this.initialSpeed);
-    }
-
 
     public boolean isOnBound(){
         return this.getXValue() < this.levelPane.getWidth() && this.getYValue() < this.levelPane.getHeight() && this.getXValue() >= 0 && this.getYValue() >=0;
     }
-
-    public Environment getEnv() {
-        return env;
-    }
-
 
 
 

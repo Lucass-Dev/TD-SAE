@@ -13,12 +13,4 @@ public class ZoneElectrique extends EffetTour {
     }
 
 
-
-    /*
-    public   boolean cibleAtteint() {
-        int range = 80 ;
-        Ennemy ennemyCible = getEnnemyCible() ;
-        return ((this.getY()-range<=ennemyCible.getY() && ennemyCible.getY()<= this.getY()+range) && (this.getX()-range<=ennemyCible.getX() && ennemyCible.getX() <= this.getX()+range)) ;
-    }
-*/
 }

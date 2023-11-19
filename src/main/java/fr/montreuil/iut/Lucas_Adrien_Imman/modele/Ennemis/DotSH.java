@@ -1,5 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.EnnemyVisitor;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
@@ -16,6 +17,8 @@ public class DotSH extends Ennemy{
                 env, // env
                 2, // spriteIndex (valeur par défaut)
                 player, // player
+                true,
+                false,
                 30, // speed (valeur par défaut)
                 15, // damage (valeur par défaut)
                 startDirection, // startDirection
@@ -36,5 +39,7 @@ public class DotSH extends Ennemy{
     public void die(){
 
     }
+
+
 
 }

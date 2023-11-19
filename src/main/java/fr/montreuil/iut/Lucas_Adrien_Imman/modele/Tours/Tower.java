@@ -1,7 +1,5 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.Forges.FabricEffetTours;
-import fr.montreuil.iut.Lucas_Adrien_Imman.Forges.ForgeDeplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Acteur;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
@@ -10,7 +8,6 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
-import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
@@ -35,12 +32,12 @@ abstract public class Tower extends Acteur {
     private static final int DEFAULT_MAX_HEALTH = 100;
 
     private SimpleIntegerProperty level;
-    private Pane tilePane;
+
     private int delais ;
 
     private ArrayList<Ennemy> ennemieDetecte ;
 
-    private FabricEffetTours fabricEffetTours;
+
 
     public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex, int damage, int reloadSpeed, int delais){
 
@@ -62,73 +59,15 @@ abstract public class Tower extends Acteur {
         towerCounter++;
     }
 
-    public SimpleIntegerProperty movingPriceProperty() {
-        return movingPrice;
-    }
-
-    public void setDelais(int delais) {
-        this.delais = delais;
-    }
-
-    public boolean isShowingRange() {
-        return showingRange.get();
-    }
-
-    public int getUpgradeCost() {
-        return upgradeCost.get();
-    }
-
-    public SimpleIntegerProperty levelProperty() {
-        return level;
-    }
-
-    public Pane getTilePane() {
-        return tilePane;
-    }
 
     public int getDamage() {
         return damage.get();
-    }
-
-    public int getReloadSpeed() {
-        return reloadSpeed.get();
-    }
-
-    public void setFlopPrice(int flopPrice) {
-        this.flopPrice = flopPrice;
-    }
-
-    public void setRamPrice(int ramPrice) {
-        this.ramPrice = ramPrice;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSpriteIndex(int spriteIndex) {
-        this.spriteIndex = spriteIndex;
-    }
-
-    public void setRange(int range) {
-        this.range.set(range);
     }
 
     public void setDamage(int damage) {
         this.damage.set(damage);
     }
 
-    public void setReloadSpeed(int reloadSpeed) {
-        this.reloadSpeed.set(reloadSpeed);
-    }
-
-    public void setTilePane(Pane tilePane) {
-        this.tilePane = tilePane;
-    }
-
-    public void setMovingPrice(int movingPrice) {
-        this.movingPrice.set(movingPrice);
-    }
 
 
 
@@ -231,9 +170,7 @@ abstract public class Tower extends Acteur {
     }
 
 
-    public int getTowerCount() {
-        return towerCounter;
-    }
+
 
     public ArrayList<Ennemy> getEnnemieDetecte(){
         return ennemieDetecte;
@@ -241,8 +178,5 @@ abstract public class Tower extends Acteur {
 
     public abstract EffetTour getEffet(Ennemy ennemy , ModeDeplacement modeDeplacement);
 
-    public FabricEffetTours getForge(Ennemy ennemy ,ModeDeplacement md){
-        fabricEffetTours = new FabricEffetTours(getXValue(),getYValue(),md ,ennemy);
-        return  fabricEffetTours ;
-    }
+
 }

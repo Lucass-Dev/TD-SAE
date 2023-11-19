@@ -17,6 +17,8 @@ public class Scam extends Ennemy{
                 env, // env
                 2, // spriteIndex (valeur par défaut)
                 player, // player
+                true,
+                false,
                 30, // speed (valeur par défaut)
                 15, // damage (valeur par défaut)
                 startDirection, // startDirection

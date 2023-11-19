@@ -222,12 +222,7 @@ public class Environment {
         for (int j = effetTours.size() - 1; j >= 0; j--) {//enleve les projectiles/zones  par rapport aux conditions
             EffetTour effetTour = effetTours.get(j);
 
-         /*   if(effetTour instanceof ProjectileDegatsBrut || effetTour instanceof  ProjectileKnockBack) {
-                if (effetTour.isOnObjective() || effetTour.isOnBound()) {
-                    effetTours.remove(effetTour);
-                }
-            }
-    */
+
              if (effetTour instanceof ProjectileDotSH) {
                     cpt++;
                     if (cpt == 3) {

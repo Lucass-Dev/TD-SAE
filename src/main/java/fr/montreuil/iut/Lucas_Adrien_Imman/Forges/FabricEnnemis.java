@@ -1,47 +1,50 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.Forges;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.DeplacementBFS;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import javafx.scene.layout.Pane;
 
-public class FabricEnnemis extends ForgeDeplaçable {
+public class FabricEnnemis   {
 
-    private Pane levelPane;
     private Environment env;
-    private Player player;
-    private int startDirection;
-
-    public FabricEnnemis(int x, int y, ModeDeplacement md, Pane levelPane, Environment env, Player player, int startDirection) {
-        super(x, y, md);
-        this.levelPane = levelPane;
-        this.env = env;
-        this.player = player;
-        this.startDirection = startDirection;
+    ModeDeplacement modeDeplacement ;
+    public FabricEnnemis( ) {
+        this.env = Environment.getInstance();
+        this.modeDeplacement = new DeplacementBFS();
     }
 
 
-    public Deplaçable creeDeplaçable(TypeEnnemis type) {
+
+
+    public Ennemy createEnemy(TypeEnnemis type , int startDirection) {
+
+        int[] startPos = env.getGround().getStartTilePos();
+        int x = startPos[0]*32 + 16;
+        int y = startPos[1]*32 + 16;
+        Pane levelPane = env.getLevelPane();
+        Player player = env.getPlayer();
+
         switch (type) {
             case DotSh -> {
-                return new DotSH(getX(), getY(), levelPane, env, player, startDirection, getMd());
+                return new DotSH(x, y, levelPane, env, player, startDirection, modeDeplacement);
             }
             case DotExe -> {
-                return new DotExe(getX(), getY(), levelPane, env, player, startDirection, getMd());
+                return new DotExe(x, y, levelPane, env, player, startDirection, modeDeplacement);
             }
             case Archive -> {
-                return new Archive(getX(), getY(), levelPane, env, player, startDirection, getMd());
+                return new Archive(x, y, levelPane, env, player, startDirection, modeDeplacement);
             }
             case Kamikaze -> {
-                return new Kamikaze(getX(), getY(), levelPane, env, player, startDirection, getMd());
+                return new Kamikaze(x, y, levelPane, env, player, startDirection, modeDeplacement);
             }
             case Scam -> {
-                return new Scam(getX(), getY(), levelPane, env, player, startDirection, getMd());
+                return new Scam(x, y, levelPane, env, player, startDirection, modeDeplacement);
             }
             case Virus -> {
-                return new Virus(getX(), getY(), levelPane, env, player, startDirection, getMd());
+                return new Virus(x, y, levelPane, env, player, startDirection, modeDeplacement);
             }
             default -> {
                 return null;
