@@ -5,12 +5,12 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 
 
-public abstract class Projectile extends Deplaçable {
+public abstract class EffetTour extends Deplaçable {
 
     private Ennemy ennemyCible;
 
 
-    public Projectile(int x, int y, int health, int maxHealth, Ennemy ennemyCible, ModeDeplacement md) {
+    public EffetTour(int x, int y, int health, int maxHealth, Ennemy ennemyCible, ModeDeplacement md) {
         super(x, y, health, maxHealth, md);
         this.ennemyCible = ennemyCible;
     }

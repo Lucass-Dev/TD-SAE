@@ -3,7 +3,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 
-public class ProjectileDotSH extends Projectile {
+public class ProjectileDotSH extends EffetTour {
 
     private static final int DEFAULT_INITIAL_HEALTH = 100;
     private static final int DEFAULT_MAX_HEALTH = 100;

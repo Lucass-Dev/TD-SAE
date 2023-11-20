@@ -1,11 +1,9 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
 
-import javafx.collections.ListChangeListener;
-
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.Projectile;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetsTours.EffetTour;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.LevelDataTransit;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
@@ -14,6 +12,7 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tower;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.LevelVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ListChangeListener;
 import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -184,8 +183,8 @@ public class LevelController implements Initializable {
             this.environment.getEnnemies().addListener(ennemyListChangeListener);
             ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane, player);
             this.environment.getPlacedTower().addListener(towerListChangeListener);
-            ListChangeListener<Projectile> projectileListChangeListener = new ListeObsProjectile(levelPane);
-            // L'erreur Viens de ListeObsProjectile qui est en commentaires
+            ListChangeListener<EffetTour> projectileListChangeListener = new ListeObsEffetTour(levelPane);
+            // L'erreur Viens de ListeObsProjectile qui est en commentairesx
             this.environment.getProjectiles().addListener(projectileListChangeListener);
             this.levelVue = new LevelVue(this.environment, this.tilePane, this.levelPane, this);
             this.levelVue.createShopMenu(towerShopVbox);

@@ -33,9 +33,9 @@ public class Virus extends Ennemy{
             int rand = (int)((Math.random() * (3 - 1)) + 1);
             System.out.println(rand);
             if (rand == 1){
-                this.getLevel().freezeRam(10);
+                this.getEnv().freezeRam(10);
             }else{
-                this.getLevel().applyPoison(5);
+                this.getEnv().applyPoison(5);
             }
         }
     }

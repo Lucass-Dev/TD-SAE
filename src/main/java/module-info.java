@@ -1,8 +1,9 @@
 module fr.montreuil.iut.Lucas_Adrien_Imman {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
-   // requires com.dlsc.formsfx;
+    // requires com.dlsc.formsfx;
 
     opens fr.montreuil.iut.Lucas_Adrien_Imman to javafx.fxml;
     exports fr.montreuil.iut.Lucas_Adrien_Imman;
