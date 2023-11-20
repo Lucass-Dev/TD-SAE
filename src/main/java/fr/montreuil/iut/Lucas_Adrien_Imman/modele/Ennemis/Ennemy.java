@@ -39,8 +39,8 @@ public abstract class Ennemy extends Deplaçable {
         this.env = env;
         this.direction = startDirection;
         this.speed = speed;
-        this.life = new SimpleIntegerProperty(life.getValue());
-        this.maxLife = new SimpleIntegerProperty(maxLife.getValue());
+        this.life = new SimpleIntegerProperty(health);
+        this.maxLife = new SimpleIntegerProperty(maxHealth);
         this.spriteIndex = spriteIndex;
         this.player = player ;
         this.damage = damage ;

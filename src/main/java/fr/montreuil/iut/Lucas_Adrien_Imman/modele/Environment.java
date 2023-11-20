@@ -283,7 +283,7 @@ public class Environment {
     public boolean enemiesTurn(int nbTours){
 
         if (this.wave.getActualWave().size() == 0 && ennemies.size() == 0){
-            this.wave.createWave(this.wave.getWaveSize(), this.ground, this.levelPane, this.player, this);
+            this.wave.createWave(this.wave.getWaveSize(), this.ground, this.levelPane, this.player, getInstance());
             this.wave.setWaveSize(this.wave.getWaveSize() + this.wave.getActualWaveNumber()*this.difficulty/3);
         }else if (nbTours % 20 == 0 && this.wave.getActualWave().size() != 0){
             this.ennemies.add(this.wave.getActualWave().remove(0));

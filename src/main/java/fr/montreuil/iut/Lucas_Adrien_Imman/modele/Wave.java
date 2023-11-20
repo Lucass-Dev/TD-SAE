@@ -16,12 +16,10 @@ public class Wave {
     private int waveSize;
     private Environment env;
 
-
     public Wave(){
         this.actualWaveNumber = new SimpleIntegerProperty(0);
         this.actualWave = new ArrayList<>();
         this.waveSize = 3;
-        this.env = Environment.getInstance();
     }
 
     private enum EnemyType {
@@ -45,6 +43,10 @@ public class Wave {
 
 
     // SETTER
+
+    public void setEnv(Environment env) {
+        this.env = env;
+    }
 
     public void setActualWaveNumber(int actualWaveNumber) {
         this.actualWaveNumber.set(actualWaveNumber);
