@@ -2,6 +2,7 @@ package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tour;
 import javafx.collections.ListChangeListener;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
@@ -10,7 +11,6 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.LevelDataTransit;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Score;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tower;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.LevelVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -55,8 +55,8 @@ public class LevelController implements Initializable {
     //Variables pour le contrôleur
     private int cursorIndex = 0; //0 for none
     private boolean isMovingTower=  false;
-    private Tower movingTower;
-    private Tower showedTower;
+    private Tour movingTour;
+    private Tour showedTour;
 
     //Variables du Timer
     int s;
@@ -125,9 +125,9 @@ public class LevelController implements Initializable {
             if (this.isMovingTower){
                 System.out.println(mouseEvent);
                 if (this.environment.getGround().validTile(mousePos)){
-                    moveTowerTo(this.movingTower, mousePos[0]*32, mousePos[1]*32);
+                    moveTowerTo(this.movingTour, mousePos[0]*32, mousePos[1]*32);
                     setCursor(Cursor.DEFAULT);
-                    this.movingTower = null;
+                    this.movingTour = null;
                     this.isMovingTower = false;
                 }
             }
@@ -145,7 +145,7 @@ public class LevelController implements Initializable {
         this.levelPane.setOnMouseClicked(mouseEvent -> {
             if (this.towerMenu.getChildren().size() > 0) {
                 this.levelVue.removeTowerMenu(this.towerMenu);
-                showedTower.setShowingRange(false);
+                showedTour.setShowingRange(false);
             }
             if (mouseEvent.getTarget() instanceof ImageView){
                 ImageView imageView = (ImageView) mouseEvent.getTarget();
@@ -153,10 +153,10 @@ public class LevelController implements Initializable {
                 String imageViewId = imageView.getId();
                 System.out.println(imageViewId);
                 if (imageViewId != null) {
-                    showedTower = this.environment.getTower(imageViewId);
+                    showedTour = this.environment.getTower(imageViewId);
                     try {
-                        this.levelVue.createTowerMenu(showedTower, this.towerMenu);
-                        showedTower.setShowingRange(true);
+                        this.levelVue.createTowerMenu(showedTour, this.towerMenu);
+                        showedTour.setShowingRange(true);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -182,7 +182,7 @@ public class LevelController implements Initializable {
             this.environment.getGround().initMap("src/main/resources/fr/montreuil/iut/Lucas_Adrien_Imman/csv/map"+mapIndex+".csv", tilePane);
             ListChangeListener<Ennemy> ennemyListChangeListener = new ListObsEnnemy(levelPane);
             this.environment.getEnnemies().addListener(ennemyListChangeListener);
-            ListChangeListener<Tower> towerListChangeListener = new ListObsTower(levelPane, player);
+            ListChangeListener<Tour> towerListChangeListener = new ListObsTower(levelPane, player);
             this.environment.getPlacedTower().addListener(towerListChangeListener);
             ListChangeListener<EffetTour> effetTourListChangeListener = new ListeObsEffetTour(levelPane);
             this.environment.getEffetTours().addListener(effetTourListChangeListener);
@@ -259,7 +259,7 @@ public class LevelController implements Initializable {
         gameLoop.getKeyFrames().add(kf);
     }
 
-    public void moveTowerTo(Tower t, int x, int y){
+    public void moveTowerTo(Tour t, int x, int y){
         t.setXValue(x);
         t.setYValue(y);
     }
@@ -276,8 +276,8 @@ public class LevelController implements Initializable {
         Main.stg.getScene().setCursor(cursor);
     }
 
-    public void setMovingTower(Tower t){
-        this.movingTower = t;
+    public void setMovingTower(Tour t){
+        this.movingTour = t;
     }
 
     public void refreshTimer(){

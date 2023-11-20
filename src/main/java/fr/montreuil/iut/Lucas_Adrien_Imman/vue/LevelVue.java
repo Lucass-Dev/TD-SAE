@@ -26,7 +26,7 @@ public class LevelVue {
     private TowerVue towerVue;
     private Environment environnement;
     private LevelController levelController;
-    private Tower[] reference;
+    private Tour[] reference;
     private TowerVue tv;
     private BarVue bv;
 
@@ -35,7 +35,7 @@ public class LevelVue {
         this.tilePane = tilePane;
         this.levelPane = levelPane;
         this.levelController = levelController;
-        this.reference = new Tower[6];
+        this.reference = new Tour[6];
         this.reference[0] = new TaskKiller(0, 0);
         this.reference[1] = new CCleaner(0, 0);
         this.reference[2] = new Demineur(0, 0);
@@ -86,18 +86,18 @@ public class LevelVue {
 
         location.getChildren().add(flopHBox);
     }
-    public void createTowerMenu(Tower tower, Pane location) throws IOException {
+    public void createTowerMenu(Tour tour, Pane location) throws IOException {
         HBox hbox = new HBox();
         VBox towerPresentation = new VBox();
-        towerPresentation.getChildren().add(new Label(tower.getName()));
+        towerPresentation.getChildren().add(new Label(tour.getName()));
 
-        ImageView imageView = new ImageView(new Image(Main.class.getResource("graphics/tower/"+tower.getSpriteIndex()+".png").openStream()));
+        ImageView imageView = new ImageView(new Image(Main.class.getResource("graphics/tower/"+ tour.getSpriteIndex()+".png").openStream()));
         towerPresentation.getChildren().add(imageView);
 
         HBox levelHbox = new HBox();
         levelHbox.getChildren().add(new Label("Tower environnement : "));
         Label levelLabel = new Label();
-        levelLabel.textProperty().bind(tower.getLevel().asString());
+        levelLabel.textProperty().bind(tour.getLevel().asString());
         levelHbox.getChildren().add(levelLabel);
 
         towerPresentation.getChildren().add(levelHbox);
@@ -106,15 +106,15 @@ public class LevelVue {
         hbox.getChildren().add(towerPresentation);
 
         Button upgradeButton = new Button();
-        upgradeButton.textProperty().bind(Bindings.createStringBinding(() -> "Upgrade Tower : " +tower.upgradeCostProperty().get(), tower.upgradeCostProperty()));
-        upgradeButton.setOnAction(e-> tower.upgrade(environnement.getPlayer()));
+        upgradeButton.textProperty().bind(Bindings.createStringBinding(() -> "Upgrade Tower : " + tour.upgradeCostProperty().get(), tour.upgradeCostProperty()));
+        upgradeButton.setOnAction(e-> tour.upgrade(environnement.getPlayer()));
         Button moveButton = new Button("Move Tower");
         moveButton.setOnAction(e-> {
-            if (this.environnement.getPlayer().getFlop() >= tower.getMovingPrice()){
+            if (this.environnement.getPlayer().getFlop() >= tour.getMovingPrice()){
                 levelController.setMovingTower(true);
-                levelController.setMovingTower(tower);
+                levelController.setMovingTower(tour);
                 try {
-                    levelController.setCursor(new Image(Main.class.getResource("graphics/enemy/"+tower.getSpriteIndex()+".png").openStream()));
+                    levelController.setCursor(new Image(Main.class.getResource("graphics/enemy/"+ tour.getSpriteIndex()+".png").openStream()));
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -124,12 +124,12 @@ public class LevelVue {
         });
         Button sell = new Button("Sell Tower");
         sell.setOnAction(e -> {
-            this.environnement.sellTower(tower);
+            this.environnement.sellTower(tour);
             removeTowerMenu(location);
         });
-        VBox stats = tv.stats(tower);
+        VBox stats = tv.stats(tour);
         Label sellingPrice = new Label();
-        sellingPrice.textProperty().bind(Bindings.createStringBinding(() -> "Selling price : " + tower.getSellingPrice(), tower.sellingPriceProperty()));
+        sellingPrice.textProperty().bind(Bindings.createStringBinding(() -> "Selling price : " + tour.getSellingPrice(), tour.sellingPriceProperty()));
         stats.getChildren().add(sellingPrice);
 
 

@@ -10,16 +10,15 @@ import javafx.scene.layout.Pane;
 public class FabricEnnemis   {
 
     private Environment env;
-    ModeDeplacement modeDeplacement ;
+
     public FabricEnnemis( ) {
         this.env = Environment.getInstance();
-        this.modeDeplacement = new DeplacementBFS();
     }
 
 
 
 
-    public Ennemy createEnemy(TypeEnnemis type , int startDirection) {
+    public Ennemy createEnemy(TypeEnnemis type , int startDirection , ModeDeplacement modeDeplacement) {
 
         int[] startPos = env.getGround().getStartTilePos();
         int x = startPos[0]*32 + 16;

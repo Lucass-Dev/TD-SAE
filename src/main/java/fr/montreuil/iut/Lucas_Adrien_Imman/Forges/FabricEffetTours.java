@@ -7,16 +7,14 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 
 public class FabricEffetTours {
 
-    private ModeDeplacement modeDeplacement ;
+
 
     public FabricEffetTours() {
-        modeDeplacement = new DeplacementBFS();
-
     }
 
 
 
-    public  EffetTour creeEffetTour(TypeEffetTour type,int x , int y,Ennemy ennemyCible) {
+    public  EffetTour creeEffetTour(TypeEffetTour type,int x , int y,Ennemy ennemyCible,ModeDeplacement modeDeplacement) {
 
             switch (type){
                 case ProjectileDotSH -> {

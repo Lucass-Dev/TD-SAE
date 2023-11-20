@@ -1,14 +1,14 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.controller;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Player;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tower;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.TowerVue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
-public class ListObsTower implements ListChangeListener<Tower> {
+public class ListObsTower implements ListChangeListener<Tour> {
 
 
     private Pane levelpane ;
@@ -21,22 +21,22 @@ public class ListObsTower implements ListChangeListener<Tower> {
 
 
     @Override
-    public void onChanged(Change<? extends Tower> c) {
+    public void onChanged(Change<? extends Tour> c) {
         while (c.next()){
-            for (Tower newTower :c.getAddedSubList()) {
+            for (Tour newTour :c.getAddedSubList()) {
                 TowerVue towerVue = new TowerVue(levelpane);
                 try {
-                    towerVue.createTowerSprite(newTower);
-                    player.setRam(player.getRam()-newTower.getRamPrice());
-                    player.setFlop(player.getFlop()- newTower.getFlopPrice());
+                    towerVue.createTowerSprite(newTour);
+                    player.setRam(player.getRam()- newTour.getRamPrice());
+                    player.setFlop(player.getFlop()- newTour.getFlopPrice());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
-            for(Tower oldTower : c.getRemoved()){
-                levelpane.getChildren().remove(levelpane.lookup("#"+oldTower.getId()));
-                levelpane.getChildren().remove(levelpane.lookup("#c"+oldTower.getId()));
+            for(Tour oldTour : c.getRemoved()){
+                levelpane.getChildren().remove(levelpane.lookup("#"+ oldTour.getId()));
+                levelpane.getChildren().remove(levelpane.lookup("#c"+ oldTour.getId()));
             }
 
         }

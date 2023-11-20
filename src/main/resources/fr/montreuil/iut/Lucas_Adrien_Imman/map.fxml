@@ -89,10 +89,10 @@
                                  <Label text="-Task Killer" />
                                  <ImageView fitHeight="32.0" fitWidth="30.0">
                                     <image>
-                                       <Image url="@graphics/tower/0.png" />
+                                       <Image url="@graphics/tour/0.png" />
                                     </image>
                                  </ImageView>
-                                 <Label text="The simplest tower you can buy, basic damage." />
+                                 <Label text="The simplest tour you can buy, basic damage." />
                               </children>
                            </HBox>
                            <HBox alignment="CENTER_LEFT">
@@ -100,7 +100,7 @@
                                  <Label text="-CCleaner" />
                                  <ImageView>
                                     <image>
-                                       <Image url="@graphics/tower/1.png" />
+                                       <Image url="@graphics/tour/1.png" />
                                     </image>
                                  </ImageView>
                                  <Label text="Less damage than the TaskKiller but attack like an electric arc" />
@@ -111,7 +111,7 @@
                                  <Label text="-Démineur" />
                                  <ImageView>
                                     <image>
-                                       <Image url="@graphics/tower/2.png" />
+                                       <Image url="@graphics/tour/2.png" />
                                     </image>
                                  </ImageView>
                                  <Label text="Doesn't deal any damage but will transform ennemies into Kamikaze" />
@@ -122,7 +122,7 @@
                                  <Label text="-Internet Explorer" />
                                  <ImageView fitWidth="32.0">
                                     <image>
-                                       <Image url="@graphics/tower/3.png" />
+                                       <Image url="@graphics/tour/3.png" />
                                     </image>
                                  </ImageView>
                                  <Label text="Slows ennemies" />
@@ -133,7 +133,7 @@
                                  <Label text="-NordVPN" />
                                  <ImageView>
                                     <image>
-                                       <Image url="@graphics/tower/4.png" />
+                                       <Image url="@graphics/tour/4.png" />
                                     </image>
                                  </ImageView>
                                  <Label text="Knock back ennemies and deals a lot of damage" />
@@ -144,7 +144,7 @@
                                  <Label text="-PDF Converter" />
                                  <ImageView>
                                     <image>
-                                       <Image url="@graphics/tower/5.png" />
+                                       <Image url="@graphics/tour/5.png" />
                                     </image>
                                  </ImageView>
                                  <Label text="Acts like the Démineur but only with .exe and tranforms them into .sh" />

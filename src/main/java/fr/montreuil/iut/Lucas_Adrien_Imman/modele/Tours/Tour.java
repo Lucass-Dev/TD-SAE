@@ -1,5 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.Forges.FabricEffetTours;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Acteur;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
@@ -11,7 +12,7 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
-abstract public class Tower extends Acteur {
+abstract public class Tour extends Acteur {
 
 
     private int spriteIndex;
@@ -30,16 +31,17 @@ abstract public class Tower extends Acteur {
     private int ramPrice;
     private static final int DEFAULT_INITIAL_HEALTH = 100;
     private static final int DEFAULT_MAX_HEALTH = 100;
-
-    private SimpleIntegerProperty level;
-
     private int delais ;
-
+    private SimpleIntegerProperty level;
     private ArrayList<Ennemy> ennemieDetecte ;
 
+    private FabricEffetTours fabricEffetTours ;
 
 
-    public Tower(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex, int damage, int reloadSpeed, int delais){
+
+
+
+    public Tour(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex, int damage, int reloadSpeed, int delais){
 
         super(x, y, DEFAULT_INITIAL_HEALTH, DEFAULT_MAX_HEALTH);
         this.spriteIndex = spriteIndex;
@@ -56,6 +58,7 @@ abstract public class Tower extends Acteur {
         this.sellingPrice = new SimpleIntegerProperty((int) (this.flopPrice * 0.75));
         this.delais = delais;
         this.ennemieDetecte = new ArrayList<Ennemy>();
+        this.fabricEffetTours = new FabricEffetTours();
         towerCounter++;
     }
 
@@ -131,6 +134,11 @@ abstract public class Tower extends Acteur {
     public String getName() {
         return name;
     }
+    public FabricEffetTours getFabricEffetTours (){
+        return  fabricEffetTours ;
+    }
+
+
 
     public void setLevel(int level) {
         this.level.set(level);
@@ -172,9 +180,9 @@ abstract public class Tower extends Acteur {
 
 
 
-    public ArrayList<Ennemy> getEnnemieDetecte(){
+   /* //public ArrayList<Ennemy> getEnnemieDetecte(){
         return ennemieDetecte;
-    }
+    }*/
 
     public abstract EffetTour getEffet(Ennemy ennemy , ModeDeplacement modeDeplacement);
 

@@ -1,7 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.vue;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Main;
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tower;
+import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.Tour;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,30 +25,30 @@ public class TowerVue {
         this.levelPane = levelPane;
     }
 
-    public void createTowerSprite(Tower newTower) throws IOException { // cree le sprite correspondant avec le index
-        this.imageView = new ImageView(new Image(Main.class.getResource("graphics/tower/"+newTower.getSpriteIndex()+".png").openStream()));
+    public void createTowerSprite(Tour newTour) throws IOException { // cree le sprite correspondant avec le index
+        this.imageView = new ImageView(new Image(Main.class.getResource("graphics/tower/"+ newTour.getSpriteIndex()+".png").openStream()));
         this.imageView.setPickOnBounds(true);
-        this.imageView.setId(String.valueOf(newTower.getId()));
+        this.imageView.setId(String.valueOf(newTour.getId()));
         levelPane.getChildren().add(imageView);
-        this.imageView.translateXProperty().bind(newTower.getXProperty());
-        this.imageView.translateYProperty().bind(newTower.getYProperty());
-        createRange(newTower);
+        this.imageView.translateXProperty().bind(newTour.getXProperty());
+        this.imageView.translateYProperty().bind(newTour.getYProperty());
+        createRange(newTour);
     }
-    public void createRange(Tower tower){
-        Circle c = new Circle(tower.getRange());
-        c.translateXProperty().bind(Bindings.createIntegerBinding(()->tower.getXProperty().get() +16, tower.getXProperty()));
-        c.translateYProperty().bind(Bindings.createIntegerBinding(()->tower.getYProperty().get() +16, tower.getYProperty()));
+    public void createRange(Tour tour){
+        Circle c = new Circle(tour.getRange());
+        c.translateXProperty().bind(Bindings.createIntegerBinding(()-> tour.getXProperty().get() +16, tour.getXProperty()));
+        c.translateYProperty().bind(Bindings.createIntegerBinding(()-> tour.getYProperty().get() +16, tour.getYProperty()));
 
-        c.visibleProperty().bind(tower.showingRangeProperty());
-        c.radiusProperty().bind(tower.rangeProperty());
+        c.visibleProperty().bind(tour.showingRangeProperty());
+        c.radiusProperty().bind(tour.rangeProperty());
         c.setOpacity(0.4);
         c.setFill(Color.GREY);
-        c.setId("c"+ tower.getId());
+        c.setId("c"+ tour.getId());
         System.out.println(c.getId());
         levelPane.getChildren().add(c);
     }
 
-    public VBox stats(Tower t){
+    public VBox stats(Tour t){
         VBox stats = new VBox();
         //HBox rangeHBox = new HBox();
         Label rangeText = new Label("Range : ");

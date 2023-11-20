@@ -1,5 +1,7 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
+import fr.montreuil.iut.Lucas_Adrien_Imman.Forges.FabricEnnemis;
+import fr.montreuil.iut.Lucas_Adrien_Imman.Forges.TypeEnnemis;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.DeplacementBFS;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.*;
@@ -23,7 +25,7 @@ public class Environment {
     private ModeDeplacement modeDeplacementBFS;
 
 
-    private ObservableList<Tower> placedTower;
+    private ObservableList<Tour> placedTour;
     private ObservableList<Ennemy> ennemies;
     private ObservableList<EffetTour> effetTours;
 
@@ -49,11 +51,13 @@ public class Environment {
     private int poisonedAmount;
     private int poisonTicks;
 
+    private FabricEnnemis fabricEnnemis ;
+
     public Environment(){
         this.ground = new Ground();
         this.wave = new Wave();
         this.ennemiesDansLaZone = new ArrayList<>();
-        this.placedTower = FXCollections.observableArrayList();
+        this.placedTour = FXCollections.observableArrayList();
         this.ennemies = FXCollections.observableArrayList();
 
         this.modeDeplacementBFS = new DeplacementBFS();
@@ -64,14 +68,15 @@ public class Environment {
         this.poisoning = false;
         this.poisoningDelay = 150;
         this.poisonedAmount = 0;
+        this.fabricEnnemis = new FabricEnnemis() ;
     }
 
 
     //GETTER
 
 
-    public ObservableList<Tower> getPlacedTower() {
-        return placedTower;
+    public ObservableList<Tour> getPlacedTower() {
+        return placedTour;
     }
 
     public ObservableList<Ennemy> getEnnemies() {
@@ -90,11 +95,11 @@ public class Environment {
         return player;
     }
 
-    public Tower getTower(String id){
-        Tower t = null;
-        for (Tower tower: this.getPlacedTower()) {
-            if (tower.getId().equals(id)){
-                t =  tower;
+    public Tour getTower(String id){
+        Tour t = null;
+        for (Tour tour : this.getPlacedTower()) {
+            if (tour.getId().equals(id)){
+                t = tour;
             }
         }
         return t;
@@ -167,10 +172,10 @@ public class Environment {
         }
     }
 
-    public void sellTower(Tower t){
+    public void sellTower(Tour t){
         this.player.setFlop(this.player.getFlop() + t.getSellingPrice());
         this.player.setRam(this.player.getRam()+t.getRamPrice());
-        this.placedTower.remove(t);
+        this.placedTour.remove(t);
     }
 
     public boolean checkProgression() {
@@ -178,8 +183,8 @@ public class Environment {
     }
 
     public void towerTurn(int nbTours, ModeDeplacement md) {
-        for (int i =  placedTower.size() - 1 ; i>=0 ; i--) {
-            Tower t = placedTower.get(i);
+        for (int i = placedTour.size() - 1; i>=0 ; i--) {
+            Tour t = placedTour.get(i);
             EffetTour p ;
             ennemiesDansLaZone = t.detect(ennemies); //liste des ennemies détectés
 
@@ -227,7 +232,7 @@ public class Environment {
                     cpt++;
                     if (cpt == 3) {
                         ennemies.remove(effetTour.getEnnemyCible());
-                        this.ennemies.add(new DotSH(effetTour.getEnnemyCible().getXValue(), effetTour.getEnnemyCible().getYValue(), levelPane, this, this.player, this.ground.getStartDirection(), this.modeDeplacementBFS));
+                        this.ennemies.add(fabricEnnemis.createEnemy(TypeEnnemis.DotSh ,effetTour.getEnnemyCible().getOppositeDirection(), this.modeDeplacementBFS));
                         cpt = 0;
                     }
                 }
@@ -237,7 +242,7 @@ public class Environment {
                     cpt ++ ;
                     if(cpt == 3) {
                         ennemies.remove(effetTour.getEnnemyCible());
-                        this.ennemies.add(new Kamikaze(effetTour.getEnnemyCible().getXValue(), effetTour.getEnnemyCible().getYValue(), levelPane, this, this.player, effetTour.getEnnemyCible().getOppositeDirection(), this.modeDeplacementBFS));
+                        this.ennemies.add(fabricEnnemis.createEnemy(TypeEnnemis.Kamikaze ,effetTour.getEnnemyCible().getOppositeDirection(), this.modeDeplacementBFS));
                         cpt = 0 ;
                     }
                 }
@@ -253,7 +258,7 @@ public class Environment {
     public boolean enemiesTurn(int nbTours){
 
         if (this.wave.getActualWave().size() == 0 && ennemies.size() == 0){
-            this.wave.createWave(this.wave.getWaveSize(), this.ground, this.levelPane, this.player, this);
+            this.wave.createWave(this.wave.getWaveSize(), this.ground);
             this.wave.setWaveSize(this.wave.getWaveSize() + this.wave.getActualWaveNumber()*this.difficulty/3);
         }else if (nbTours % 20 == 0 && this.wave.getActualWave().size() != 0){
             this.ennemies.add(this.wave.getActualWave().remove(0));
@@ -290,7 +295,7 @@ public class Environment {
 
     public void placeTower(int x , int y, int index){
         int[] pos = ground.getTilePos(x, y);
-        Tower t = null;
+        Tour t = null;
         switch(index){
             case 0 -> {
                 t = new TaskKiller(pos[0]*32, pos[1]*32);
@@ -329,12 +334,12 @@ public class Environment {
         flopGain();
     }
 
-    public boolean canPlaceTower(Tower tower){
-        return this.player.getFlop() >= tower.getFlopPrice() && this.player.getRam() >= tower.getRamPrice();
+    public boolean canPlaceTower(Tour tour){
+        return this.player.getFlop() >= tour.getFlopPrice() && this.player.getRam() >= tour.getRamPrice();
     }
 
-    public void addTower(Tower tower){
-        this.placedTower.add(tower);
+    public void addTower(Tour tour){
+        this.placedTour.add(tour);
     }
 
     public static Environment getInstance() {
