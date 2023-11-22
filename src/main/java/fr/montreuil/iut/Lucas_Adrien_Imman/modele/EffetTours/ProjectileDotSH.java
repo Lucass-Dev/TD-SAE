@@ -14,9 +14,12 @@ public class ProjectileDotSH extends EffetTour {
                            ModeDeplacement md
     ) {
 
-        super(x, y, DEFAULT_INITIAL_HEALTH, DEFAULT_MAX_HEALTH,2, ennemyCible, 16,md);
+        super(x, y, DEFAULT_INITIAL_HEALTH, DEFAULT_MAX_HEALTH,1, ennemyCible, 16,md);
     }
 
+    public void agirSurLaCible(){
+        this.getEnnemyCible().setHealth(0);
+    }
 
 
 }

@@ -9,7 +9,7 @@ public class CCleaner extends Tour {
 
 
     public CCleaner(int x, int y){
-        super(x, y, "CCleaner", 100, 100, 150, 100, 150, 1,50, 50, 50);
+        super(x, y, "CCleaner", 100, 100, 150, 100, 150, 1,50, 50, 50,true);
     }
 
 

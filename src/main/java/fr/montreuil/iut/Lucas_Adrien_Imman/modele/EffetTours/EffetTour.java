@@ -4,10 +4,11 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 
-public abstract class EffetTour extends Deplaçable {
+public abstract class EffetTour extends Deplaçable implements ActionSurLaCible {
     private Ennemy ennemyCible;
     private int range ;
     private int degats ;
+
 
 
     public EffetTour(int x,

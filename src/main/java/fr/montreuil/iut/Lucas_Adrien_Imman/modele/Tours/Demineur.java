@@ -8,7 +8,7 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 public class Demineur extends Tour {
 
     public Demineur(int x, int y){
-        super(x, y, "Demineur", 100, 250, 300, 75, 175, 2, 40, 50, 50);
+        super(x, y, "Demineur", 100, 250, 300, 75, 175, 2, 40, 50, 50,false);
     }
 
     @Override

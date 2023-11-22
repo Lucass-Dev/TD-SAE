@@ -1,7 +1,6 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis;
 
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.EnnemyVisitor;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplaçable;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;

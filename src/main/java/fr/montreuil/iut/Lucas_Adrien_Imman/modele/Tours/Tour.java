@@ -29,6 +29,7 @@ abstract public class Tour extends Acteur {
     private static int towerCounter = 0;
     private int flopPrice;
     private int ramPrice;
+    private boolean tourAZone;
     private static final int DEFAULT_INITIAL_HEALTH = 100;
     private static final int DEFAULT_MAX_HEALTH = 100;
     private int delais ;
@@ -41,7 +42,7 @@ abstract public class Tour extends Acteur {
 
 
 
-    public Tour(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex, int damage, int reloadSpeed, int delais){
+    public Tour(int x, int y, String name, int movingPrice, int flopPrice, int upgradeCost, int range, int ramPrice, int spriteIndex, int damage, int reloadSpeed, int delais , boolean tourAZone){
 
         super(x, y, DEFAULT_INITIAL_HEALTH, DEFAULT_MAX_HEALTH);
         this.spriteIndex = spriteIndex;
@@ -59,6 +60,7 @@ abstract public class Tour extends Acteur {
         this.delais = delais;
         this.ennemieDetecte = new ArrayList<Ennemy>();
         this.fabricEffetTours = new FabricEffetTours();
+        this.tourAZone = tourAZone ;
         towerCounter++;
     }
 
@@ -113,6 +115,9 @@ abstract public class Tour extends Acteur {
 
     public int getRange() {
         return range.get();
+    }
+    public boolean isTourAZone() {
+        return tourAZone;
     }
 
     public SimpleIntegerProperty rangeProperty() {

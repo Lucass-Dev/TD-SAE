@@ -8,7 +8,7 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 public class TaskKiller extends Tour {
 
     public TaskKiller(int x, int y){
-        super(x, y, "Task Killer", 100, 50, 75, 100, 100, 0, 10, 50, 20);
+        super(x, y, "Task Killer", 100, 50, 75, 100, 100, 0, 10, 50, 20,false);
     }
 
     @Override

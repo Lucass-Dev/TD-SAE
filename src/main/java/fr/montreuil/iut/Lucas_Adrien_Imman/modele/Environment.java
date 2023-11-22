@@ -1,7 +1,9 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.modele;
 
 import fr.montreuil.iut.Lucas_Adrien_Imman.Forges.FabricEnnemis;
+import fr.montreuil.iut.Lucas_Adrien_Imman.Forges.FabricTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.Forges.TypeEnnemis;
+import fr.montreuil.iut.Lucas_Adrien_Imman.Forges.TypeTours;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.DeplacementBFS;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.*;
@@ -10,6 +12,7 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Tours.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.vue.PopupVue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.AccessibleRole;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -59,7 +62,6 @@ public class Environment {
         this.ennemiesDansLaZone = new ArrayList<>();
         this.placedTour = FXCollections.observableArrayList();
         this.ennemies = FXCollections.observableArrayList();
-
         this.modeDeplacementBFS = new DeplacementBFS();
         this.effetTours = FXCollections.observableArrayList();
         this.freezingDelay = 350;
@@ -193,14 +195,12 @@ public class Environment {
                     Ennemy detectedEnnemy = ennemiesDansLaZone.get(j);
                     Ennemy firstDetect = ennemiesDansLaZone.get(0);
 
-
-                    if(t instanceof InternetExplorer || t instanceof  CCleaner) {
+                    if(t.isTourAZone()) {
                        p  = t.getEffet(detectedEnnemy,md);
                     }
                     else {
                         p = t.getEffet(firstDetect,md);
                     }
-
                     ennemiesDansLaZone.remove(detectedEnnemy);
 
                     if (nbTours % t.getDelais() == 0 && p != null) {//le délais attaque
@@ -224,35 +224,27 @@ public class Environment {
             effetTour.agit();
         }
 
-        for (int j = effetTours.size() - 1; j >= 0; j--) {//enleve les projectiles/zones  par rapport aux conditions
+  /*      for (int j = effetTours.size() - 1; j >= 0; j--) {//enleve les projectiles/zones  par rapport aux conditions
             EffetTour effetTour = effetTours.get(j);
 
 
              if (effetTour instanceof ProjectileDotSH) {
-                    cpt++;
-                    if (cpt == 3) {
-                        ennemies.remove(effetTour.getEnnemyCible());
-                        this.ennemies.add(fabricEnnemis.createEnemy(TypeEnnemis.DotSh ,effetTour.getEnnemyCible().getOppositeDirection(), this.modeDeplacementBFS));
-                        cpt = 0;
-                    }
-                }
+                  effetTour.getEnnemyCible().setHealth(0);
+                        this.ennemies.add(fabricEnnemis.creeEnnemi(TypeEnnemis.DotSh ,effetTour.getEnnemyCible().getOppositeDirection(), this.modeDeplacementBFS));
 
+                }
 
             else if(effetTour instanceof ProjectileKamikaze) {
-                    cpt ++ ;
-                    if(cpt == 3) {
-                        ennemies.remove(effetTour.getEnnemyCible());
-                        this.ennemies.add(fabricEnnemis.createEnemy(TypeEnnemis.Kamikaze ,effetTour.getEnnemyCible().getOppositeDirection(), this.modeDeplacementBFS));
-                        cpt = 0 ;
-                    }
+                 effetTour.getEnnemyCible().setHealth(0);
+                        this.ennemies.add(fabricEnnemis.creeEnnemi(TypeEnnemis.Kamikaze ,effetTour.getEnnemyCible().getOppositeDirection(), this.modeDeplacementBFS));
                 }
 
-            else if(effetTour instanceof ZoneRalentisseur || effetTour instanceof ZoneElectrique){
+            else if(){
                 if (!effetTour.isOnObjective() && ennemiesDansLaZone.size()==0 || effetTour.getEnnemyCible().isDead()) {
                     effetTours.remove(effetTour);
                 }
             }
-        }
+        }*/
     }
 
     public boolean enemiesTurn(int nbTours){
@@ -294,26 +286,27 @@ public class Environment {
     }
 
     public void placeTower(int x , int y, int index){
+        FabricTour fabricTour = new FabricTour() ;
         int[] pos = ground.getTilePos(x, y);
         Tour t = null;
         switch(index){
             case 0 -> {
-                t = new TaskKiller(pos[0]*32, pos[1]*32);
+                t = fabricTour.creeTour(TypeTours.TaskKiller,pos[0]*32, pos[1]*32);
             }
             case 1 -> {
-                t = new CCleaner(pos[0]*32, pos[1]*32);
+                t = fabricTour.creeTour(TypeTours.CCleaner,pos[0]*32, pos[1]*32);
             }
             case 2 -> {
-                t = new Demineur(pos[0]*32, pos[1]*32);
+                t = fabricTour.creeTour(TypeTours.Demineur,pos[0]*32, pos[1]*32);
             }
             case 3 -> {
-                t = new InternetExplorer(pos[0]*32, pos[1]*32);
+                t = fabricTour.creeTour(TypeTours.InternetExplorer,pos[0]*32, pos[1]*32);
             }
             case 4 -> {
-                t = new NordVPN(pos[0]*32, pos[1]*32);
+                t = fabricTour.creeTour(TypeTours.NordVPN,pos[0]*32, pos[1]*32);
             }
             case 5 -> {
-                t = new PDFConverter(pos[0]*32, pos[1]*32);
+                t = fabricTour.creeTour(TypeTours.PDFConverter,pos[0]*32, pos[1]*32);
             }
             default -> System.out.println("Error, index might be from 0 to 5 and found " + index);
         }

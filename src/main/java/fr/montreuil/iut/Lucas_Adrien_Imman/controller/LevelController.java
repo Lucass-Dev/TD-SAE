@@ -89,6 +89,7 @@ public class LevelController implements Initializable {
         setCursor(Cursor.DEFAULT);
         this.estFini = false;
 
+
         this.s = 0;
         this.m = 0;
         this.timeLabel.setText("0h0m0s");

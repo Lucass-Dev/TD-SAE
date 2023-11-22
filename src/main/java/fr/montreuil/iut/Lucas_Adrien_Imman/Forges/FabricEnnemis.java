@@ -1,6 +1,5 @@
 package fr.montreuil.iut.Lucas_Adrien_Imman.Forges;
 
-import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.DeplacementBFS;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Environment;
@@ -11,14 +10,14 @@ public class FabricEnnemis   {
 
     private Environment env;
 
-    public FabricEnnemis( ) {
+    public FabricEnnemis() {
         this.env = Environment.getInstance();
     }
 
 
 
 
-    public Ennemy createEnemy(TypeEnnemis type , int startDirection , ModeDeplacement modeDeplacement) {
+    public Ennemy creeEnnemi(TypeEnnemis type , int startDirection , ModeDeplacement modeDeplacement) {
 
         int[] startPos = env.getGround().getStartTilePos();
         int x = startPos[0]*32 + 16;

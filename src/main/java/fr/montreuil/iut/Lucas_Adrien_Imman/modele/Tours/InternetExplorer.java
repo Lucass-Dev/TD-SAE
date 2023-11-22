@@ -8,7 +8,7 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 public class InternetExplorer extends Tour {
 
     public InternetExplorer(int x, int y){
-        super(x, y, "Internet Explorer", 100, 325, 475, 75, 125, 3, 10, 50, 50);
+        super(x, y, "Internet Explorer", 100, 325, 475, 75, 125, 3, 10, 50, 50,true);
     }
 
     @Override

@@ -4,6 +4,8 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.EffetTours.EffetTour;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.Ennemy;
 
+import java.util.ArrayList;
+
 public class ZoneElectrique extends EffetTour {
     private static final int DEFAULT_INITIAL_HEALTH = 100;
     private static final int DEFAULT_MAX_HEALTH = 100;
@@ -11,6 +13,5 @@ public class ZoneElectrique extends EffetTour {
         super(x, y,DEFAULT_INITIAL_HEALTH , DEFAULT_MAX_HEALTH,1,ennemyCible , 80,md);
 
     }
-
 
 }

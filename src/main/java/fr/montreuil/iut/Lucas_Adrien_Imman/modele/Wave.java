@@ -5,9 +5,7 @@ import fr.montreuil.iut.Lucas_Adrien_Imman.Forges.TypeEnnemis;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.DeplacementBFS;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Deplacement.ModeDeplacement;
 import fr.montreuil.iut.Lucas_Adrien_Imman.modele.Ennemis.*;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
@@ -63,7 +61,7 @@ public class Wave {
         ModeDeplacement md = new DeplacementBFS();
         for (int i = 0; i < size; i++) {
             TypeEnnemis type = selectEnemyType();
-            this.actualWave.add(fabricEnnemis.createEnemy(type, direction, md));
+            this.actualWave.add(fabricEnnemis.creeEnnemi(type, direction, md));
         }
         setActualWaveNumber(actualWaveNumber.get() + 1);
     }

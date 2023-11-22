@@ -20,6 +20,7 @@ public class FabricEffetTours {
                 case ProjectileDotSH -> {
                     return new ProjectileDotSH( x ,  y ,ennemyCible,modeDeplacement);
                 }
+
                 case ProjectileDegatsBrut -> {
                     return new ProjectileDegatsBrut( x ,  y ,ennemyCible,modeDeplacement);
                 }

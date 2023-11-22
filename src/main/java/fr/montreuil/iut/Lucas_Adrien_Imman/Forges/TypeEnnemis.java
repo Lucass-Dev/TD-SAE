@@ -7,7 +7,7 @@ public enum TypeEnnemis {
     Archive,
     Kamikaze,
     Scam,
-    Virus,
+    Virus
 
 
 
